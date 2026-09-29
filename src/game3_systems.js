@@ -931,150 +931,19 @@ function swing(g, type){
 }
 
 /* ---------- quests ---------- */
-/* ---------- Music: original tracks, unlocked by exploring ----------
-   Every melody here is an original composition for Crafted Realm — written in
-   the SPIRIT of 2007-era region themes (jaunty shanties, dusty desert lines,
-   grim dirges) but none copies an existing tune. */
-const TRACKS = {
-  white_keep: {name:'The White Keep', zone:'whitmoor', beat:0.66, lead:'triangle',
-    prog:[['C3','E3','G3'],['G2','B2','D3'],['A2','C3','E3'],['F2','A2','C3'],
-          ['C3','E3','G3'],['F2','A2','C3'],['G2','B2','D3'],['C3','E3','G3']],
-    mel:['G4','E4','C4','E4','G4',null,'D5','B4','A4','G4','A4',null,'E4','G4','A4',null,
-         'C5','G4','E4','G4','F4','A4','C5',null,'B4','G4','D4','G4','C4',null,'C4',null]},
-  undercrag: {name:'The Undercrag', zone:'undercrag', beat:0.92, lead:'sawtooth', drums:true,
-    prog:[['D2','F2','A2'],['D2','F2','A2'],['Bb1','D2','F2'],['C2','Eb2','G2'],
-          ['D2','F2','A2'],['Bb1','D2','F2'],['A1','C2','E2'],['D2','F2','A2']],
-    mel:['D3',null,'F3','D3',null,'A2',null,null,'Bb2','D3',null,'C3',null,null,'A2',null,
-         'D3','F3','G3',null,'F3','D3',null,null,'C3',null,'Bb2',null,'A2',null,'D3',null]},
-  hollow_square: {name:'Hollow Square', zone:'commons', beat:0.62, lead:'triangle',
-    prog:[['D3','F3','A3'],['F3','A3','C4'],['G3','B3','D4'],['D3','F3','A3'],
-          ['A2','E3','A3'],['F3','A3','C4'],['G3','B3','D4'],['D3','F3','A3']],
-    mel:['D4','F4','E4','D4','A4','G4','F4','E4','F4','G4','A4','C5','B4','A4','G4','F4',
-         'E4','C4','D4','F4','E4','D4','C4','D4','A3','C4','D4','E4','F4','E4','D4','D4']},
-  tutors_tide: {name:"Tutor's Tide", zone:'holm', beat:0.7, lead:'sine',
-    prog:[['G3','B3','D4'],['C3','E3','G3'],['D3','F#3','A3'],['G3','B3','D4'],
-          ['E3','G3','B3'],['C3','E3','G3'],['D3','F#3','A3'],['G3','B3','D4']],
-    mel:['B4','A4','G4',null,'D4','E4','G4',null,'A4','B4','A4','G4','E4',null,'D4',null,
-         'G4','A4','B4','D5','B4','A4','G4','E4','D4','E4','G4','A4','G4',null,'G4',null]},
-  sea_breeze: {name:'Sea Breeze', zone:'pond', beat:0.4, lead:'square',
-    prog:[['C3','E3','G3'],['C3','E3','G3'],['F3','A3','C4'],['G3','B3','D4'],
-          ['C3','E3','G3'],['A2','C3','E3'],['F3','A3','C4'],['G3','B3','D4']],
-    mel:['G4','E4','C4','E4','G4','C5','G4','E4','A4','F4','C4','F4','A4','C5','B4','G4',
-         'C5','G4','E4','G4','A4','F4','D4','F4','E4','C4','D4','E4','F4','D4','C4',null]},
-  brynholt_drums: {name:'Brynholt Drums', zone:'brynholt', beat:0.55, lead:'sawtooth', drums:true,
-    prog:[['A2','E3','A3'],['A2','E3','A3'],['F2','C3','F3'],['G2','D3','G3'],
-          ['A2','E3','A3'],['C3','G3','C4'],['G2','D3','G3'],['A2','E3','A3']],
-    mel:['A3','A3','C4','A3','E4','D4','C4','A3','F3','A3','C4','D4','C4','A3','G3',null,
-         'A3','C4','E4','E4','D4','C4','D4','C4','A3','G3','A3','C4','A3',null,'A3',null]},
-  sun_scoured: {name:'Sun-Scoured', zone:'dunes', beat:0.62, lead:'triangle',
-    prog:[['E3','G3','B3'],['F3','A3','C4'],['E3','G3','B3'],['D3','F3','A3'],
-          ['E3','G3','B3'],['C3','E3','G3'],['F3','A3','C4'],['E3','G3','B3']],
-    mel:['E4','F4','G#4','F4','E4',null,'B4','A4','G#4','F4','E4','F4','E4','D4','E4',null,
-         'G4','A4','B4','C5','B4','A4','G#4','F4','E4','F4','G#4','F4','E4',null,'E4',null]},
-  scar_dirge: {name:'Scar Dirge', zone:'scarlands', beat:0.85, lead:'sine',
-    prog:[['D3','A3','D4'],['D3','A3','D4'],['Bb2','F3','Bb3'],['A2','E3','A3'],
-          ['D3','A3','D4'],['F3','C4','F4'],['Bb2','F3','Bb3'],['A2','E3','A3']],
-    mel:['D4',null,'F4',null,'E4','D4',null,null,'Bb3',null,'D4',null,'C#4',null,'A3',null,
-         'D4','E4','F4',null,'G4','F4','E4',null,'D4',null,'C#4',null,'D4',null,null,null]},
-};
+/* ---------- Music ----------
+   The game plays the 2004 General MIDI set (src/audio_music2004.js, docs/rebuild/MUSIC_2004.md): its Director fills
+   TRACKS and replaces every Music method at load. This stub keeps only the shape the Director, the bridge and older
+   saves expect (the retired oscillator tracks were removed at the owner's request, 2026-09-29). */
+const TRACKS = {};
 const Music = {
-  on:false, _master:null, _timer:null, _lastSched:-1,
-  current:'hollow_square', mode:'auto',
-  unlocked:['hollow_square','tutors_tide'],
-  N(name){
-    const m={C:0,D:2,E:4,F:5,G:7,A:9,B:11};
-    let st=m[name[0]], i=1;
-    if(name[1]==='#'){ st+=1; i=2; } else if(name[1]==='b'){ st-=1; i=2; }
-    const oct=+name.slice(i);
-    return 440*Math.pow(2,(st-9)/12+(oct-4));
-  },
+  on:false, _master:null, _timer:null, current:null, mode:'auto', unlocked:[],
   ensure(){
     const ctx=Sfx.ensure();
     if(!this._master){ this._master=ctx.createGain(); this._master.gain.value=0;
       this._master.connect(ctx.destination); }
     return ctx;
   },
-  tone(freq, t0, dur, vol, type){
-    const ctx=this.ensure();
-    try{
-      const o=ctx.createOscillator(); o.type=type||'triangle'; o.frequency.value=freq;
-      const g=ctx.createGain();
-      g.gain.value=0;
-      g.gain.exponentialRampToValueAtTime(vol, t0+0.06);
-      g.gain.exponentialRampToValueAtTime(0.0001, t0+dur);
-      o.connect(g); g.connect(this._master);
-      o.start(t0); o.stop(t0+dur+0.05);
-    }catch(e){}
-  },
-  drum(t0, low){
-    const ctx=this.ensure();
-    try{
-      const o=ctx.createOscillator(); o.type='sine';
-      o.frequency.value=low?70:160;
-      o.frequency.exponentialRampToValueAtTime(low?40:90, t0+0.12);
-      const g=ctx.createGain(); g.gain.value=0;
-      g.gain.exponentialRampToValueAtTime(low?0.22:0.1, t0+0.015);
-      g.gain.exponentialRampToValueAtTime(0.0001, t0+0.16);
-      o.connect(g); g.connect(this._master);
-      o.start(t0); o.stop(t0+0.2);
-    }catch(e){}
-  },
-  scheduleLoop(){
-    const ctx=this.ensure();
-    if(ctx.currentTime===this._lastSched) return;   // headless: clock frozen, stop
-    this._lastSched=ctx.currentTime;
-    const tr=TRACKS[this.current]||TRACKS.hollow_square;
-    const t0=ctx.currentTime+0.1, beat=tr.beat;
-    tr.prog.forEach((ch,i)=>{
-      const ct=t0+i*4*beat;
-      ch.forEach(n=>this.tone(this.N(n), ct, 4*beat*0.98, 0.05, 'sine'));
-      ch.forEach((n,k)=>this.tone(this.N(n)*2, ct+k*0.09, 0.5, 0.03, 'triangle'));
-      if(tr.drums){ this.drum(ct,true); this.drum(ct+2*beat,false); this.drum(ct+3*beat,true); }
-    });
-    tr.mel.forEach((n,i)=>{ if(n) this.tone(this.N(n), t0+i*beat, beat*0.92, 0.082, tr.lead); });
-    const loopLen=tr.mel.length*beat;
-    clearTimeout(this._timer);
-    this._timer=setTimeout(()=>{ if(this.on) this.scheduleLoop(); }, (loopLen-0.4)*1000);
-  },
-  play(id){
-    if(!TRACKS[id] || this.unlocked.indexOf(id)<0) return;
-    this.current=id;
-    if(this.on){ clearTimeout(this._timer); this._lastSched=-1; this.scheduleLoop(); }
-    if(typeof UI!=='undefined') UI.chat(`🎵 Now playing: ${TRACKS[id].name}`,'sys');
-  },
-  unlock(id, silent){
-    if(!TRACKS[id] || this.unlocked.indexOf(id)>=0) return false;
-    this.unlocked.push(id);
-    if(!silent){ UI.chat(`🎵 Music unlocked: <b>${TRACKS[id].name}</b>!`,'quest'); Sfx.quest(); }
-    return true;
-  },
-  onZone(zone){
-    for(const id in TRACKS) if(TRACKS[id].zone===zone) this.unlock(id);
-    if(this.mode==='auto'){
-      let pick='hollow_square';
-      for(const id in TRACKS) if(TRACKS[id].zone===zone && this.unlocked.indexOf(id)>=0) pick=id;
-      if(pick!==this.current) this.play(pick);
-    }
-  },
-  start(){
-    if(this.on) return;
-    this.on=true;
-    try{ localStorage.setItem('cr_music_on','1'); }catch(e){}   // remember the opt-in
-    const ctx=this.ensure();
-    try{ this._master.gain.exponentialRampToValueAtTime(0.5, ctx.currentTime+1.5); }
-    catch(e){ this._master.gain.value=0.5; }
-    this._lastSched=-1;
-    this.scheduleLoop();
-    const b=document.getElementById('music-btn'); if(b) b.textContent='\u266a';
-  },
-  stop(){
-    this.on=false;
-    try{ localStorage.setItem('cr_music_on','0'); }catch(e){}
-    try{ this._master.gain.value=0; }catch(e){}
-    clearTimeout(this._timer);
-    const b=document.getElementById('music-btn'); if(b) b.textContent='\u2715';
-  },
-  toggle(){ this.on ? this.stop() : this.start(); },
 };
 
 /* Quest engine v2 — fully data-driven off the QUESTS stage objects (OSRS-emulator style
