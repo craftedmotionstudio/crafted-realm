@@ -201,7 +201,28 @@ async function death(page){
   const g=await page.evaluate(()=>{const g=GuideArrow._resolve();return {label:g.label,objective:document.getElementById('obj-text').textContent}});
   ok('after the death the objective and arrow carry on with the lesson due ('+after.lesson+')',!!g.label&&!!g.objective,g);
 }
-(async()=>{
+// the verdict of each probe (the arrow's target against the action the driver then took)
+function classify(probes){
+ probes.forEach((p,i)=>{
+  if(p.kind==='pack'){const prev=probes[i-1],next=probes[i+1];
+   p.verdict=p.pulse===p.what?'pack':(prev&&prev.kind==='pack'&&prev.lesson===p.lesson&&prev.pulse===prev.what)?'use-on':(next&&next.kind!=='pack'&&next.lesson===p.lesson&&p.arrow&&next.arrow&&Math.hypot(p.arrow.x-next.arrow.x,p.arrow.z-next.arrow.z)<.1)?'use-item-on-arrow-target':'mismatch'}
+  // a click the playthrough makes on purpose while a tutor is still due (the oak before Wenna: the talk-first refusal
+  // test): the arrow must be on that tutor, not on what was clicked
+  else if(p.due&&p.kind!=='tutor'&&/^Talk to /.test(p.label))p.verdict=p.label.indexOf(p.due.charAt(0).toUpperCase()+p.due.slice(1))>=0?'tutor-first':'mismatch';
+  else if(p.dist!==null&&p.dist<=.6)p.verdict='exact';
+  else if(p.family)p.verdict='exact-family';
+  else if(/^(Enter the|Open the door)/.test(p.label))p.verdict='door-first';
+  else if(/drift ladder/i.test(p.label)&&/^b:cavern:/.test(p.surface||''))p.verdict='drift-ladder-first';
+  // the driver's last click of a lesson the game has already credited (the kill landed between the loop's check and the
+  // click; the arrow has rightly moved on): not a guidance moment
+  else if(p.driverLesson&&p.lesson!==p.driverLesson)p.verdict='lesson-already-done';
+  else p.verdict=p.arrow?'mismatch':'no-arrow';
+  p.clear=!!p.objective&&p.objective.length>12;
+ });
+ return probes;
+}
+module.exports={classify};
+if(require.main===module)(async()=>{
  fs.mkdirSync(OUT,{recursive:true});for(const f of fs.readdirSync(OUT))if(/^probe_\d+\.png$/.test(f))fs.unlinkSync(path.join(OUT,f));
  const browser=await puppeteer.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:'new',args:['--window-size=1538,900','--hide-scrollbars','--mute-audio','--no-first-run'],defaultViewport:{width:1538,height:900}});
  const page=await browser.newPage();G.page=page;const pageErrors=[],consoleErrors=[],failed=[];
@@ -249,23 +270,7 @@ async function death(page){
   await shot(page,'zz_mainland');
  }catch(e){ok('route completed without a driver error',false,String(e&&e.stack||e).slice(0,600));await shot(page,'zz_error')}
  // ---------- the guidance audit ----------
- const probes=G.list.filter(p=>!p.error);
- probes.forEach((p,i)=>{
-  if(p.kind==='pack'){const prev=probes[i-1],next=probes[i+1];
-   p.verdict=p.pulse===p.what?'pack':(prev&&prev.kind==='pack'&&prev.lesson===p.lesson&&prev.pulse===prev.what)?'use-on':(next&&next.kind!=='pack'&&next.lesson===p.lesson&&p.arrow&&next.arrow&&Math.hypot(p.arrow.x-next.arrow.x,p.arrow.z-next.arrow.z)<.1)?'use-item-on-arrow-target':'mismatch'}
-  // a click the playthrough makes on purpose while a tutor is still due (the oak before Wenna: the talk-first refusal
-  // test): the arrow must be on that tutor, not on what was clicked
-  // the driver's last click of a lesson the game has already credited (the kill landed between the loop's check and the
-  // click): not a guidance moment
-  else if(p.driverLesson&&p.lesson!==p.driverLesson)p.verdict='lesson-already-done';
-  else if(p.due&&p.kind!=='tutor'&&/^Talk to /.test(p.label))p.verdict=p.label.indexOf(p.due.charAt(0).toUpperCase()+p.due.slice(1))>=0?'tutor-first':'mismatch';
-  else if(p.dist!==null&&p.dist<=.6)p.verdict='exact';
-  else if(p.family)p.verdict='exact-family';
-  else if(/^(Enter the|Open the door)/.test(p.label))p.verdict='door-first';
-  else if(/drift ladder/i.test(p.label)&&/^b:cavern:/.test(p.surface||''))p.verdict='drift-ladder-first';
-  else p.verdict=p.arrow?'mismatch':'no-arrow';
-  p.clear=!!p.objective&&p.objective.length>12;
- });
+ const probes=classify(G.list.filter(p=>!p.error));
  const bad=probes.filter(p=>p.verdict==='mismatch'||p.verdict==='no-arrow'),unclear=probes.filter(p=>!p.clear);
  ok('guidance: before every route action the arrow is on the exact object (or its door from outside / the pulsing pack slot): '+probes.length+' probes',probes.length>40&&bad.length===0,bad.map(p=>({lesson:p.lesson,what:p.what,label:p.label,arrow:p.arrow,target:p.target,dist:p.dist,shot:p.shot})));
  ok('guidance: an objective line is shown before every route action',unclear.length===0,unclear.map(p=>({lesson:p.lesson,what:p.what,shot:p.shot})));
