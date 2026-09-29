@@ -1,0 +1,59 @@
+<!doctype html>
+<meta charset="utf-8">
+<base href="../">
+<link rel="icon" href="data:,">
+<title>Music render harness</title>
+<!-- Offline render harness for tools/music_render.js (headless Chrome, OfflineAudioContext): renders the 2004 MIDI set
+     through src/audio_gm2004.js. (The retired orchestra's review renders were made with this page's legacy mode at
+     commit fb55b11e; see docs/rebuild/MUSIC_2004.md §1.) -->
+<script>
+'use strict';
+window.RENDER = { log: [] };
+function rlog(m){ window.RENDER.log.push(String(m)); }
+
+// ---- WAV encoding (16-bit PCM, interleaved) -> base64 chunks for the node driver
+function toWav(buf){
+  var ch=buf.numberOfChannels, len=buf.length, sr=buf.sampleRate;
+  var out=new DataView(new ArrayBuffer(44+len*ch*2));
+  function str(o,s){ for(var i=0;i<s.length;i++) out.setUint8(o+i,s.charCodeAt(i)); }
+  str(0,'RIFF'); out.setUint32(4,36+len*ch*2,true); str(8,'WAVE'); str(12,'fmt ');
+  out.setUint32(16,16,true); out.setUint16(20,1,true); out.setUint16(22,ch,true);
+  out.setUint32(24,sr,true); out.setUint32(28,sr*ch*2,true); out.setUint16(32,ch*2,true); out.setUint16(34,16,true);
+  str(36,'data'); out.setUint32(40,len*ch*2,true);
+  var data=[]; for(var c=0;c<ch;c++) data.push(buf.getChannelData(c));
+  var o=44; for(var i=0;i<len;i++) for(var c2=0;c2<ch;c2++){
+    var s=Math.max(-1,Math.min(1,data[c2][i])); out.setInt16(o, s<0?s*0x8000:s*0x7fff, true); o+=2; }
+  return new Uint8Array(out.buffer);
+}
+function b64(u8){ var s='', CH=0x8000; for(var i=0;i<u8.length;i+=CH) s+=String.fromCharCode.apply(null,u8.subarray(i,i+CH)); return btoa(s); }
+window.RENDER.take = function(start,len){ return window.RENDER.b64.slice(start,start+len); };
+function finish(buf){ var w=toWav(buf); window.RENDER.b64=b64(w); window.RENDER.bytes=w.length; window.RENDER.done=true; }
+
+function loadScript(src){ return new Promise(function(ok,bad){ var s=document.createElement('script'); s.src=src; s.onload=ok; s.onerror=function(){ bad(new Error('load '+src)); }; document.head.appendChild(s); }); }
+
+// ---------------------------------------------------------------- the 2004 MIDI set (src/audio_gm2004.js)
+var SONG_FILES = ['src/audio_gm2004.js', 'src/audio_songs_holm.js', 'src/audio_songs_mainland.js'];
+{
+  window.gmReady = (async function(){
+    for (const f of SONG_FILES) await loadScript(f+'?r='+Date.now()).catch(function(e){ rlog('missing '+f); });
+  })();
+}
+window.listSongs = function(){ return GM2004.list(); };
+window.renderSong = async function(id, o){
+  o=o||{}; var sr=o.sr||44100, loops=o.loops||1;
+  if(o.solo||o.mute){   // balance checks: render a copy of the song with some voices silenced
+    var sp=JSON.parse(JSON.stringify(GM2004.songs[id])), keep=o.solo? String(o.solo).split(',') : null, drop=o.mute? String(o.mute).split(',') : [];
+    Object.keys(sp.voices).forEach(function(vn){ if((keep && keep.indexOf(vn)<0) || drop.indexOf(vn)>=0) sp.voices[vn].v=0; });
+    GM2004.song(id+'__mix', sp); id=id+'__mix';
+  }
+  var s=GM2004.compile(id, GM2004.songs[id]);
+  var secs=o.seconds||(s.seconds*loops+(o.tail!=null&&o.tail>0?o.tail:3));
+  var ctx=new OfflineAudioContext(2, Math.ceil(sr*secs), sr);
+  var master=ctx.createGain(); master.gain.value=(o.vol!=null?o.vol:0.5); master.connect(ctx.destination);   // the game's default music volume
+  await GM2004.render(ctx, master, id, {loops:loops, start:0.1});
+  window.RENDER.info={ id:id, name:s.name, bpm:s.bpm, bars:s.beats/s.bpb, seconds:secs, loopSec:s.seconds, seamAt:0.1+s.seconds,
+    notes:s.events.length, parts:s.parts, instruments:Object.keys(s.notes) };
+  finish(await ctx.startRendering());
+};
+
+</script>

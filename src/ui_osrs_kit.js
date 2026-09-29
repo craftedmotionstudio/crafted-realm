@@ -42,7 +42,7 @@ function el(tag,cls,html){var e=doc.createElement(tag);if(cls)e.className=cls;if
 function click(){try{if(typeof Sfx!=='undefined'&&Sfx.click)Sfx.click()}catch(e){}}
 
 /* ---------------------------------------------------------------- 0. style */
-var link=el('link');link.rel='stylesheet';link.href='assets/ui/osrs_kit.css?v=12';
+var link=el('link');link.rel='stylesheet';link.href='assets/ui/osrs_kit.css?v=15';
 (doc.head||root).appendChild(link);   // fonts are bundled (assets/fonts, @font-face in the kit css): no runtime font fetch
 root.classList.add('osrs-kit');
 // retire the older chrome layers so one stylesheet owns the look (their DOM/handlers stay)
@@ -386,16 +386,27 @@ function patchInvHint(){if(typeof UI==='undefined'||UI.highlightItem)return;
  var r0=UI.refreshInv;if(typeof r0==='function')UI.refreshInv=function(){var r=r0.apply(this,arguments);applyItemHint();return r}}
 
 /* ------------------------------------------------------------- 11. boot */
-// music tab: the real track list (green = unlocked, red = not yet heard), click a green one to play it
+// music tab: the 2004 set (green = unlocked, red = not yet heard), click a green one to play it; Auto / Manual / Loop
+// (src/audio_music2004.js drives the music and fires 'cr-music' on every change)
 function refreshMusicKit(){try{
  var pane=$('pane-music');if(!pane||typeof TRACKS==='undefined'||typeof Music==='undefined')return;var list=pane.querySelector('.kit-list'),now=pane.querySelector('.music-now b');if(!list)return;
- list.innerHTML='';var cur=Music.current&&TRACKS[Music.current]?TRACKS[Music.current].name:'None';if(now)now.textContent=Music.on?cur:'(music off)';
- Object.keys(TRACKS).forEach(function(id){var un=(Music.unlocked||[]).indexOf(id)>=0,d=el('div','music-track'+(un?' unlocked':' locked')+(Music.on&&Music.current===id?' active':''));d.textContent=TRACKS[id].name;
-  d.style.cursor='pointer';tipify(d,un?'Play '+TRACKS[id].name:'Not unlocked yet');
-  d.addEventListener('click',function(){click();if(!un){UI.chat('You have not unlocked this piece of music yet!','plain');return}
-   try{Music.mode='manual';Music.play(id);if(!Music.on)Music.start()}catch(e){}setTimeout(refreshMusicKit,50)});list.appendChild(d)})}catch(e){console.warn('[ui-kit] music',e)}}
+ var playing=Music.on&&Music.current&&TRACKS[Music.current]?Music.current:null;
+ list.innerHTML='';if(now)now.textContent=!Music.on?'(music off)':(playing?TRACKS[playing].name:'...');
+ Object.keys(TRACKS).forEach(function(id){var un=(Music.unlocked||[]).indexOf(id)>=0,d=el('div','music-track'+(un?' unlocked':' locked')+(playing===id?' active':''));d.textContent=TRACKS[id].name;
+  d.style.cursor='pointer';tipify(d,un?'Play '+TRACKS[id].name+(TRACKS[id].where?' ('+TRACKS[id].where+')':''):'Not heard yet');
+  d.addEventListener('click',function(){click();if(!un){UI.chat("You haven't heard that piece yet: find where it plays to unlock it.",'plain');return}
+   try{Music.play(id)}catch(e){}setTimeout(refreshMusicKit,50)});list.appendChild(d)});
+ var bar=pane.querySelector('.music-modes');
+ if(!bar&&typeof Music.setMode==='function'){bar=el('div','kit-row-btns music-modes');
+  [['auto','Auto','Change the music by area'],['manual','Manual','Keep the piece you pick'],['loop','Loop','Repeat the current piece']].forEach(function(m){var b=el('button','set-btn');b.type='button';b.dataset.m=m[0];b.textContent=m[1];tipify(b,m[2]);
+   b.addEventListener('click',function(){click();if(m[0]==='loop')Music.setLoop(!Music.loop);else Music.setMode(m[0]);refreshMusicKit()});bar.appendChild(b)});
+  pane.insertBefore(bar,pane.querySelector('.set-btn.wide'))}
+ if(bar)Array.prototype.forEach.call(bar.children,function(b){var on=b.dataset.m==='loop'?!!Music.loop:Music.mode===b.dataset.m;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on?'true':'false')});
+ var tb=pane.querySelector('.set-btn.wide');if(tb)tb.textContent=Music.on?'Turn music off':'Turn music on';
+}catch(e){console.warn('[ui-kit] music',e)}}
 function wireMusicTab(){Array.prototype.forEach.call(doc.querySelectorAll('.tab-btn[data-tab="music"]'),function(b){if(b.__kitm)return;b.__kitm=true;b.addEventListener('click',refreshMusicKit)});
- var tb=doc.querySelector('#pane-music .set-btn');if(tb&&!tb.__kitm){tb.__kitm=true;tb.addEventListener('click',function(){setTimeout(refreshMusicKit,60)})}}
+ var tb=doc.querySelector('#pane-music .set-btn.wide');if(tb&&!tb.__kitm){tb.__kitm=true;tb.addEventListener('click',function(){setTimeout(refreshMusicKit,60)})}
+ if(!window.__kitMusicEvt){window.__kitMusicEvt=true;window.addEventListener('cr-music',function(){var p=$('pane-music');if(p&&p.classList.contains('active'))refreshMusicKit()})}}
 // the old client never showed markup in the chat: strip the few inline tags some messages carry
 function patchChat(){if(typeof UI==='undefined'||UI.__kitChat)return;UI.__kitChat=true;var c0=UI.chat;
  UI.chat=function(msg,cls){if(typeof msg==='string'){if(msg.indexOf('<')>=0)msg=msg.replace(/<\/?(b|i|u|br|span)[^>]*>/g,'');msg=stripPicto(msg)}return c0.call(this,msg,cls)}}
