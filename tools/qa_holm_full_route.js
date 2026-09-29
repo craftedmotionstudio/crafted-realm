@@ -81,6 +81,7 @@ wrap('clickInventory',(page,id)=>['pack',id]);
 wrap('talkTo',(page,id)=>['tutor',id]);
 wrap('rightClickRow',(page,name)=>['name',name]);
 const P=require('./qa_holm_island_playthrough.js');   // the lesson steps (DO) now call the wrapped helpers
+L.setOut(OUT);   // (requiring the playthrough points the lib's screenshots at its own folder)
 const {enter,pos,waitFor,clickService,clickNamed,clickInventory,closeDialogue,talkTo,objective,lastChat,count,shot}=L;
 // ---------- small helpers ----------
 const lesson=page=>page.evaluate(()=>Tutorial.complete?'complete':Tutorial.steps[Tutorial.step].id);
