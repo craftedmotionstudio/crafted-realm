@@ -347,5 +347,8 @@ var HolmArrivalQA=(function(){
   qaPlace:function(id){if(!active()||!island)return false;var n=graphForDoors(doors).byId[id];if(!n)return false;pending=null;placeAt(n);return true},
   // the bakehouse oven stance, for the kitchen module's cook proxy on the island
   islandRangePoint:function(){if(!active()||!island)return null;var n=graphForDoors(doors).byId['b:bakehouse:-4:-3:1'];return n?{x:n.x,y:n.y,z:n.z}:null},
-  islandStats:function(){return island&&nav&&nav.stats?nav.stats(doors):null}};
+  islandStats:function(){return island&&nav&&nav.stats?nav.stats(doors):null},
+  // read-only, for the minimap (src/ui_minimap.js): the island terrain bundle (heights, materials, the water mask) and the
+  // habitat placements (the trees it draws as map scenery); never mutated by the reader
+  mapData:function(){if(!active()||!island||!loaded)return null;return {terrain:loaded.documents.terrain,habitat:islandData?islandData.habitat:null}}};
 })();

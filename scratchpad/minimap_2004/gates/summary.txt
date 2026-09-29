@@ -1,0 +1,7 @@
+smoke1 exit=0
+smoke2 exit=0
+qa_minimap exit=0
+qa_osrs_menu exit=1
+qa_holm_island exit=0
+capture exit=0
+DONE

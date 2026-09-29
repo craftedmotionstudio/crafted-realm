@@ -476,6 +476,111 @@
    "finish": "sprite"
   },
   {
+   "icon": "map_anvil",
+   "file": "map/anvil.png",
+   "w": 17,
+   "h": 17,
+   "finish": "sprite"
+  },
+  {
+   "icon": "map_bank",
+   "file": "map/bank.png",
+   "w": 17,
+   "h": 17,
+   "finish": "sprite"
+  },
+  {
+   "icon": "map_beacon",
+   "file": "map/beacon.png",
+   "w": 17,
+   "h": 17,
+   "finish": "sprite"
+  },
+  {
+   "icon": "map_combat",
+   "file": "map/combat.png",
+   "w": 17,
+   "h": 17,
+   "finish": "sprite"
+  },
+  {
+   "icon": "map_ferry",
+   "file": "map/ferry.png",
+   "w": 17,
+   "h": 17,
+   "finish": "sprite"
+  },
+  {
+   "icon": "map_fishing",
+   "file": "map/fishing.png",
+   "w": 17,
+   "h": 17,
+   "finish": "sprite"
+  },
+  {
+   "icon": "map_furnace",
+   "file": "map/furnace.png",
+   "w": 17,
+   "h": 17,
+   "finish": "sprite"
+  },
+  {
+   "icon": "map_magic",
+   "file": "map/magic.png",
+   "w": 17,
+   "h": 17,
+   "finish": "sprite"
+  },
+  {
+   "icon": "map_mining",
+   "file": "map/mining.png",
+   "w": 17,
+   "h": 17,
+   "finish": "sprite"
+  },
+  {
+   "icon": "map_pine",
+   "file": "map/pine.png",
+   "w": 9,
+   "h": 9,
+   "finish": "mapscene"
+  },
+  {
+   "icon": "map_quest",
+   "file": "map/quest.png",
+   "w": 17,
+   "h": 17,
+   "finish": "sprite"
+  },
+  {
+   "icon": "map_range",
+   "file": "map/range.png",
+   "w": 17,
+   "h": 17,
+   "finish": "sprite"
+  },
+  {
+   "icon": "map_rock",
+   "file": "map/rock.png",
+   "w": 8,
+   "h": 8,
+   "finish": "mapscene"
+  },
+  {
+   "icon": "map_tree",
+   "file": "map/tree.png",
+   "w": 9,
+   "h": 9,
+   "finish": "mapscene"
+  },
+  {
+   "icon": "map_woodcut",
+   "file": "map/woodcut.png",
+   "w": 17,
+   "h": 17,
+   "finish": "sprite"
+  },
+  {
    "icon": "misc_bell",
    "file": "misc/bell.png",
    "w": 18,
