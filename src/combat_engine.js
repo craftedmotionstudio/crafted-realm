@@ -316,6 +316,7 @@ var LocalCombat=(function(){
   Player.action=null;   // 2004: dying stops whatever you were doing (no gather roll through the death ticks)
   Player.cbQueue.clear(COMBAT_QUEUES);
   try{if(typeof HolmIslandPlayer!=='undefined'&&HolmIslandPlayer.active())HolmIslandPlayer.play('death')}catch(e){}
+  try{if(typeof Sfx!=='undefined'&&Sfx.death)Sfx.death()}catch(e){}   // the sigh as they fall (the respawn's call then stands down)
   say('Oh dear, you are dead!','combat');
   WORLD.npcs.forEach(function(n){if(n._lc&&n.mode==='attack')resetDefaults(n)});
  }
@@ -412,7 +413,7 @@ var LocalCombat=(function(){
   var t=C.applyEat({actionDelay:Player.actionDelay},clock);Player.eatDelay=t.eatDelay;Player.actionDelay=t.actionDelay;
   if(s.qty>1)s.qty--;else Player.inv[slot]=null;
   var before=Player.hp;Player.hp=Math.min(Player.maxHp,Player.hp+def.heal);Player.lastEatTick=clock;
-  try{if(typeof Sfx!=='undefined')Sfx.eat()}catch(e){}
+  try{if(typeof Sfx!=='undefined')Sfx.eat(s.id)}catch(e){}
   say('You eat the '+def.name.toLowerCase()+'.'+(Player.hp>before?' It heals some health.':''),'plain');
   refresh();try{if(typeof Events!=='undefined')Events.emit('eat',{id:s.id,slot:slot,tick:clock})}catch(e){}
   return true}

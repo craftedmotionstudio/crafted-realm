@@ -89,7 +89,7 @@ var OsrsMenuItems=(function(){
  /* ---------- worn equipment ---------- */
  function wornEntries(ent){
   var k=ent.slot;
-  return [{option:'Remove',priority:100,fn:function(){var v=Player.equip[k];if(!v)return;if(Player.addItem(v,1)){Player.equip[k]=null;if(typeof Sfx!=='undefined'&&Sfx.click)Sfx.click();
+  return [{option:'Remove',priority:100,fn:function(){var v=Player.equip[k];if(!v)return;if(Player.addItem(v,1)){Player.equip[k]=null;if(typeof Sfx!=='undefined'&&Sfx.unequip)Sfx.unequip(v);
    if(typeof refreshPlayerGear==='function')refreshPlayerGear();UI.refreshEquip();if(UI.refreshInv)UI.refreshInv()}}}];
  }
 

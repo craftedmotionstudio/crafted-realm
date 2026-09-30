@@ -75,29 +75,24 @@ var HolmFishing=(function(){
  function splash(x,z,big){stats.splashes++;var r=piece('splash-ring');fading(r,.9);r.position.set(x,waterY()+.02,z);r.scale.setScalar(big?.7:.45);own(r);st.fx.push({o:r,t:0,life:big?1.1:.8,kind:'ring',grow:big?1.4:1.0});
   for(var k=0;k<(big?7:4);k++){var d=piece('droplet');d.position.set(x,waterY()+.05,z);own(d);var a=Math.random()*6.283,s=(big?1.3:.8)*(.6+Math.random()*.6);st.fx.push({o:d,t:0,life:.7,kind:'drop',v:[Math.cos(a)*s*.6,1.6+Math.random()*(big?1.4:.8),Math.sin(a)*s*.6]})}}
  function bubbles(x,z){for(var k=0;k<3;k++){var b=piece('bubbles');b.position.set(x+(Math.random()-.5)*.5,waterY()-.02,z+(Math.random()-.5)*.5);b.scale.setScalar(.8+Math.random()*.6);own(b);st.fx.push({o:b,t:-k*.25,life:1.1,kind:'bubble'})}}
- function leap(x,z,name){stats.leaps++;var f=piece(name||'fish-perch');f.position.set(x,waterY(),z);f.rotation.y=Math.random()*6.283;own(f);st.fx.push({o:f,t:0,life:.85,kind:'leap',x:x,z:z,dir:f.rotation.y});sfx('leap')}
+ function leap(x,z,name){stats.leaps++;var f=piece(name||'fish-perch');f.position.set(x,waterY(),z);f.rotation.y=Math.random()*6.283;own(f);st.fx.push({o:f,t:0,life:.85,kind:'leap',x:x,z:z,dir:f.rotation.y});sfx('leap',1,{x:x,z:z})}
  function catchBeat(item,spot){   // the net lifts with the fish flapping in it for about a second
   var name=item==='raw_reedpike'?'fish-pike':/perch/.test(item)?'fish-perch':null;var p=spot.g.position;
   if(name){var f=piece(name);var hx=(p.x+player.position.x)/2,hz=(p.z+player.position.z)/2;f.position.set(hx,waterY()+.2,hz);own(f);st.fx.push({o:f,t:0,life:1.0,kind:'flap',from:[p.x,waterY(),p.z],to:[hx,player.position.y+1.1,hz]});sfx('flop')}
   else{var b=piece(item==='soggy_boot'||item==='pond_weed'?'bubbles':'droplet');b.position.set(p.x,waterY()+.3,p.z);own(b);st.fx.push({o:b,t:0,life:.8,kind:'bubble'});sfx('plish')}}
  function soak(){stats.soaks++;var p=player.position;leap(p.x+(Math.random()-.5),p.z+(Math.random()-.5),'fish-pike');for(var k=0;k<10;k++){var d=piece('droplet');d.position.set(p.x+(Math.random()-.5)*.6,p.y+1.9,p.z+(Math.random()-.5)*.6);own(d);st.fx.push({o:d,t:-Math.random()*.2,life:.6,kind:'drop',v:[(Math.random()-.5)*.8,-1.5,(Math.random()-.5)*.8]})}}
  // ---------------------------------------------------------------- sounds (our own WebAudio voices on the game's Sfx bus)
- function sfx(k){if(typeof Sfx==='undefined')return;try{
-  if(k==='cast')Sfx.noise(.24,900,1.2,.06,'bandpass',260);
-  else if(k==='plish'){Sfx.noise(.16,1900,1.6,.05,'bandpass',700);Sfx.tone(560,.06,'sine',.018,320)}
-  else if(k==='flop'){Sfx.noise(.1,420,1,.08,'lowpass');Sfx.tone(150,.09,'sine',.05,90);setTimeout(function(){Sfx.noise(.08,380,1,.06,'lowpass');Sfx.tone(130,.07,'sine',.04,80)},140)}
-  else if(k==='leap')Sfx.noise(.38,1100,.8,.08,'lowpass',200);
-  else if(k==='plop'){Sfx.tone(320,.07,'sine',.05,140);Sfx.noise(.12,1600,2,.04)}
-  else if(k==='croak')Sfx.tone(105,.16,'sawtooth',.012,86);
-  else if(k==='chirp'){Sfx.tone(2300+Math.random()*500,.07,'sine',.012,2900);setTimeout(function(){Sfx.tone(2600,.05,'sine',.01,3100)},90)}
-  else if(k==='quack'){Sfx.tone(420,.09,'square',.012,300);Sfx.noise(.08,900,3,.012)}
+ // (sound pass 2026-09-29) the recipes in src/sfx_recipes.js, through Sfx (the SFX volume, mute, the first-gesture rule)
+ var FISH_SFX={cast:'fish_cast',plish:'fish_splash',flop:'fish_catch',leap:'fish_leap',plop:'fish_splash',croak:'frog',chirp:'bird',quack:'duck'};
+ function sfx(k,gain,at){if(typeof Sfx==='undefined'||!Sfx.play)return;try{
+  var id=FISH_SFX[k];if(id)Sfx.play(id,{gain:gain==null?1:gain,rate:k==='plop'?1.3:1,at:at,range:14});   // a leap far off across the island is not heard
  }catch(e){}}
  function ambient(dt){
-  if(typeof Sfx==='undefined'||!Sfx.ctx||!st.data)return;   // the audio context exists once the player has interacted
+  if(typeof Sfx==='undefined'||!Sfx.loop||!st.data)return;   // Sfx.loop is null until the player has interacted (the browser's rule)
   var a=st.data.ambient,d=Math.hypot(player.position.x-a.centre[0],player.position.z-a.centre[1]),g=d<=a.inner?1:d>=a.inner+a.fade?0:1-(d-a.inner)/a.fade;
-  try{if(!st.ambient){var ctx=Sfx.ctx,src=ctx.createBufferSource();src.buffer=Sfx._noiseBuf;src.loop=true;var f=ctx.createBiquadFilter();f.type='bandpass';f.frequency.value=650;f.Q.value=.7;var gn=ctx.createGain();gn.gain.value=0;src.connect(f);f.connect(gn);gn.connect(Sfx._master||ctx.destination);src.start();st.ambient={src:src,gain:gn,t:0}}
-   st.ambient.gain.gain.value=.012*g;st.ambient.t+=dt;
-   if(g>.05&&st.ambient.t>2.2){st.ambient.t=0;var r=Math.random();if(r<.35)sfx('chirp');else if(r<.6)sfx('croak');else if(r<.7)sfx('quack')}}catch(e){}}
+  try{if(!st.ambient){var lp=g>0?Sfx.loop('pond_loop'):null;if(!lp)return;st.ambient={loop:lp,t:0}}   // still water at the reeds (a seamless loop)
+   st.ambient.loop.setGain(document.hidden?0:g);st.ambient.t+=dt;
+   if(g>.05&&st.ambient.t>2.2){st.ambient.t=0;var r=Math.random();if(r<.35)sfx('chirp',g);else if(r<.6)sfx('croak',g);else if(r<.7)sfx('quack',g)}}catch(e){}}
  // ---------------------------------------------------------------- load
  async function load(o){
   var T=o.THREE;st.T=T;st.scene=o.scene;st.W=o.WORLD;var d=await loadData();st.level=d.pond.level;
@@ -161,7 +156,7 @@ var HolmFishing=(function(){
   }
   return true;
  }
- function cast(s){stats.casts++;try{if(typeof swing==='function')swing(player,'cast')}catch(e){}sfx('cast');var p=s.g.position;setTimeout(function(){if(!st.ready)return;splash(p.x+(Math.random()-.5)*.3,p.z+(Math.random()-.5)*.3,false);sfx('plish')},280)}
+ function cast(s){stats.casts++;try{if(typeof swing==='function')swing(player,'cast')}catch(e){}sfx('cast');var p=s.g.position;setTimeout(function(){if(!st.ready)return;splash(p.x+(Math.random()-.5)*.3,p.z+(Math.random()-.5)*.3,false)},280)}
  // ---------------------------------------------------------------- per frame
  var tickAcc=0;
  function onTick(){
@@ -207,7 +202,7 @@ var HolmFishing=(function(){
   ambient(dt);
  }
  function dispose(){st.ready=false;st.objs.forEach(function(o){if(o.parent)o.parent.remove(o);[st.W&&st.W.clickables,st.W&&st.W.resources,st.W&&st.W.grounds].forEach(function(a){if(!a)return;var i=a.indexOf(o);if(i>=0)a.splice(i,1);o.traverse&&o.traverse(function(n){var k=a.indexOf(n);if(k>=0)a.splice(k,1)})})});
-  st.objs=[];st.spots=[];st.fx=[];st.fauna=null;if(st.ambient){try{st.ambient.src.stop()}catch(e){}st.ambient=null}}
+  st.objs=[];st.spots=[];st.fx=[];st.fauna=null;if(st.ambient){try{st.ambient.loop.stop()}catch(e){}st.ambient=null}}
  // the spot nearest a point (the guide arrow follows the live spot during catch_fish)
  function nearestSpot(x,z){var best=null,d=Infinity;st.spots.forEach(function(s){if(s.state!=='on')return;var k=Math.hypot(s.g.position.x-x,s.g.position.z-z);if(k<d){d=k;best=s.g}});return best}
  return {loadData:loadData,load:load,update:update,dispose:dispose,gatherTick:gatherTick,nearestSpot:nearestSpot,

@@ -19,7 +19,7 @@ var Coffee = (function(){
     Player.energy=r.energy;
     Player.caffeinated=d.DRINKS[r.key].effectTicks*d.TICK_SECONDS;
     if(r.next) Player.inv[slot]={id:r.next, qty:1}; else Player.inv[slot]=null;
-    if(typeof Sfx!=='undefined'&&Sfx.eat) Sfx.eat();
+    if(typeof Sfx!=='undefined'&&Sfx.drink) Sfx.drink();
     UI.chat(r.text,'plain');
     UI.refreshInv(); if(UI.refreshRun) UI.refreshRun();
     if(typeof Events!=='undefined'&&Events.emit) Events.emit('drink',{id:s.id, slot});

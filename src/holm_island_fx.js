@@ -43,6 +43,8 @@ var HolmIslandFx=(function(){
    if(ab){var sp=piece(T,g,'anvil-sparks');if(sp){var ac=ab.getCenter(new T.Vector3());sp.position.set(ac.x,ab.max.y,ac.z);scene.add(sp);st.sparks={root:sp,clips:bind(T,sp,g,['Burst'])}}}}
   // the animation pass: felled oaks, the skiff, doors, bank, rope, forge timing, grubkin deaths, farm, smoke, torches
   if(typeof HolmIslandAnim!=='undefined')try{st.anim=await HolmIslandAnim.load(o)}catch(err){console.error('[HolmIslandFx] animation pass',err)}
+  // the sound pass (2026-09-29): the island's sound director (strokes on the swing, furnace and shore beds, creature voices)
+  if(typeof HolmSound!=='undefined')HolmSound.start();
   return {lever:!!st.lever,beam:!!st.beam,marker:!!st.marker,sparks:!!st.sparks,anim:st.anim};
  }
  function setBeacon(on){st.beaconOn=on;if(st.lever)once(st.lever.clips[on?'Pull':'Reset']);if(st.beam)st.beam.root.visible=on}
@@ -57,11 +59,13 @@ var HolmIslandFx=(function(){
     st.marker.root.visible=true;st.marker.root.position.set(c.cx,y+(top?.7:2.6),c.cz);if(GuideArrow._line)GuideArrow._line.visible=false}else st.marker.root.visible=false}
   // the animation pass (felled oaks, skiff, doors, bank, rope, forge, deaths, farm, smoke, torches)
   if(typeof HolmIslandAnim!=='undefined')HolmIslandAnim.update(dt);
+  if(typeof HolmSound!=='undefined')HolmSound.update(dt);
  }
  // the ferry: the adventurer boards, the skiff casts off and pulls out to sea (HolmIslandAnim), then the crossing (cb)
  function sail(cb){if(typeof HolmIslandAnim!=='undefined'&&HolmIslandAnim.sail(cb))return;cb()}
  // the island provider is leaving (the crossing, or a reload of the world): put back what the animation pass moved
- function dispose(){if(typeof HolmIslandAnim!=='undefined')try{HolmIslandAnim.dispose()}catch(e){}}
+ function dispose(){if(typeof HolmIslandAnim!=='undefined')try{HolmIslandAnim.dispose()}catch(e){}
+  if(typeof HolmSound!=='undefined')try{HolmSound.dispose()}catch(e){}if(typeof CozyFire!=='undefined')try{CozyFire.reset()}catch(e){}}
  return {load:load,update:update,setBeacon:setBeacon,sail:sail,spark:spark,dispose:dispose};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmIslandFx;

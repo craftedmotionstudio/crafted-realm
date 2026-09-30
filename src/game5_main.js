@@ -244,7 +244,7 @@ function update(dt){
         if(typeof Events!=='undefined') Events.emit('itemPickup', {id:u.id, qty:u.qty});
         scene.remove(a.obj); removeClickable(a.obj);
         const di=WORLD.drops.indexOf(a.obj); if(di>=0) WORLD.drops.splice(di,1);
-        if(u.id==='coins') Sfx.coin();
+        if(u.id==='coins') Sfx.coin(); else Sfx.pickup();
       }
       Player.action=null;
     }
@@ -279,16 +279,17 @@ function update(dt){
           }
           if(Math.random() < gatherChance(u.rtype, Player.lvl(u.skill), power)){
             if(Player.addItem(rate.item,1)){
-              if(u.rtype==='tree') UI.chat('You get some emberwood logs.','plain');
-              else if(u.rtype==='rock') UI.chat('You manage to mine '+(u.mat?u.mat.chat:'some copper')+'.','plain');
+              if(u.rtype==='tree'){ UI.chat('You get some emberwood logs.','plain'); Sfx.logLand(); }
+              else if(u.rtype==='rock'){ UI.chat('You manage to mine '+(u.mat?u.mat.chat:'some copper')+'.','plain'); Sfx.oreBreak(); }
               else UI.chat('You catch a mirrorperch.','plain');
               Player.addXp(u.skill, rate.xp);
               Tutorial.notify('gather', rate.item);
               if(Math.random()<0.35){
                 u.alive=false; u.respawnT=u.respawn;
-                if(u.rtype==='tree'){ Sfx.treeFall();
+                if(u.rtype==='tree'){ Sfx.treeFall(a.obj.position);
                   a.obj.children.forEach((ch,ci)=>{ if(ci>0) ch.visible=false; }); }
-                else if(!(typeof MiningRockVisuals!=='undefined'&&MiningRockVisuals.deplete&&MiningRockVisuals.deplete(a.obj))) a.obj.visible=false;
+                else { if(u.rtype==='rock') Sfx.rockEmpty(a.obj.position);
+                  if(!(typeof MiningRockVisuals!=='undefined'&&MiningRockVisuals.deplete&&MiningRockVisuals.deplete(a.obj))) a.obj.visible=false; }
                 Player.action=null;
               }
             } else Player.action=null;
@@ -319,7 +320,7 @@ function update(dt){
         // 2004 (src/skill_timing.js): the smelting stroke starts on the first tick at the furnace and the bar comes out
         // 4 ticks later (2.4 s, the 2.42 s stroke); the next stroke starts with it
         if(!a.started){ a.started=true; a.t=0;
-          if(Object.keys(SMELTS[a.bar].needs).every(n=>Player.count(n)>=SMELTS[a.bar].needs[n])) swing(player,'smelt'); }
+          if(Object.keys(SMELTS[a.bar].needs).every(n=>Player.count(n)>=SMELTS[a.bar].needs[n])){ swing(player,'smelt'); Sfx.furnace(); } }
         else a.t+=dt;
         if(a.t>=skillSeconds('smelt',1.8)-1e-6){
           a.t=0;
@@ -335,7 +336,7 @@ function update(dt){
             if(typeof CraftingActionVisuals!=='undefined')CraftingActionVisuals.pulse('smelt',a.obj);
             UI.refreshInv();
             const again=Object.keys(s.needs).every(n=>Player.count(n)>=s.needs[n]);
-            if(!again) Player.action=null; else swing(player,'smelt');
+            if(!again) Player.action=null; else { swing(player,'smelt'); Sfx.furnace(); }
           }
         }
       }
@@ -369,6 +370,7 @@ function update(dt){
     else if(a.type==='lightfire'){
       a.t+=dt; a.ticks=(a.ticks||0)+1;
       swing(player);   // the kneel with the tinderbox, held (looped) until the fire catches
+      if(a.ticks%2===1 && a.ticks<(typeof SkillTiming!=='undefined'?SkillTiming.ticks('lightfire'):2)) Sfx.tinderStrike();   // flint on steel every other tick of the kneel
       // 2004: the kneel is held 7 ticks (4.2 s; the reference held it 4.15 s) before the fire catches (src/skill_timing.js)
       if(a.ticks>(typeof SkillTiming!=='undefined'?SkillTiming.ticks('lightfire'):2)){
         const s=Player.inv[a.slot];
@@ -378,6 +380,7 @@ function update(dt){
           const fire=makeCampfire(fx,fz);
           // Holm teaching fires outlive the fishing detour (play review F-16); mainland fires keep the OSRS-ish minute
           fire.userData.ttl=(typeof CRWorldMode!=='undefined'&&/^tutors-holm-(v2|v3|arrival-qa)$/.test(CRWorldMode.providerId))?150:65;
+          Sfx.fireCatch();
           Player.addXp('Firemaking', 40);
           UI.chat('The fire catches and the logs begin to burn.','xp');
           UI.refreshInv();
@@ -545,6 +548,7 @@ function update(dt){
         if(!fish){ UI.chat('You have nothing raw to cook.','plain'); Player.action=null; return; }
         // 2004 (src/skill_timing.js): a fish is done 3 ticks at the fire (the 1.77 s cook stroke), 4 at a range (its 2.43 s
         // reach into the oven); the island adventurer's clip repeats at that length meanwhile. Burn odds and XP unchanged.
+        if(!a.t) Sfx.sizzle();   // each fish goes on: the fat spits
         a.t+=dt;
         if(a.t>=skillSeconds(a.obj.userData&&a.obj.userData.range?'cook_range':'cook',2)-1e-6){
           a.t=0;
@@ -554,11 +558,11 @@ function update(dt){
             const rangeBonus = a.obj.userData.range ? 0.08 : 0;   // a proper range burns less than a campfire
             if(Math.random()<Math.min(0.97, 0.6-fish.hard+rangeBonus+Player.lvl('Cooking')*0.02)){
               Player.addItem(fish.done,1); Player.addXp('Cooking',fish.xp);
-              UI.chat('You roast '+fish.name+'.','plain');
+              UI.chat('You roast '+fish.name+'.','plain'); Sfx.cookDone();
               Tutorial.notify('cook',fish.done);
             } else {
               Player.addItem(fish.burnt,1);
-              UI.chat('You accidentally burn the fish.','plain');
+              UI.chat('You accidentally burn the fish.','plain'); Sfx.burn();
             }
           } else { UI.chat('Your pack is too full to cook anything.','plain'); Player.action=null; return; }
           if(Player.count('raw_perch')<1&&Player.count('raw_reedpike')<1) Player.action=null;
@@ -606,7 +610,9 @@ function update(dt){
         r.children.forEach(ch=>ch.visible=true); } }
     if(u.rtype==='fish' && u.alive){ u.bob+=dt*2; r.scale.setScalar(1+Math.sin(u.bob)*0.15); }
   });
-  if(WORLD.fires) WORLD.fires.forEach(f=>{
+  // every fire's flicker, embers and crackle: the cozy pass (src/cozy_fire.js; owner 2026-09-29: slower, softer, a spark now and then)
+  if(typeof CozyFire!=='undefined') CozyFire.update(dt);
+  else if(WORLD.fires) WORLD.fires.forEach(f=>{
     if(f.userData.flame) f.userData.flame.scale.y = 1+Math.sin(performance.now()*0.02)*0.25; });
 
   updateProjectiles(dt);
@@ -656,6 +662,7 @@ function update(dt){
       f.userData.ttl-=dt;
       if(f.userData.ttl<=0){
         scene.remove(f);
+        if(f.userData.light){ f.userData.light.intensity=0; f.userData.light.userData.free=true; }   // back to the pool, dark (game2_world makeCampfire)
         const ci=WORLD.clickables.indexOf(f); if(ci>=0) WORLD.clickables.splice(ci,1);
         WORLD.fires.splice(i,1);
         // a burnt-out player fire leaves ashes, like OSRS (top-100 batch 1 source)

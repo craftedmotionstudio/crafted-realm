@@ -165,7 +165,7 @@ function open(skill,tab){
   var g=guideFor(skill);if(!g)return false;
   build();wrapClosers();
   if(st.skill!==skill)st.tab=tab||null;else if(tab)st.tab=tab;
-  if(!st.skill)st.back=doc.activeElement;
+  if(!st.skill){st.back=doc.activeElement;try{if(typeof Sfx!=='undefined'&&Sfx.windowOpen)Sfx.windowOpen()}catch(e){}}
   st.skill=skill;
   st.layer.hidden=false;place();render();
   st.win.querySelector('.sg-list').scrollTop=0;
@@ -175,7 +175,7 @@ function open(skill,tab){
 }
 function close(){
   if(!st.layer||st.layer.hidden)return false;
-  st.layer.hidden=true;st.skill=null;markCells();
+  st.layer.hidden=true;st.skill=null;markCells();try{if(typeof Sfx!=='undefined'&&Sfx.windowClose)Sfx.windowClose()}catch(e){}
   if(st.back&&st.back.isConnected)try{st.back.focus({preventScroll:true})}catch(e){}
   st.back=null;return true;
 }

@@ -252,7 +252,7 @@ function refreshEquipKit(){
    if(!real){d.classList.add('locked');d.innerHTML=ghostSvg(k);tipify(d,SLOT_NAME[k]+': nothing fits here yet');wrap.appendChild(d);return}
    if(v&&ITEMS[v]){var it=ITEMS[v];d.classList.add('filled');var im=el('img');im.src=iconFor(v);im.alt=it.name;d.appendChild(im);
     var b=bonusText(it);tipify(d,'Remove '+it.name+(b.length?' ('+b.join(', ')+')':''));
-    d.addEventListener('click',function(){if(Player.addItem(v,1)){Player.equip[k]=null;click();if(typeof refreshPlayerGear==='function')refreshPlayerGear();UI.refreshEquip();UI.refreshInv&&UI.refreshInv()}else UI.chat('You have no room in your pack to take that off.','plain')});
+    d.addEventListener('click',function(){if(Player.addItem(v,1)){Player.equip[k]=null;if(typeof Sfx!=='undefined'&&Sfx.unequip)Sfx.unequip(v);else click();if(typeof refreshPlayerGear==='function')refreshPlayerGear();UI.refreshEquip();UI.refreshInv&&UI.refreshInv()}else UI.chat('You have no room in your pack to take that off.','plain')});
    }else{d.innerHTML=ghostSvg(k);tipify(d,SLOT_NAME[k]+' slot: empty')}
    wrap.appendChild(d)})});
   host.appendChild(wrap);

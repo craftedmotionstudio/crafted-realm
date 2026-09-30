@@ -90,7 +90,7 @@ var HolmIslandAnim=(function(){
  function put(o,r){o.position.fromArray(r.p);o.quaternion.fromArray(r.q);o.scale.fromArray(r.s)}
  function playerPos(){return typeof player!=='undefined'&&player?player.position:null}
  function near(o,d){var p=playerPos();return !!(p&&o&&Math.hypot(p.x-o.x,p.z-o.z)<=d)}
- function sfx(fn){try{if(typeof Sfx!=='undefined'&&Sfx.ctx)fn(Sfx)}catch(e){}}
+ function sfx(fn){try{if(typeof Sfx!=='undefined'&&Sfx.play)fn(Sfx)}catch(e){}}   // Sfx gates itself (first gesture, volume, mute)
  function sfxF(name,a){try{if(typeof SfxFurnishings!=='undefined'&&SfxFurnishings[name])SfxFurnishings[name](a)}catch(e){}}
 
  /* ---------------- smoke + dust: one Points (one draw call), Blender-rendered puffs ---------------- */
@@ -148,7 +148,7 @@ var HolmIslandAnim=(function(){
   var bb=new T.Box3().setFromObject(tree);st.falls.push({g:g,piv:piv,t:0,landed:false,reach:Math.max(1,(bb.max.y-bb.min.y)*.6)});st.stats.falls++}
  function fallsUpdate(dt){var C=st.curves;st.falls=st.falls.filter(function(f){f.t+=dt;var q=C.fallQ(f.t);f.piv.quaternion.fromArray(q);if(C.fallP){var tp=C.fallP(f.t);f.piv.position.fromArray(tp)}
    if(!f.landed&&f.t>=1.0){f.landed=true;f.g.updateMatrixWorld(true);V.set(0,0,f.reach/Math.max(.01,f.g.scale.x));f.g.localToWorld(V);dust(V.x,f.g.position.y,V.z,7);
-    if(near(f.g.position,14))sfx(function(S){S.noise(.3,240,.8,.08,'lowpass',70);S.tone(70,.22,'sine',.05,45)})}
+    if(near(f.g.position,24))sfx(function(S){S.treeLand({x:V.x,z:V.z})})}
    if(f.t>C.fallQ.duration+.05){st.scene.remove(f.g);return false}return true})}
 
  /* ---------------- Tobin's skiff casts off ---------------- */
@@ -183,7 +183,10 @@ var HolmIslandAnim=(function(){
   V2.copy(s.deck);s.boat.localToWorld(V2);p.copy(V2);if(typeof player!=='undefined')player.lookAt(V2.x,V2.y,V2.z-1)}
   if(s.tobin){V2.copy(s.stern);s.boat.localToWorld(V2);s.tobin.position.copy(V2);s.tobin.lookAt(V2.x,V2.y,V2.z-1)}
   if(s.bell&&C.bellQ){var bq=C.bellQ(Math.min(s.t,C.bellQ.duration));s.bell.parts.forEach(function(b){put(b.m,dictAbout(b.rest,b.pivot,bq))});
-   var dings=[.18,.54,.9];while(s.rung<dings.length&&s.t>=dings[s.rung]){var v=[.05,.035,.022][s.rung];s.rung++;sfx(function(S){S.tone(988,1.1,'sine',v);S.tone(1976,.5,'sine',v*.35);S.tone(1318,.8,'triangle',v*.25)})}}
+   var dings=[.18,.54,.9];while(s.rung<dings.length&&s.t>=dings[s.rung]){var v=[1,.7,.45][s.rung];s.rung++;sfx(function(S){S.bell(v)})}}
+  // Tobin's skiff: it knocks off the pier as it casts off, then an oar stroke every 1.3 s until the crossing
+  if(!s.pushed&&s.t>=.25){s.pushed=true;sfx(function(S){S.skiffPush()})}
+  if(s.t>=(s.nextOar||1.6)&&s.t<C.boatP.duration){s.nextOar=(s.nextOar||1.6)+1.3;sfx(function(S){S.oar()})}
   if(!s.done&&s.t>=C.boatP.duration){s.done=true;var cb=s.cb;try{cb&&cb()}catch(e){console.error('[HolmIslandAnim] crossing',e)}}
   if(s.done){s.after+=dt;if(s.after>6&&st.on)restoreSail()}}   // the crossing did not happen (the island is still here): put the cove back
  function restoreSail(){var s=st.sail;if(!s)return;put(s.boat,s.rest);if(s.plank)put(s.plank,s.plankRest);if(s.tobin)put(s.tobin,s.tobinRest);if(s.bell)s.bell.parts.forEach(function(b){put(b.m,b.rest)});
@@ -205,7 +208,7 @@ var HolmIslandAnim=(function(){
   list.forEach(function(d){var s=st.doors[d.id];var want=!!d.open&&doorWant(d.center,p,route);
    if(!s){s=st.doors[d.id]={mode:want?'open':'closed',k:want?1:0,t:0,away:0};d.set(s.k);return}
    doorStep(s,want,dt,curves);d.set(s.k);
-   if(s.event==='open'){st.stats.doorOpens++;if(near(d.center,8))sfxF('chestOpen',.6)}else if(s.event==='close'){st.stats.doorCloses++;if(near(d.center,8))sfxF('chestClose',.6)}})}
+   if(s.event==='open'){st.stats.doorOpens++;if(near(d.center,12))sfx(function(S){S.doorOpen(d.center)})}else if(s.event==='close'){st.stats.doorCloses++;if(near(d.center,12))sfx(function(S){S.doorClose(d.center)})}})}
 
  // building doors that are not progress gates but stand across a walkable doorway: the bakehouse store door (hinged at its
  // north end, it swings east into the store room)
@@ -215,7 +218,7 @@ var HolmIslandAnim=(function(){
   st.free.push({id:f.node,node:n,rest:restOf(n),pivot:n.worldToLocal(h.clone()).toArray(),max:f.max,center:{x:(b.min.x+b.max.x)/2,y:b.min.y,z:(b.min.z+b.max.z)/2},s:{mode:'closed',k:0,t:0,away:0}})})}
  function freeDoorsUpdate(dt){if(!st.free.length)return;var curves=doorCurves(),p=playerPos();if(!curves)return;var route=typeof HolmArrivalPlayer!=='undefined'&&HolmArrivalPlayer.route?HolmArrivalPlayer.route():[];
   st.free.forEach(function(d){doorStep(d.s,doorWant(d.center,p,route),dt,curves);var a=d.s.k*d.max;put(d.node,about(d.rest,d.pivot,[0,Math.sin(a/2),0,Math.cos(a/2)]));
-   if(d.s.event==='open'){st.stats.doorOpens++;sfxF('chestOpen',.5)}else if(d.s.event==='close'){st.stats.doorCloses++;sfxF('chestClose',.5)}})}
+   if(d.s.event==='open'){st.stats.doorOpens++;sfx(function(S){S.doorOpen(d.center)})}else if(d.s.event==='close'){st.stats.doorCloses++;sfx(function(S){S.doorClose(d.center)})}})}
 
  /* ---------------- smithing, smelting ---------------- */
  function handOf(){var p=typeof player!=='undefined'?player:null;if(!p)return null;if(st.handOf===p&&st.hand)return st.hand;st.handOf=p;st.hand=null;p.traverse(function(o){if(!st.hand&&/RightHand$/.test(o.name||''))st.hand=o});return st.hand}
@@ -227,28 +230,30 @@ var HolmIslandAnim=(function(){
     var hit=!!(h&&(h.getWorldPosition(V),st.det.push(V.y-p.y)));
     if(!hit&&!st.struck&&st.smPrev<STRIKE_LATE&&ct>=STRIKE_LATE)hit=true;          // a dropped frame never loses the blow
     if(hit&&!st.struck){st.struck=true;st.stats.strikes++;var ok=typeof HolmIslandFx!=='undefined'&&HolmIslandFx.spark&&HolmIslandFx.spark();if(ok)st.stats.sparks++;
-     sfx(function(S){S.tone(2350,.05,'square',.02,1500);S.noise(.05,3600,3,.02,'highpass')})}
+     sfx(function(S){S.anvil()})}
     st.smPrev=ct}
   else{st.det.reset();st.smPrev=0;st.struck=false}
   // furnace: the glow flares (stepped) and the bellows pump while the adventurer smelts
   var f=st.furnace,smelting=!!(a&&a.type==='smelt'&&a.obj&&p&&Math.hypot(p.x-a.obj.position.x,p.z-a.obj.position.z)<3.5);
   if(smelting&&!st.wasSmelting)st.stats.flarings++;st.wasSmelting=smelting;
-  if(f&&f.glow){var k=smelting?1.18+.1*(Math.floor(st.T*7.5)%2):1;f.glow.scale.setScalar(k)}
+  if(f&&f.glow){var cz=typeof CozyFire!=='undefined'&&CozyFire.enabled(),k=smelting?(cz?1.16+.06*(Math.floor(st.T*4)%2):1.18+.1*(Math.floor(st.T*7.5)%2)):1;f.glow.scale.setScalar(k)}
   var b=st.bellows;if(b&&st.curves.pumpS){if(smelting){b.t+=dt;var sc=st.curves.pumpS(b.t);put(b.node,about(b.rest,b.pivot,null,[sc[0],sc[1],sc[2]]));b.moved=true}else if(b.moved){put(b.node,b.rest);b.moved=false;b.t=0}}}
 
  /* ---------------- banking ---------------- */
  function bankUpdate(dt){var bk=st.bank;if(!bk)return;var el=bk.el||(bk.el=typeof document!=='undefined'?document.getElementById('bank-modal'):null);var open=!!(el&&el.style.display==='block');
   if(open&&!bk.open){bk.station=bankStation(playerPos(),bk.vault,bk.counter);
-   if(bk.station==='vault'&&bk.gate){bk.mode='opening';bk.t=0;st.stats.bankVault++;sfxF('chestOpen',.6)}
-   else if(bk.station==='counter'){st.stats.bankCounter++;if(typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.gesture)HolmIslandTutors.gesture('maud','talk');sfx(function(S){S.coin()})}}
-  if(!open&&bk.open){if(bk.station==='vault'&&bk.gate){bk.mode='closing';bk.t=0;sfxF('chestClose',.6)}else if(bk.station==='counter'&&typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.gesture)HolmIslandTutors.gesture('maud','idle');bk.station=open?bk.station:null}
+   if(bk.station==='vault'&&bk.gate){bk.mode='opening';bk.t=0;st.stats.bankVault++;var go=bk.gate.node.getWorldPosition(new (T3().Vector3)());sfx(function(S){S.gateOpen({x:go.x,z:go.z})})}
+   else if(bk.station==='counter'){st.stats.bankCounter++;if(typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.gesture)HolmIslandTutors.gesture('maud','talk')}}
+  if(!open&&bk.open){if(bk.station==='vault'&&bk.gate){bk.mode='closing';bk.t=0;var gp=bk.gate.node.getWorldPosition(new (T3().Vector3)());sfx(function(S){S.gateClose({x:gp.x,z:gp.z})})}else if(bk.station==='counter'&&typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.gesture)HolmIslandTutors.gesture('maud','idle');bk.station=open?bk.station:null}
   bk.open=open;var c=doorCurves();if(bk.gate&&c&&bk.mode){bk.t+=dt;var arr=bk.mode==='opening'?c.open:c.close,i=Math.min(arr.length-1,Math.round(bk.t/c.step)),k=arr[i];
    put(bk.gate.node,about(bk.gate.rest,bk.gate.pivot,[0,Math.sin(k*bk.gate.max/2),0,Math.cos(k*bk.gate.max/2)]));if(i>=arr.length-1)bk.mode=null}}
 
  /* ---------------- (removed 2026-09-29: death clips and the farm's animals belong to the creatures pass) ---------------- */
 
  /* ---------------- torches ---------------- */
- function torchesUpdate(){if(!st.torches.length||!st.curves.flameS)return;var s=st.curves.flameS(st.T)[1];
+ function torchesUpdate(){if(!st.torches.length||!st.curves.flameS)return;
+  // cozy fires (owner 2026-09-29, src/cozy_fire.js): the Blender curve read at half speed and its swing softened
+  var cz=typeof CozyFire!=='undefined'&&CozyFire.enabled(),s=st.curves.flameS(st.T*(cz?CozyFire.TORCH_RATE:1))[1];if(cz)s=1+(s-1)*CozyFire.TORCH_SOFT;
   st.torches.forEach(function(m){if(m.emissive&&m.userData.holmBaseEI!==undefined)m.emissiveIntensity=m.userData.holmBaseEI*s;if(m.color&&m.userData.holmBaseC)m.color.setRGB(m.userData.holmBaseC[0]*(.85+.15*s),m.userData.holmBaseC[1]*(.85+.15*s),m.userData.holmBaseC[2]*(.85+.15*s))})}
 
  /* ================================================================ load / update / dispose */
@@ -300,7 +305,9 @@ var HolmIslandAnim=(function(){
  function status(){return {on:st.on,stats:Object.assign({},st.stats),falls:st.falls.length,sailing:!!st.sail,doors:Object.keys(st.doors).reduce(function(o,k){o[k]={mode:st.doors[k].mode,k:+st.doors[k].k.toFixed(3)};return o},st.free.reduce(function(o,d){o[d.id]={mode:d.s.mode,k:+d.s.k.toFixed(3)};return o},{})),
   smoke:st.smoke?{emitters:st.smoke.emit.length,live:st.smoke.parts.filter(function(p){return p.on}).length}:null,
   bank:st.bank?{open:st.bank.open,station:st.bank.station,gate:!!st.bank.gate}:null,rope:st.rope?{t:st.rope.t}:null}}
- return {load:load,update:update,dispose:dispose,sail:sail,status:status,sailing:function(){return !!st.sail},
+ return {load:load,update:update,dispose:dispose,sail:sail,status:status,sailing:function(){return !!st.sail},active:function(){return !!st.on},
+  // the bank opened at the vault gate (Sfx.bankOpen stands down: the iron gate sounds instead)
+  atVault:function(){var bk=st.bank;return !!(st.on&&bk&&bk.gate&&bankStation(playerPos(),bk.vault,bk.counter)==='vault')},
   // pure rules (tools/test_holm_anim_pass.js)
   fallYaw:fallYaw,strikeDetector:strikeDetector,doorWant:doorWant,doorStep:doorStep,wanderPick:wanderPick,bankStation:bankStation,puff:puff,about:about,
   DOOR:{near:DOOR_NEAR,route:DOOR_ROUTE,ahead:DOOR_AHEAD,shutAfter:DOOR_SHUT_AFTER},URLS:{motions:MOTIONS,smoke:SMOKE_TEX}};
