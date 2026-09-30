@@ -101,6 +101,7 @@ var HolmIslandGreyPaths=(function(){
  SEGMENTS.forEach(function(s){s.tiles=expand(s);s.tiles.forEach(function(t){tiles[t[0]+','+t[1]]=1})});
  COURTS.forEach(function(c){c.tiles=courtTiles(c);c.tiles.forEach(function(t){tiles[t[0]+','+t[1]]=1})});
  return {schema:'holm-island-paths-v2-grey',style:'grey',layout:'holm-path-tiles-authored-v1',
-  graph:{nodes:10468,edges:27691,hash:'d41278dc47dbc168'},segments:SEGMENTS,courts:COURTS,junctions:JUNCTIONS,tiles:tiles,expand:expand,courtTiles:courtTiles};
+  /* the walk graph re-measured with the Warden's Keep overhaul (2026-09-29; was 10468 / 27691 / d41278dc47dbc168) */
+  graph:{nodes:10384,edges:27343,hash:'98f185b84f967d38'},segments:SEGMENTS,courts:COURTS,junctions:JUNCTIONS,tiles:tiles,expand:expand,courtTiles:courtTiles};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmIslandGreyPaths;

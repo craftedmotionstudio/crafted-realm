@@ -195,7 +195,11 @@ function rule(name,ok,detail){results.push({name,ok:!!ok,detail});if(!ok)fails++
     /* ---------------- 8-direction approach ---------------- */
     {await reset();await wield('bronze_sword',0);const s=await standNear(G,5);
      await page.evaluate(()=>{window.__trail=[];window.__tr=setInterval(()=>{const p=TileNav.playerNode();if(p)window.__trail.push([p.tx,p.tz])},100)});
-     await page.evaluate(g=>{const n=WORLD.npcs.find(x=>x.mesh.name===g);const nt=n.node;const m=TileNav.nodeAt(nt.tx+4,nt.tz+3,nt.y)||TileNav.nodeAt(nt.tx-4,nt.tz-3,nt.y);if(m)HolmArrivalQA.qaPlace(m.id)},G);await sleep(600);
+     // the stance is 4+3 tiles off (a diagonal approach) on the foe's own storey: nodeAt hands back a tile's only node at any
+     // height, and since the Warden's Keep overhaul (2026-09-29) the tiles east of the court are the curtain's wall walk
+     await page.evaluate(g=>{const n=WORLD.npcs.find(x=>x.mesh.name===g);const nt=n.node;let m=null;
+      for(const [dx,dz] of [[4,3],[-4,-3],[-4,3],[4,-3]]){const c=TileNav.nodeAt(nt.tx+dx,nt.tz+dz,nt.y);if(c&&c.id&&Math.abs(c.y-nt.y)<1.2){m=c;break}}
+      if(m)HolmArrivalQA.qaPlace(m.id)},G);await sleep(600);
      await clickNamed(page,G);
      // (the 2004 pace walks 1 tile per 600 ms tick, ~30% slower than the old 2.4 tiles/s, and the rat wanders: wait for
      // melee reach up to 12 s instead of a fixed 5 s; the rule itself -- diagonal steps and a side tile in reach -- is unchanged)

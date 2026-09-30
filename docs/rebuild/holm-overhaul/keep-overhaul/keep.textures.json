@@ -1,0 +1,24 @@
+{
+ "note": "Warden's Keep overhaul (2026-09-29): the architecture keeps the keep's own textured materials (fieldstone, dressed stone, aged oak, stair oak, warm shingles, floor flags); the new props textured old-school on their own faces only (the props material, each face's kit texture declared by its author through the holm_tex face attribute); glass, lead, flames and the floors' flag and board tones stay flat colour. The z-fighting pass (tools/blender/fix_holm_keep_overhaul_coplanar.py) then writes the candidate keep.blend + keep.glb.",
+ "source": ".studio-workspaces/holm-keep-overhaul-v1/working/keep-flat.blend",
+ "outBlend": ".studio-workspaces/holm-keep-overhaul-v1/working/keep-textured.blend",
+ "outGlb": ".studio-workspaces/holm-keep-overhaul-v1/working/keep-textured.glb",
+ "report": ".studio-workspaces/holm-keep-overhaul-v1/candidates/textures.report.json",
+ "blender": "4.5",
+ "vertexColour": {
+  "material": "Holm props colour",
+  "faceAttribute": "holm_tex",
+  "faceClasses": [
+   "",
+   "beam",
+   "planks",
+   "rock",
+   "plaster",
+   "stone_course",
+   "thatch"
+  ],
+  "woodOnly": ".",
+  "maxVariants": 3,
+  "minShare": 0
+ }
+}
