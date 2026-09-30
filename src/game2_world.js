@@ -1004,7 +1004,15 @@ function makeCampfire(x,z){
   g.position.set(x, gy(x,z), z);
   g.userData.kind='fire'; g.userData.label='Cook on Campfire';
   scene.add(g); WORLD.clickables.push(g); WORLD.fires.push(g);
-  const light = new THREE.PointLight(0xff9c4a, 0.85, 9); light.position.set(x,1.4+gy(x,z),z); scene.add(light);
+  // the fire's light comes from a small pool: a burnt-out fire hands its light back (dark) and the next fire takes it, so
+  // the scene's light count (and every lit shader) stays fixed instead of growing by one light per fire ever lit
+  const pool = WORLD._fireLights || (WORLD._fireLights = []);
+  let light = pool.find(l=>l.userData.free);
+  if(!light){ light = new THREE.PointLight(0xff9c4a, 0.85, 9); pool.push(light); }
+  light.userData.free = false; light.intensity = 0.85; light.userData.base = 0.85;
+  if(light.parent!==scene) scene.add(light);
+  light.position.set(x,1.4+gy(x,z),z);
+  g.userData.light = light;
   return g;
 }
 

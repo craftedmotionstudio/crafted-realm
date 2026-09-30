@@ -30,7 +30,7 @@
       return false;
     }
     Player.inv=conversion.inventory; UI.refreshInv();
-    Sfx.click();
+    if(typeof Sfx!=='undefined'&&Sfx.dough) Sfx.dough(); else if(typeof Sfx!=='undefined'&&Sfx.click) Sfx.click();
     UI.chat('You mix the flour and water into the dough and knead a lump of bread dough.','plain');
     return true;
   }
@@ -65,6 +65,7 @@
         if(bakeStart===null){
           bakeStart=typeof worldTickCount!=='undefined'?worldTickCount:0;bakeT0=Date.now();
           if(typeof player!=='undefined'&&player&&player.lookAt)player.lookAt(target.x,player.position.y,target.z);
+          if(typeof Sfx!=='undefined'&&Sfx.bakeIn) Sfx.bakeIn();   // the oven door, a breath of heat, the tray in
           if(typeof HolmIslandPlayer!=='undefined'&&HolmIslandPlayer.active()){const gc=player.userData&&player.userData.gmix&&player.userData.gmix.clips;
             if(HolmIslandPlayer.playAs)HolmIslandPlayer.playAs(gc&&gc.cook_range?'cook_range':'cook','bake');else HolmIslandPlayer.play('cook');}
         }
@@ -77,6 +78,7 @@
         Player.inv=conversion.inventory;
         Player.addXp('Cooking', conversion.baseXp);
         Player.usingItem=null; UI.refreshInv();
+        if(typeof Sfx!=='undefined'&&Sfx.bakeDone) Sfx.bakeDone();
         UI.chat('You bake a loaf of bread.','plain');
         Tutorial.notify(conversion.event[0],conversion.event[1]);
       } catch(e){ console.error('[cooking_bread]', e); stop(); }

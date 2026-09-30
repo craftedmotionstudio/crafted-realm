@@ -21,14 +21,15 @@ const GREEN='#3fd35a', GREY='#7a6f5c';
 /* ---------- self-contained overlay/panel (the quest_ui.js modal pattern) ---------- */
 function overlay(){
   let o=document.getElementById('smith-grid-overlay');
-  if(o){ o.innerHTML=''; o.style.display='flex'; return o; }
+  if(o){ if(o.style.display!=='flex'&&typeof Sfx!=='undefined'&&Sfx.windowOpen) Sfx.windowOpen(); o.innerHTML=''; o.style.display='flex'; return o; }
+  if(typeof Sfx!=='undefined'&&Sfx.windowOpen) Sfx.windowOpen();
   o=document.createElement('div'); o.id='smith-grid-overlay';
   o.style.cssText='position:fixed;inset:0;background:rgba(10,8,4,.55);z-index:260;display:flex;align-items:center;justify-content:center';
   o.addEventListener('click', e=>{ if(e.target===o) o.style.display='none'; });
   document.body.appendChild(o);
   return o;
 }
-function close(){ const o=document.getElementById('smith-grid-overlay'); if(o) o.style.display='none'; }
+function close(){ const o=document.getElementById('smith-grid-overlay'); if(o){ if(o.style.display==='flex'&&typeof Sfx!=='undefined'&&Sfx.windowClose) Sfx.windowClose(); o.style.display='none'; } }
 
 /* ---------- one smithable cell: icon + name + bar cost, dimmed when you can't make it ---------- */
 function cell(barType, it, rec){

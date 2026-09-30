@@ -93,6 +93,7 @@ var HolmShaftRope=(function(){
   try{if(typeof UI!=='undefined'&&UI.refreshInv)UI.refreshInv()}catch(e){}
   // the kit has no knot clip: the adventurer bends to the frame with the cook clip's reach (the climb itself keeps the ladder clip)
   try{if(typeof HolmIslandPlayer!=='undefined'&&HolmIslandPlayer.active())HolmIslandPlayer.play('cook')}catch(e){}
+  try{if(typeof Sfx!=='undefined'&&Sfx.ropeTie)Sfx.ropeTie()}catch(e){}   // fibres rub, two tugs pull it taut
   if(typeof UI!=='undefined')UI.chat(LINES.tied,'plain');
   st.key='';update(0);
   try{if(typeof Events!=='undefined')Events.emit('shaftRopeTied',{})}catch(e){}

@@ -6,8 +6,9 @@
  *   2. the fireworks spawn around the adventurer on levelUp (Points in the scene, sparks near the body, following them
  *      if they walk), and despawn completely after ~3 s; bounded under repeated level-ups; reduced motion also clears;
  *      never takes a click (no raycast); the Blender spark sheet exists;
- *   3. the level-up sound is the soft firework cue (noise whoosh + pops + crackle + sine chime, quiet, on the audio clock),
- *      not the old square-wave triad;
+ *   3. the level-up sound is the picked recipe (sound pass 2026-09-29: a lute arpeggio rising with the rockets and blooming
+ *      on the burst; one buffer source and one gain; quiet, short, on the audio clock), not the firework noise or the old
+ *      square-wave triad;
  *   4. the falling leaves use the Blender oak-leaf texture, fall only from oaks, are rare (never more than 8 at once,
  *      far fewer than the old 36 squares), land and fade; fx_atmosphere no longer builds the square planes.
  * Run: node tools/test_levelup_fx.js */
@@ -72,8 +73,9 @@ try{
   ok('source: the idle alert keeps its own flash',/idleWarned=true;\s*\n?\s*this\._flash\(/.test(nsrc));
   const g3=src('src/game3_systems.js');
   ok('chat line: our own wording (no "Congratulations, you just advanced")',!/just advanced/.test(g3)&&/Your \$\{s\} has grown to level \$\{after\}/.test(g3));
-  ok('Sfx.level() plays the firework cue from LevelUpFX.sound',/level\(\)\{[^}]*LevelUpFX\.sound\(ctx/.test(g3));
-  ok('quest completion keeps the old three-note cue (Sfx.questDone)',/Sfx\.questDone\(\)/.test(g3)&&/questDone\(\)\{ this\.tone\(440,0\.12,'square',0\.05\)/.test(g3)&&!/UI\.refreshQuests\(\); Sfx\.level\(\)/.test(g3));
+  // sound pass 2026-09-29: the owner kept the fireworks but not their noise; the level-up is the picked recipe
+  ok('Sfx.level() plays the picked level-up recipe (SfxLib.LEVEL_PICK)',/level\(\)\{ this\.play\(\(typeof SfxLib!=='undefined'&&SfxLib\.LEVEL_PICK\)\|\|'level_up_a'\); \}/.test(g3));
+  ok('quest completion keeps its own cue (Sfx.questDone -> quest_done), never the level-up',/Sfx\.questDone\(\)/.test(g3)&&/questDone\(\)\{ this\.play\('quest_done'\); \}/.test(g3)&&!/UI\.refreshQuests\(\); Sfx\.level\(\)/.test(g3));
   ok('server level message: our own wording',!/Congratulations/.test(src('server/engine/Player.js')));
  }
 
@@ -122,25 +124,29 @@ try{
  const sp=png('assets/textures/fx/levelup_sparks_v1.png');
  ok('spark sheet: a 256 x 256 RGBA PNG (Blender render)',sp.sig==='PNG'&&sp.w===256&&sp.h===256&&sp.type===6,sp);
 
- /* ======== 3. the sound ======== */
+ /* ======== 3. the sound (sound pass 2026-09-29: the picked recipe, a lute arpeggio; three candidates on the sound board) ======== */
  {
+  vm.runInContext(src('src/sfx_lib.js')+'\n'+src('src/sfx_recipes.js')+'\n;this.SfxLib=SfxLib;',fxCtx);
+  const Lib=fxCtx.SfxLib;
   const nodes=[],conn=[];const dest={kind:'dest'};
   const param=()=>({value:0,ev:[],setValueAtTime(v,t){this.ev.push(['set',v,t])},linearRampToValueAtTime(v,t){this.ev.push(['lin',v,t])},exponentialRampToValueAtTime(v,t){this.ev.push(['exp',v,t])}});
   const node=kind=>{const n={kind,connect(o){conn.push([n,o]);return o},start(t){n.t0=t},stop(t){n.t1=t}};nodes.push(n);return n};
-  const ctx={currentTime:5,sampleRate:8000,destination:dest,createBuffer(c,l){return {getChannelData:()=>new Float32Array(l)}},
-   createBufferSource(){const n=node('noise');return n},createBiquadFilter(){const n=node('filter');n.frequency=param();n.Q=param();return n},
+  const ctx={currentTime:5,sampleRate:8000,destination:dest,createBuffer(c,l,sr){return {length:l,sampleRate:sr,duration:l/sr,getChannelData:()=>new Float32Array(l)}},
+   createBufferSource(){const n=node('source');n.playbackRate=param();return n},createBiquadFilter(){const n=node('filter');n.frequency=param();n.Q=param();return n},
    createGain(){const n=node('gain');n.gain=param();return n},createOscillator(){const n=node('osc');n.frequency=param();return n}};
   const out=FX.sound(ctx,dest);
-  const osc=nodes.filter(n=>n.kind==='osc'),noise=nodes.filter(n=>n.kind==='noise'),gains=nodes.filter(n=>n.kind==='gain');
-  ok('sound: noise (whoosh, pops, crackle) and oscillators (thump, chime)',noise.length>=13&&osc.length>=8,{noise:noise.length,osc:osc.length});
-  ok('sound: sine only (not the old square-wave triad)',osc.every(o=>o.type==='sine'),osc.map(o=>o.type));
-  const peak=Math.max(...gains.map(g=>Math.max(...g.gain.ev.map(e=>e[1]))));
-  ok('sound: quiet (every voice peaks at or under 0.08)',peak<=.08,{peak});
-  const ends=Math.max(...nodes.filter(n=>n.t1).map(n=>n.t1))-5;
-  ok('sound: scheduled on the audio clock, over within 2.1 s',nodes.every(n=>!('t0' in n)||n.t0>=5)&&ends<2.1,{ends});
-  ok('sound: every voice reaches the given output',gains.every(g=>conn.some(([a,b])=>a===g&&b===dest)),gains.length);
-  ok('sound: whoosh first, pops ~0.45-0.65 s, chime after the first pop',(()=>{const ts=osc.map(o=>o.t0-5).sort((a,b)=>a-b);return ts[0]>.4&&ts[0]<.5&&ts[ts.length-1]<.7})(),osc.map(o=>+(o.t0-5).toFixed(2)));
-  ok('sound: reports itself in stats (for the in-browser audio check)',!!FX.stats().lastSound&&FX.stats().lastSound.nodes===out.nodes);
+  const osc=nodes.filter(n=>n.kind==='osc'),src0=nodes.filter(n=>n.kind==='source'),gains=nodes.filter(n=>n.kind==='gain');
+  ok('sound: the picked recipe (level_up_a, the lute arpeggio), not the firework noise',!!out&&out.id==='level_up_a'&&Lib.LEVEL_PICK==='level_up_a'&&/lute arpeggio/.test(Lib.DEFS.level_up_a.made),out);
+  ok('sound: one buffer source and one gain on the given output (no oscillators, no square waves)',src0.length===1&&gains.length===1&&osc.length===0&&conn.some(([a,b])=>a===gains[0]&&b===dest),{src:src0.length,gains:gains.length,osc:osc.length});
+  ok('sound: scheduled on the audio clock',src0[0].t0>=5,src0[0].t0);
+  const b=Lib.render('level_up_a',22050,0),m=Lib.measure(b,22050),loud=Lib.loudness(b,22050);
+  ok('sound: quiet beside the music (its loudest 50 ms at or under the music level, peak under 0.3)',loud<=Lib.REF&&m.peak<=.3,{loud,peak:m.peak});
+  ok('sound: short (heard for under 1.5 s)',m.audible<1.5,m);
+  // the arpeggio rises with the rockets (0 .. 0.2 s) and blooms as they burst (~0.46 s), after a lull
+  const w=Math.round(.04*22050),rms=[];for(let i=0;i+w<=b.length;i+=w){let s=0;for(let j=i;j<i+w;j++)s+=b[j]*b[j];rms.push(Math.sqrt(s/w))}
+  ok('sound: notes at the rockets, a lull, then the bloom on the burst',rms[0]>.01&&rms[9]<rms[0]*.35&&rms[11]>rms[9]*3,rms.slice(0,14).map(x=>+x.toFixed(4)));
+  ok('sound: reports itself in stats (for the in-browser audio check)',!!FX.stats().lastSound&&FX.stats().lastSound.nodes===2&&FX.stats().lastSound.id==='level_up_a');
+  ok('sound: three candidates exist for the owner (A picked, B music box, C horn call)',['level_up_a','level_up_b','level_up_c'].every(id=>!!Lib.DEFS[id]));
  }
 
  /* ======== 4. the falling oak leaves ======== */

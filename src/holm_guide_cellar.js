@@ -77,8 +77,8 @@ var HolmGuideCellar=(function(){
  function take(){if(!st.cabbage||st.cabbageTaken)return false;
   if(typeof Player==='undefined'||!Player.hasSpace()){if(typeof UI!=='undefined')UI.chat('You don\'t have enough inventory space.','plain');return false}
   Player.addItem('cabbage',1);st.cabbageTaken=true;st.cabbageBack=Date.now()+spec.cabbage.regrowMs;st.cabbage.visible=false;
-  if(typeof UI!=='undefined'){UI.chat('You pick a cabbage.','plain');if(UI.refreshInv)UI.refreshInv()}if(typeof Sfx!=='undefined'&&Sfx.click)Sfx.click();return true}
- function climb(c,placeAt){if(c.take){take();return}if(c.down){st.lidWant=1;st.closeAt=0}placeAt(c.to);
+  if(typeof UI!=='undefined'){UI.chat('You pick a cabbage.','plain');if(UI.refreshInv)UI.refreshInv()}if(typeof Sfx!=='undefined'&&Sfx.pickup)Sfx.pickup();return true}
+ function climb(c,placeAt){if(c.take){take();return}if(c.down){st.lidWant=1;st.closeAt=0}if(typeof Sfx!=='undefined'&&Sfx.ladder)Sfx.ladder(c.down?'down':'up');placeAt(c.to);
   if(!c.down)st.closeAt=Date.now()+1200;   // the lid drops shut behind you once you are up
  }
  // below: draw only the cellar (the house above and its ceiling cut away); above: only the hatch of it shows

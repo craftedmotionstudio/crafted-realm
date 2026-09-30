@@ -105,7 +105,7 @@ var CombatFX=(function(){
   // melee sounds land here; projectiles already sounded their impact on arrival
   // (a 'generic' hit - a sparring bot, a boss script - is only voiced near the adventurer)
   var near=ev.kind!=='generic'||isPlayer(o)||(typeof player!=='undefined'&&player&&o.position&&o.position.distanceTo(player.position)<14);
-  if(near&&(ev.kind==='melee'||ev.kind==='npcMelee'||ev.kind==='generic')){if(ev.dmg>0){if(isPlayer(o))snd.hurt(big);else snd.hit(big,ev.atype)}else snd.block()}
+  if(near&&(ev.kind==='melee'||ev.kind==='npcMelee'||ev.kind==='generic')){if(ev.dmg>0){if(isPlayer(o))snd.hurt(big);else snd.hit(big,ev.atype,o)}else snd.block(o)}
   else if(isPlayer(o)&&ev.dmg>0)snd.hurt(big);
   if(ev.dmg>0&&(ev.kind==='melee'||ev.kind==='npcMelee'))sparks(o,big);
   if(big&&(isPlayer(o)||ev.kind!=='generic'))shake(ev.dmg>=10?2.5:2,80);
@@ -292,9 +292,9 @@ var CombatFX=(function(){
   f.landed=true;f.state=2;f.on=false;f.landT=T;ql({k:'land',t:+T.toFixed(4),kind:f.kind,to:isPlayer(f.dst)?'player':(f.dst&&f.dst.name||''),splash:f.splash===true});var at=V3.copy(f.pos),i,p;
   if(f.arrow){f.arrow.m.visible=false;f.arrow.busy=false;f.arrow=null}
   kill(f.core);kill(f.halo);kill(f.glowL);kill(f.glowR);f.core=f.halo=f.glowL=f.glowR=null;for(i=0;i<f.wisps.length;i++)kill(f.wisps[i]);f.wisps.length=0;
-  if(f.kind==='arrow'){snd.arrowHit(f.dmg>0);dust(at,f.dmg>0?4:3,f.dmg>0?0xc9b48a:0x9a9080,.16);
+  if(f.kind==='arrow'){snd.arrowHit(f.dmg>0,f.dst);dust(at,f.dmg>0?4:3,f.dmg>0?0xc9b48a:0x9a9080,.16);
    if(f.dmg>0)for(i=0;i<4;i++){p=spawn(at,0xfff0c0,.1,.02,.16,1,true);if(p){burstDir(p.v).multiplyScalar(2);p.grav=5}}}
-  else if(f.splash===false||(f.splash==null&&f.dmg>0)){snd.magicHit(f.max);var c=tinted(f.tint,.4);
+  else if(f.splash===false||(f.splash==null&&f.dmg>0)){snd.magicHit(f.max,f.dst);var c=tinted(f.tint,.4);
    spawn(at,c,.2,f.max?1.9:1.4,.3,.9,true,'ring');spawn(at,0xffffff,.7,.1,.18,.9,true);
    for(i=0;i<(f.wind?8:6);i++){p=spawn(at,c,.24,.04,.3+rnd()*.12,1,true,f.wind?'wisp':'dot');if(p){burstDir(p.v).multiplyScalar(2.6*(0.6+rnd()*.6));p.drag=3;p.spin=6;p.spr.material.rotation=rnd()*3}}}
   else{snd.splash();for(i=0;i<7;i++){var a=i/7*Math.PI*2,r=.7+rnd()*.5;p=spawn(at,i%2?0x9fb4d8:0xc9d6ee,.22,.78,.5+rnd()*.2,.7,false);if(p){p.v.set(Math.cos(a)*r,.5+rnd()*.6,Math.sin(a)*r);p.drag=3}}}
@@ -310,7 +310,7 @@ var CombatFX=(function(){
  function melee(att,npc,atype,dmg,maxHit){if(!init()||!npc||!npc.mesh)return;snd.swing(atype);
   setExpect(npc.mesh,impactTime(att,atype),'melee',null,dmg>0&&maxHit>=3&&dmg>=maxHit,atype)}
  function npcMelee(npc,dmg){if(!init()||!npc||!npc.mesh||typeof player==='undefined')return;var t=npc.t||{},ud=npc.mesh.userData||{},p=ud.parts;
-  if((p&&!p.armR)||(ud.gmix&&t.bite))snd.snap();else snd.swing(t.atype||'slash',.7);
+  if((p&&!p.armR)||(ud.gmix&&t.bite))snd.snap(npc);else snd.npcSwing(npc,t.atype||'slash');
   setExpect(player,impactTime(npc.mesh,t.atype||'slash'),'npcMelee',null,false,t.atype||'')}
 
  /* ---------------- death: topple when the killing splat shows, lie a moment, sink away, then show the drop ---------------- */
@@ -331,7 +331,7 @@ var CombatFX=(function(){
   for(var i=0;i<dying.length;i++){var e=dying[i];if(e.on&&e.npc===npc&&!e.started){e.started=true;e.t0=T;if(!e.silent)snd.death(npc)}}}
  function tickDying(){for(var i=0;i<dying.length;i++){var e=dying[i];if(!e.on)continue;var n=e.npc,d=n.mesh.userData.death;
    if(!e.started&&T-e.t0>2.5)releaseDeath(n);                       // safety: a hit that never arrives must not freeze the corpse
-   if(e.started&&!e.thud&&d&&!d.wait&&d.t>=d.dur*.8){e.thud=true;V3.setFromMatrixPosition(n.mesh.matrixWorld);dust(V3,6,0x8f7d5c,.26);snd.thud()}
+   if(e.started&&!e.thud&&d&&!d.wait&&d.t>=d.dur*.8){e.thud=true;V3.setFromMatrixPosition(n.mesh.matrixWorld);dust(V3,6,0x8f7d5c,.26);snd.thud(V3)}
    if(!n.dying||!d||!n.dead||(e.started&&T-e.t0>5)){e.on=false;var s=n.mesh.userData._cfx;if(s)s.lastHit=-99;
     for(var j=0;j<e.drops.length;j++){var m=e.drops[j];if(m.userData){m.userData._cfxHide=false;m.userData._cfxPop=T;m.visible=true}}e.drops.length=0}}}
  function tickDrops(){if(typeof WORLD==='undefined'||!WORLD.drops)return;for(var i=0;i<WORLD.drops.length;i++){var m=WORLD.drops[i],u=m.userData;if(!u)continue;
@@ -351,40 +351,34 @@ var CombatFX=(function(){
    s.recoil+=dt;var c=o.children[0],k=s.recoil/0.26;if(!c){s.recoil=-1;continue}
    if(k>=1||o.userData.death){c.rotation.x=0;s.recoil=-1;continue}c.rotation.x=-0.32*Math.sin(Math.PI*k)*(1-k*.3)}}
 
- /* ---------------- sounds: short synthesized WebAudio voices through the game's SFX master (obeys the SFX volume) ---------------- */
+ /* ---------------- sounds: the game's recipes (src/sfx_recipes.js) through Sfx (the SFX volume, mute and the first-gesture rule) ----------------
+  * sound pass 2026-09-29: the blows, guards, bows and spells are the new recipes; the rat, goblin, chicken and cow have their
+  * own voices (a bite, a squeal, a squawk, a moo) and the other fighters groan; no square or saw waves remain here. */
  var snd=(function(){
-  function ac(){if(typeof Sfx==='undefined'||!Sfx.ensure||!(Sfx.vol>0))return null;try{return Sfx.ensure()}catch(e){return null}}
-  function out(c){return Sfx._master||c.destination}
-  function tone(c,type,f0,f1,t,dur,peak,att){try{var o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(f0,t);if(f1&&f1!==f0)o.frequency.exponentialRampToValueAtTime(f1,t+dur);
-   g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(peak,t+(att||.004));g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g);g.connect(out(c));o.start(t);o.stop(t+dur+.02)}catch(e){}}
-  function nz(c,ft,f0,f1,q,t,dur,peak,att){if(!Sfx._noiseBuf)return;try{var s=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();s.buffer=Sfx._noiseBuf;s.loop=true;
-   f.type=ft;f.frequency.setValueAtTime(f0,t);if(f1&&f1!==f0)f.frequency.exponentialRampToValueAtTime(f1,t+dur);f.Q.value=q||1;
-   g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(peak,t+(att||.004));g.gain.exponentialRampToValueAtTime(.0001,t+dur);
-   s.connect(f);f.connect(g);g.connect(out(c));s.start(t,rnd()*0.8);s.stop(t+dur+.02)}catch(e){}}
+  function S(){return typeof Sfx!=='undefined'&&Sfx.play?Sfx:null}
+  function npcOf(o){return o&&o.userData&&o.userData.npc||null}
+  function at(o){if(!o)return null;var p=o.position||o;return {x:p.x,z:p.z}}
   var last={};function gate(k,ms){var n=T*1000;if(last[k]!=null&&n-last[k]<ms&&n>=last[k])return false;last[k]=n;return true}
+  // a creature's own voice (Sfx.creature); a fighter without one groans (the goblin's voice, lower) when it falls
+  function voice(npc,kind){var s=S();if(!s||!npc)return false;return !!(s.creature&&s.creature(npc,kind))}
   return {
-   swing:function(type,vol){var c=ac();if(!c||!gate('sw',40))return;var t=c.currentTime,v=vol||1;
-    if(type==='stab'){nz(c,'bandpass',3200,1300,2.2,t,.11,.10*v,.02);tone(c,'triangle',900,500,t,.05,.015*v)}
-    else if(type==='crush'){nz(c,'lowpass',1100,240,.9,t,.24,.15*v,.06);nz(c,'bandpass',600,220,1.4,t+.03,.18,.06*v,.04)}
-    else nz(c,'bandpass',2400,480,1.3,t,.18,.12*v,.035)},
-   snap:function(){var c=ac();if(!c||!gate('sn',60))return;var t=c.currentTime;nz(c,'highpass',3400,3400,1,t,.03,.07);nz(c,'highpass',2600,2600,1,t+.05,.03,.06);tone(c,'square',1100,480,t+.02,.05,.012)},
-   hit:function(big,atype){var c=ac();if(!c||!gate('hit',30))return;var t=c.currentTime;
-    tone(c,'sine',atype==='crush'?140:175,48,t,.15,.24);nz(c,'lowpass',1400,280,1,t,.09,.16);tone(c,'square',1500,520,t,.018,.035);
-    if(atype==='slash')nz(c,'bandpass',3600,1800,3,t,.06,.05);
-    if(big){tone(c,'sine',95,38,t+.01,.3,.22);nz(c,'lowpass',700,120,.8,t+.01,.22,.12,.01)}},
-   hurt:function(big){var c=ac();if(!c||!gate('hurt',30))return;var t=c.currentTime;tone(c,'sine',120,46,t,.17,.22);nz(c,'lowpass',900,220,1,t,.1,.14);tone(c,'triangle',320,180,t+.01,.08,.03);if(big)tone(c,'sine',80,34,t,.32,.2)},
-   block:function(){var c=ac();if(!c||!gate('blk',40))return;var t=c.currentTime;tone(c,'triangle',860,520,t,.05,.09);nz(c,'bandpass',2600,2000,4,t,.04,.07);tone(c,'triangle',640,420,t+.028,.04,.05)},
-   bow:function(){var c=ac();if(!c||!gate('bow',40))return;var t=c.currentTime;tone(c,'triangle',250,142,t,.2,.11);tone(c,'sine',500,300,t,.12,.04);nz(c,'highpass',4200,2400,1,t,.06,.06);nz(c,'bandpass',1800,700,1.5,t+.02,.16,.05,.02)},
-   arrowHit:function(ok){var c=ac();if(!c)return;var t=c.currentTime;if(ok){nz(c,'bandpass',1150,340,2,t,.08,.17);tone(c,'sine',240,88,t,.1,.14);tone(c,'square',900,300,t,.02,.02)}else{nz(c,'highpass',2600,1500,1,t,.035,.07);tone(c,'sine',180,90,t,.06,.05)}},
-   charge:function(){var c=ac();if(!c||!gate('chg',60))return;var t=c.currentTime;nz(c,'bandpass',480,2600,3,t,.46,.075,.22);tone(c,'sine',330,700,t,.45,.03,.2);tone(c,'sine',495,1050,t+.05,.4,.018,.18)},
-   release:function(wind){var c=ac();if(!c)return;var t=c.currentTime;if(wind){nz(c,'bandpass',2000,650,1.2,t,.28,.11,.02);nz(c,'highpass',5200,3000,1,t,.12,.03)}else{nz(c,'bandpass',1400,500,1.2,t,.24,.09,.02);tone(c,'sine',600,260,t,.18,.04)}},
-   magicHit:function(big){var c=ac();if(!c)return;var t=c.currentTime;nz(c,'highpass',3200,900,1,t,.22,.11);tone(c,'sine',760,210,t,.2,.08);tone(c,'sine',130,58,t,.14,.12);if(big)nz(c,'lowpass',900,150,.8,t,.3,.1)},
-   splash:function(){var c=ac();if(!c)return;var t=c.currentTime;nz(c,'bandpass',2600,650,.9,t,.36,.08,.02);tone(c,'sine',320,170,t,.22,.03);nz(c,'highpass',6000,4000,1,t,.1,.02)},
-   death:function(npc){var c=ac();if(!c)return;var t=c.currentTime,small=npc&&npc.t&&(npc.t.size||1)<1;
-    try{var o=c.createOscillator(),f=c.createBiquadFilter(),g=c.createGain();o.type='sawtooth';o.frequency.setValueAtTime(small?420:230,t);o.frequency.exponentialRampToValueAtTime(small?110:62,t+.45);
-     f.type='lowpass';f.frequency.value=small?1500:850;g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(.07,t+.03);g.gain.exponentialRampToValueAtTime(.0001,t+.5);o.connect(f);f.connect(g);g.connect(out(c));o.start(t);o.stop(t+.55)}catch(e){}
-    if(small)nz(c,'highpass',3000,1800,1,t,.08,.04)},
-   thud:function(){var c=ac();if(!c||!gate('thd',80))return;var t=c.currentTime;tone(c,'sine',120,44,t,.2,.18);nz(c,'lowpass',520,140,.8,t,.14,.1)}
+   swing:function(type){var s=S();if(s&&gate('sw',40))s.swing(type)},
+   // a beast's attack: its own voice (a rat's hiss and bite, a hen's peck, a cow's snort) or the old snap for the rest
+   snap:function(npc){var s=S();if(!s||!gate('sn',60))return;if(!voice(npc,'attack'))s.play('rat_attack',{rate:.8,gain:.8})},
+   npcSwing:function(npc,type){var s=S();if(!s||!gate('sw',40))return;var sp=s.species&&s.species(npc);
+    if(sp==='cow'){voice(npc,'attack');return}s.swing(type);if(sp==='goblin')voice(npc,'attack')},
+   hit:function(big,atype,o){var s=S();if(!s||!gate('hit',30))return;s.hitFlesh(atype,big);var n=npcOf(o);if(n&&gate('vh',180))voice(n,'hurt')},
+   hurt:function(big){var s=S();if(s&&gate('hurt',30))s.takeHit(big)},
+   // 0 on a guard: a humanoid (or the adventurer) parries; a beast simply was not there
+   block:function(o){var s=S();if(!s||!gate('blk',40))return;var n=npcOf(o),sp=n&&s.species?s.species(n):null;if(sp&&sp!=='goblin')s.miss();else s.block()},
+   bow:function(){var s=S();if(s&&gate('bow',40))s.bowShoot()},
+   arrowHit:function(ok,o){var s=S();if(!s)return;s.arrowHit(ok);var n=npcOf(o);if(ok&&n&&gate('vh',180))voice(n,'hurt')},
+   charge:function(){var s=S();if(s&&gate('chg',60))s.spellCharge()},
+   release:function(){var s=S();if(s)s.magicCast()},
+   magicHit:function(big,o){var s=S();if(!s)return;s.magicHit();var n=npcOf(o);if(n&&gate('vh',180))voice(n,'hurt')},
+   splash:function(){var s=S();if(s)s.spellSplash()},
+   death:function(npc){var s=S();if(!s)return;if(!voice(npc,'death')){var m=npc&&npc.mesh;s.play('goblin_death',{rate:.74,at:m?at(m):null,range:18})}},
+   thud:function(o){var s=S();if(s&&gate('thd',80))s.bodyFall(at(o))}
   }})();
 
  /* ---------------- XP drops by the minimap (pooled rows; UI.xpDrop stays the single funnel the XP tracker hooks) ---------------- */
@@ -452,7 +446,7 @@ var CombatFX=(function(){
  function sound(name,arg,delay){if(!init())return;if(delay>0){sndQ.push({at:T+delay,name:name,arg:arg});return}if(snd[name])snd[name](arg)}
  // the whoosh of a melee swing (a player's blade, a monster's arm) or the snap of an armless beast (a rat's bite, a hen's peck: t.bite)
  function swingSound(att,type,delay){if(!init()||!att)return;var ud=att.userData||{},n=ud.npc,t=n&&n.t||{},p=ud.parts;
-  if(!isPlayer(att)&&((p&&!p.armR)||(ud.gmix&&t.bite)))sound('snap',null,delay);else sound('swing',type||'slash',delay)}
+  if(!isPlayer(att)&&((p&&!p.armR)||(ud.gmix&&t.bite)))sound('snap',n,delay);else if(!isPlayer(att)&&n)sound('npcSwing',{npc:n,type:type||'slash'},delay);else sound('swing',type||'slash',delay)}
  function tickSounds(){for(var i=sndQ.length-1;i>=0;i--)if(sndQ[i].at<=T){var q=sndQ[i];sndQ.splice(i,1);if(snd[q.name])snd[q.name](q.arg)}}
  function track(obj,frac){if(!obj)return;untrack(obj);tracked.push({obj:obj,frac:typeof frac==='function'?frac:function(){return -1}})}
  function untrack(obj){for(var i=tracked.length-1;i>=0;i--)if(tracked[i].obj===obj)tracked.splice(i,1)}

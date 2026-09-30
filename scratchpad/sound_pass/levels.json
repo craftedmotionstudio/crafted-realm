@@ -1,0 +1,1720 @@
+{
+ "ui_click": {
+  "cat": "UI",
+  "label": "Button click",
+  "old": "Sfx.click",
+  "loop": false,
+  "peak": 0.0574,
+  "rms": 0.0046,
+  "seconds": 0.06,
+  "audible": 0.011,
+  "oldMeasure": {
+   "peak": 0.0142,
+   "rms": 0.0007,
+   "seconds": 1.2,
+   "audible": 0.026
+  }
+ },
+ "ui_tab": {
+  "cat": "UI",
+  "label": "Side-panel tab",
+  "old": "Sfx.click",
+  "loop": false,
+  "peak": 0.0367,
+  "rms": 0.0042,
+  "seconds": 0.07,
+  "audible": 0.017,
+  "oldMeasure": {
+   "peak": 0.0142,
+   "rms": 0.0007,
+   "seconds": 1.2,
+   "audible": 0.026
+  }
+ },
+ "ui_window_open": {
+  "cat": "UI",
+  "label": "Window opens",
+  "old": null,
+  "loop": false,
+  "peak": 0.0402,
+  "rms": 0.0043,
+  "seconds": 0.14,
+  "audible": 0.062
+ },
+ "ui_window_close": {
+  "cat": "UI",
+  "label": "Window closes",
+  "old": null,
+  "loop": false,
+  "peak": 0.0327,
+  "rms": 0.0041,
+  "seconds": 0.12,
+  "audible": 0.053
+ },
+ "ui_map_open": {
+  "cat": "UI",
+  "label": "Relief chart / map opens",
+  "old": "Sfx.click",
+  "loop": false,
+  "peak": 0.049,
+  "rms": 0.0061,
+  "seconds": 1.6,
+  "audible": 1.02,
+  "oldMeasure": {
+   "peak": 0.0142,
+   "rms": 0.0006,
+   "seconds": 1.6,
+   "audible": 0.026
+  }
+ },
+ "ui_map_close": {
+  "cat": "UI",
+  "label": "Relief chart / map closes",
+  "old": null,
+  "loop": false,
+  "peak": 0.0368,
+  "rms": 0.0046,
+  "seconds": 0.32,
+  "audible": 0.228
+ },
+ "ui_dialogue": {
+  "cat": "UI",
+  "label": "Dialogue: continue",
+  "old": "Sfx.click",
+  "loop": false,
+  "peak": 0.0315,
+  "rms": 0.0041,
+  "seconds": 0.06,
+  "audible": 0.021,
+  "oldMeasure": {
+   "peak": 0.0142,
+   "rms": 0.0007,
+   "seconds": 1.2,
+   "audible": 0.026
+  }
+ },
+ "quest_step": {
+  "cat": "UI",
+  "label": "Lesson / quest step",
+  "old": "Sfx.quest",
+  "loop": false,
+  "peak": 0.0737,
+  "rms": 0.0065,
+  "seconds": 1.1,
+  "audible": 0.419,
+  "oldMeasure": {
+   "peak": 0.0478,
+   "rms": 0.0063,
+   "seconds": 1.2,
+   "audible": 0.27
+  }
+ },
+ "quest_done": {
+  "cat": "UI",
+  "label": "Quest complete",
+  "old": "Sfx.questDone",
+  "loop": false,
+  "peak": 0.0802,
+  "rms": 0.0085,
+  "seconds": 2.3,
+  "audible": 1.3,
+  "oldMeasure": {
+   "peak": 0.0478,
+   "rms": 0.0053,
+   "seconds": 2.3,
+   "audible": 0.382
+  }
+ },
+ "level_up_a": {
+  "cat": "Level-up",
+  "label": "Level-up A: lute arpeggio (PICKED)",
+  "old": "Sfx.level",
+  "loop": false,
+  "peak": 0.0866,
+  "rms": 0.0086,
+  "seconds": 1.75,
+  "audible": 1.052,
+  "oldMeasure": {
+   "peak": 0.0791,
+   "rms": 0.0084,
+   "seconds": 1.75,
+   "audible": 1.484
+  }
+ },
+ "level_up_b": {
+  "cat": "Level-up",
+  "label": "Level-up B: music box",
+  "old": null,
+  "loop": false,
+  "peak": 0.0576,
+  "rms": 0.0112,
+  "seconds": 1.6,
+  "audible": 1.056
+ },
+ "level_up_c": {
+  "cat": "Level-up",
+  "label": "Level-up C: soft horn call",
+  "old": null,
+  "loop": false,
+  "peak": 0.0608,
+  "rms": 0.0127,
+  "seconds": 1.5,
+  "audible": 0.948
+ },
+ "coins": {
+  "cat": "UI",
+  "label": "Coins",
+  "old": "Sfx.coin",
+  "loop": false,
+  "peak": 0.0609,
+  "rms": 0.0072,
+  "seconds": 0.22,
+  "audible": 0.095,
+  "oldMeasure": {
+   "peak": 0.104,
+   "rms": 0.004,
+   "seconds": 1.2,
+   "audible": 0.056
+  }
+ },
+ "equip_metal": {
+  "cat": "Items",
+  "label": "Equip: metal (blade, armour)",
+  "old": "Sfx.click",
+  "loop": false,
+  "peak": 0.0475,
+  "rms": 0.0057,
+  "seconds": 0.3,
+  "audible": 0.13,
+  "oldMeasure": {
+   "peak": 0.0142,
+   "rms": 0.0007,
+   "seconds": 1.2,
+   "audible": 0.026
+  }
+ },
+ "unequip_metal": {
+  "cat": "Items",
+  "label": "Unequip: metal",
+  "old": "Sfx.click",
+  "loop": false,
+  "peak": 0.0399,
+  "rms": 0.0056,
+  "seconds": 0.28,
+  "audible": 0.12,
+  "oldMeasure": {
+   "peak": 0.0142,
+   "rms": 0.0007,
+   "seconds": 1.2,
+   "audible": 0.026
+  }
+ },
+ "equip_tool": {
+  "cat": "Items",
+  "label": "Equip: tool (hatchet, pickaxe, hammer)",
+  "old": "Sfx.click",
+  "loop": false,
+  "peak": 0.0525,
+  "rms": 0.006,
+  "seconds": 0.22,
+  "audible": 0.091,
+  "oldMeasure": {
+   "peak": 0.0142,
+   "rms": 0.0007,
+   "seconds": 1.2,
+   "audible": 0.026
+  }
+ },
+ "unequip_tool": {
+  "cat": "Items",
+  "label": "Unequip: tool",
+  "old": "Sfx.click",
+  "loop": false,
+  "peak": 0.051,
+  "rms": 0.0056,
+  "seconds": 0.2,
+  "audible": 0.068,
+  "oldMeasure": {
+   "peak": 0.0142,
+   "rms": 0.0007,
+   "seconds": 1.2,
+   "audible": 0.026
+  }
+ },
+ "equip_wood": {
+  "cat": "Items",
+  "label": "Equip: wood (bow, staff)",
+  "old": "Sfx.click",
+  "loop": false,
+  "peak": 0.0653,
+  "rms": 0.0046,
+  "seconds": 0.3,
+  "audible": 0.105,
+  "oldMeasure": {
+   "peak": 0.0142,
+   "rms": 0.0007,
+   "seconds": 1.2,
+   "audible": 0.026
+  }
+ },
+ "unequip_wood": {
+  "cat": "Items",
+  "label": "Unequip: wood",
+  "old": "Sfx.click",
+  "loop": false,
+  "peak": 0.0502,
+  "rms": 0.005,
+  "seconds": 0.2,
+  "audible": 0.058,
+  "oldMeasure": {
+   "peak": 0.0142,
+   "rms": 0.0007,
+   "seconds": 1.2,
+   "audible": 0.026
+  }
+ },
+ "equip_cloth": {
+  "cat": "Items",
+  "label": "Equip: cloth",
+  "old": "Sfx.click",
+  "loop": false,
+  "peak": 0.0465,
+  "rms": 0.0051,
+  "seconds": 0.24,
+  "audible": 0.164,
+  "oldMeasure": {
+   "peak": 0.0142,
+   "rms": 0.0007,
+   "seconds": 1.2,
+   "audible": 0.026
+  }
+ },
+ "unequip_cloth": {
+  "cat": "Items",
+  "label": "Unequip: cloth",
+  "old": "Sfx.click",
+  "loop": false,
+  "peak": 0.0457,
+  "rms": 0.004,
+  "seconds": 0.2,
+  "audible": 0.081,
+  "oldMeasure": {
+   "peak": 0.0142,
+   "rms": 0.0007,
+   "seconds": 1.2,
+   "audible": 0.026
+  }
+ },
+ "equip_leather": {
+  "cat": "Items",
+  "label": "Equip: leather",
+  "old": "Sfx.click",
+  "loop": false,
+  "peak": 0.0613,
+  "rms": 0.0045,
+  "seconds": 0.2,
+  "audible": 0.085,
+  "oldMeasure": {
+   "peak": 0.0142,
+   "rms": 0.0007,
+   "seconds": 1.2,
+   "audible": 0.026
+  }
+ },
+ "unequip_leather": {
+  "cat": "Items",
+  "label": "Unequip: leather",
+  "old": "Sfx.click",
+  "loop": false,
+  "peak": 0.0469,
+  "rms": 0.0043,
+  "seconds": 0.18,
+  "audible": 0.07,
+  "oldMeasure": {
+   "peak": 0.0142,
+   "rms": 0.0007,
+   "seconds": 1.2,
+   "audible": 0.026
+  }
+ },
+ "equip_ammo": {
+  "cat": "Items",
+  "label": "Equip: arrows",
+  "old": "Sfx.click",
+  "loop": false,
+  "peak": 0.0547,
+  "rms": 0.0052,
+  "seconds": 0.2,
+  "audible": 0.117,
+  "oldMeasure": {
+   "peak": 0.0142,
+   "rms": 0.0007,
+   "seconds": 1.2,
+   "audible": 0.026
+  }
+ },
+ "pickup": {
+  "cat": "Items",
+  "label": "Pick up",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0436,
+  "rms": 0.0063,
+  "seconds": 0.1,
+  "audible": 0.034
+ },
+ "drop": {
+  "cat": "Items",
+  "label": "Drop",
+  "old": "Sfx.click",
+  "loop": false,
+  "peak": 0.0429,
+  "rms": 0.0073,
+  "seconds": 0.15,
+  "audible": 0.054,
+  "oldMeasure": {
+   "peak": 0.0142,
+   "rms": 0.0007,
+   "seconds": 1.2,
+   "audible": 0.026
+  }
+ },
+ "bank_open": {
+  "cat": "Items",
+  "label": "Bank opens",
+  "old": "Sfx.coin",
+  "loop": false,
+  "peak": 0.0545,
+  "rms": 0.0047,
+  "seconds": 0.5,
+  "audible": 0.362,
+  "oldMeasure": {
+   "peak": 0.104,
+   "rms": 0.004,
+   "seconds": 1.2,
+   "audible": 0.056
+  }
+ },
+ "bank_deposit": {
+  "cat": "Items",
+  "label": "Bank: deposit",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.047,
+  "rms": 0.0053,
+  "seconds": 0.14,
+  "audible": 0.04
+ },
+ "bank_withdraw": {
+  "cat": "Items",
+  "label": "Bank: withdraw",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0386,
+  "rms": 0.0058,
+  "seconds": 0.12,
+  "audible": 0.062
+ },
+ "eat": {
+  "cat": "Items",
+  "label": "Eat",
+  "old": "Sfx.eat",
+  "loop": false,
+  "peak": 0.0701,
+  "rms": 0.006,
+  "seconds": 0.45,
+  "audible": 0.353,
+  "oldMeasure": {
+   "peak": 0.0408,
+   "rms": 0.0016,
+   "seconds": 1.2,
+   "audible": 0.049
+  }
+ },
+ "drink": {
+  "cat": "Items",
+  "label": "Drink",
+  "old": "Sfx.eat",
+  "loop": false,
+  "peak": 0.0521,
+  "rms": 0.0046,
+  "seconds": 0.66,
+  "audible": 0.561,
+  "oldMeasure": {
+   "peak": 0.0423,
+   "rms": 0.0015,
+   "seconds": 1.2,
+   "audible": 0.048
+  }
+ },
+ "door_open": {
+  "cat": "Doors",
+  "label": "Door opens",
+  "old": "chestOpen",
+  "loop": false,
+  "peak": 0.1006,
+  "rms": 0.0057,
+  "seconds": 0.75,
+  "audible": 0.453,
+  "oldMeasure": {
+   "peak": 0.0552,
+   "rms": 0.0079,
+   "seconds": 1.2,
+   "audible": 0.556
+  }
+ },
+ "door_close": {
+  "cat": "Doors",
+  "label": "Door closes",
+  "old": "chestClose",
+  "loop": false,
+  "peak": 0.0597,
+  "rms": 0.0051,
+  "seconds": 0.62,
+  "audible": 0.346,
+  "oldMeasure": {
+   "peak": 0.105,
+   "rms": 0.0094,
+   "seconds": 1.2,
+   "audible": 0.582
+  }
+ },
+ "door_locked": {
+  "cat": "Doors",
+  "label": "Door locked",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0819,
+  "rms": 0.0063,
+  "seconds": 0.3,
+  "audible": 0.161
+ },
+ "gate_open": {
+  "cat": "Doors",
+  "label": "Iron gate opens (bank vault)",
+  "old": "chestOpen",
+  "loop": false,
+  "peak": 0.0778,
+  "rms": 0.0068,
+  "seconds": 0.8,
+  "audible": 0.576,
+  "oldMeasure": {
+   "peak": 0.0534,
+   "rms": 0.0079,
+   "seconds": 1.2,
+   "audible": 0.556
+  }
+ },
+ "gate_close": {
+  "cat": "Doors",
+  "label": "Iron gate closes",
+  "old": "chestClose",
+  "loop": false,
+  "peak": 0.0613,
+  "rms": 0.0052,
+  "seconds": 0.7,
+  "audible": 0.404,
+  "oldMeasure": {
+   "peak": 0.1012,
+   "rms": 0.0096,
+   "seconds": 1.2,
+   "audible": 0.589
+  }
+ },
+ "chest_open": {
+  "cat": "Doors",
+  "label": "Chest opens",
+  "old": "chestOpen",
+  "loop": false,
+  "peak": 0.0858,
+  "rms": 0.0049,
+  "seconds": 0.6,
+  "audible": 0.357,
+  "oldMeasure": {
+   "peak": 0.0508,
+   "rms": 0.0079,
+   "seconds": 1.2,
+   "audible": 0.556
+  }
+ },
+ "chest_close": {
+  "cat": "Doors",
+  "label": "Chest closes",
+  "old": "chestClose",
+  "loop": false,
+  "peak": 0.0587,
+  "rms": 0.0049,
+  "seconds": 0.55,
+  "audible": 0.327,
+  "oldMeasure": {
+   "peak": 0.1117,
+   "rms": 0.0097,
+   "seconds": 1.2,
+   "audible": 0.583
+  }
+ },
+ "chop": {
+  "cat": "Woodcutting",
+  "label": "Chop (each stroke)",
+  "old": "Sfx.chop",
+  "loop": false,
+  "peak": 0.0778,
+  "rms": 0.0089,
+  "seconds": 0.2,
+  "audible": 0.053,
+  "oldMeasure": {
+   "peak": 0.0775,
+   "rms": 0.0028,
+   "seconds": 1.2,
+   "audible": 0.042
+  }
+ },
+ "log_land": {
+  "cat": "Woodcutting",
+  "label": "Logs land",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0455,
+  "rms": 0.0056,
+  "seconds": 0.22,
+  "audible": 0.091
+ },
+ "tree_creak": {
+  "cat": "Woodcutting",
+  "label": "Tree tips (fall starts)",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0835,
+  "rms": 0.0062,
+  "seconds": 1,
+  "audible": 0.908
+ },
+ "tree_fall": {
+  "cat": "Woodcutting",
+  "label": "Tree lands",
+  "old": "tree landing",
+  "loop": false,
+  "peak": 0.0547,
+  "rms": 0.0061,
+  "seconds": 1,
+  "audible": 0.598,
+  "oldMeasure": {
+   "peak": 0.0567,
+   "rms": 0.0046,
+   "seconds": 1.2,
+   "audible": 0.154
+  }
+ },
+ "mine": {
+  "cat": "Mining",
+  "label": "Pickaxe strike",
+  "old": "Sfx.mine",
+  "loop": false,
+  "peak": 0.1059,
+  "rms": 0.0073,
+  "seconds": 0.3,
+  "audible": 0.184,
+  "oldMeasure": {
+   "peak": 0.0606,
+   "rms": 0.0021,
+   "seconds": 1.2,
+   "audible": 0.039
+  }
+ },
+ "ore_break": {
+  "cat": "Mining",
+  "label": "Ore chunk breaks off",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.1022,
+  "rms": 0.0064,
+  "seconds": 0.6,
+  "audible": 0.423
+ },
+ "rock_empty": {
+  "cat": "Mining",
+  "label": "Rock runs empty",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0451,
+  "rms": 0.0057,
+  "seconds": 0.7,
+  "audible": 0.51
+ },
+ "prospect": {
+  "cat": "Mining",
+  "label": "Prospect (two taps)",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0956,
+  "rms": 0.0036,
+  "seconds": 0.45,
+  "audible": 0.354
+ },
+ "fish_cast": {
+  "cat": "Fishing",
+  "label": "Net cast",
+  "old": "holm_fishing cast",
+  "loop": false,
+  "peak": 0.0515,
+  "rms": 0.0048,
+  "seconds": 0.6,
+  "audible": 0.434,
+  "oldMeasure": {
+   "peak": 0.0194,
+   "rms": 0.001,
+   "seconds": 1.2,
+   "audible": 0.106
+  }
+ },
+ "fish_splash": {
+  "cat": "Fishing",
+  "label": "Splash (each roll)",
+  "old": "holm_fishing plish",
+  "loop": false,
+  "peak": 0.0469,
+  "rms": 0.0045,
+  "seconds": 0.2,
+  "audible": 0.069,
+  "oldMeasure": {
+   "peak": 0.0341,
+   "rms": 0.0014,
+   "seconds": 1.2,
+   "audible": 0.077
+  }
+ },
+ "fish_catch": {
+  "cat": "Fishing",
+  "label": "Catch",
+  "old": "holm_fishing flop",
+  "loop": false,
+  "peak": 0.0651,
+  "rms": 0.0055,
+  "seconds": 0.6,
+  "audible": 0.477,
+  "oldMeasure": {
+   "peak": 0.056,
+   "rms": 0.0034,
+   "seconds": 1.2,
+   "audible": 0.192
+  }
+ },
+ "fish_leap": {
+  "cat": "Fishing",
+  "label": "A fish leaps",
+  "old": "holm_fishing leap",
+  "loop": false,
+  "peak": 0.0347,
+  "rms": 0.0034,
+  "seconds": 0.45,
+  "audible": 0.332,
+  "oldMeasure": {
+   "peak": 0.0443,
+   "rms": 0.0028,
+   "seconds": 1.2,
+   "audible": 0.192
+  }
+ },
+ "fire_strike": {
+  "cat": "Firemaking",
+  "label": "Tinderbox strike",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0905,
+  "rms": 0.0056,
+  "seconds": 0.16,
+  "audible": 0.086
+ },
+ "fire_catch": {
+  "cat": "Firemaking",
+  "label": "Fire catches",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.054,
+  "rms": 0.0057,
+  "seconds": 0.9,
+  "audible": 0.779
+ },
+ "fire_loop": {
+  "cat": "Firemaking",
+  "label": "Fire crackle loop (by any fire)",
+  "old": "(none)",
+  "loop": true,
+  "peak": 0.0614,
+  "rms": 0.0053,
+  "seconds": 7,
+  "audible": 7
+ },
+ "fire_crackle": {
+  "cat": "Firemaking",
+  "label": "Hearth crackle (warming at a hearth)",
+  "old": "hearthCrackle",
+  "loop": false,
+  "peak": 0.0652,
+  "rms": 0.0039,
+  "seconds": 0.5,
+  "audible": 0.311,
+  "oldMeasure": {
+   "peak": 0.0283,
+   "rms": 0.0019,
+   "seconds": 1.2,
+   "audible": 0.328
+  }
+ },
+ "cook_sizzle": {
+  "cat": "Cooking",
+  "label": "Sizzle (food on the fire)",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0332,
+  "rms": 0.005,
+  "seconds": 1,
+  "audible": 0.823
+ },
+ "cook_done": {
+  "cat": "Cooking",
+  "label": "Cooked",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0567,
+  "rms": 0.0055,
+  "seconds": 0.4,
+  "audible": 0.168
+ },
+ "cook_burn": {
+  "cat": "Cooking",
+  "label": "Burnt",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0467,
+  "rms": 0.0055,
+  "seconds": 0.5,
+  "audible": 0.372
+ },
+ "bake_in": {
+  "cat": "Cooking",
+  "label": "Bread into the oven",
+  "old": "Sfx.click",
+  "loop": false,
+  "peak": 0.0474,
+  "rms": 0.0053,
+  "seconds": 0.65,
+  "audible": 0.378,
+  "oldMeasure": {
+   "peak": 0.0142,
+   "rms": 0.0007,
+   "seconds": 1.2,
+   "audible": 0.026
+  }
+ },
+ "bake_done": {
+  "cat": "Cooking",
+  "label": "Bread baked",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0575,
+  "rms": 0.005,
+  "seconds": 0.45,
+  "audible": 0.264
+ },
+ "smelt_roar": {
+  "cat": "Smithing",
+  "label": "Furnace roar (smelting)",
+  "old": "Sfx.smelt",
+  "loop": false,
+  "peak": 0.044,
+  "rms": 0.0085,
+  "seconds": 1.2,
+  "audible": 0.998,
+  "oldMeasure": {
+   "peak": 0.0461,
+   "rms": 0.0031,
+   "seconds": 1.2,
+   "audible": 0.183
+  }
+ },
+ "smelt_bar": {
+  "cat": "Smithing",
+  "label": "Bar comes out",
+  "old": "Sfx.smelt",
+  "loop": false,
+  "peak": 0.0585,
+  "rms": 0.0043,
+  "seconds": 0.35,
+  "audible": 0.108,
+  "oldMeasure": {
+   "peak": 0.0393,
+   "rms": 0.003,
+   "seconds": 1.2,
+   "audible": 0.184
+  }
+ },
+ "anvil": {
+  "cat": "Smithing",
+  "label": "Hammer on anvil (each strike)",
+  "old": "anvil clink (square)",
+  "loop": false,
+  "peak": 0.0833,
+  "rms": 0.0057,
+  "seconds": 0.55,
+  "audible": 0.16,
+  "oldMeasure": {
+   "peak": 0.0312,
+   "rms": 0.0011,
+   "seconds": 1.2,
+   "audible": 0.038
+  }
+ },
+ "smith_done": {
+  "cat": "Smithing",
+  "label": "Item finished",
+  "old": "Sfx.smith",
+  "loop": false,
+  "peak": 0.05,
+  "rms": 0.004,
+  "seconds": 0.45,
+  "audible": 0.184,
+  "oldMeasure": {
+   "peak": 0.0805,
+   "rms": 0.0031,
+   "seconds": 1.2,
+   "audible": 0.057
+  }
+ },
+ "bucket_take": {
+  "cat": "Skills",
+  "label": "Take a bucket",
+  "old": "Sfx.click",
+  "loop": false,
+  "peak": 0.0578,
+  "rms": 0.0058,
+  "seconds": 0.15,
+  "audible": 0.05,
+  "oldMeasure": {
+   "peak": 0.0142,
+   "rms": 0.0007,
+   "seconds": 1.2,
+   "audible": 0.026
+  }
+ },
+ "bucket_water": {
+  "cat": "Skills",
+  "label": "Fill bucket: water",
+  "old": "Sfx.click",
+  "loop": false,
+  "peak": 0.0414,
+  "rms": 0.0077,
+  "seconds": 0.75,
+  "audible": 0.569,
+  "oldMeasure": {
+   "peak": 0.0142,
+   "rms": 0.0007,
+   "seconds": 1.2,
+   "audible": 0.026
+  }
+ },
+ "bucket_flour": {
+  "cat": "Skills",
+  "label": "Fill bucket: flour",
+  "old": "Sfx.click",
+  "loop": false,
+  "peak": 0.0378,
+  "rms": 0.0068,
+  "seconds": 0.7,
+  "audible": 0.538,
+  "oldMeasure": {
+   "peak": 0.0142,
+   "rms": 0.0007,
+   "seconds": 1.2,
+   "audible": 0.026
+  }
+ },
+ "dough": {
+  "cat": "Skills",
+  "label": "Mix dough",
+  "old": "Sfx.click",
+  "loop": false,
+  "peak": 0.043,
+  "rms": 0.0048,
+  "seconds": 0.4,
+  "audible": 0.321,
+  "oldMeasure": {
+   "peak": 0.0142,
+   "rms": 0.0007,
+   "seconds": 1.2,
+   "audible": 0.026
+  }
+ },
+ "rope_tie": {
+  "cat": "Skills",
+  "label": "Tie the rope",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0535,
+  "rms": 0.005,
+  "seconds": 0.7,
+  "audible": 0.554
+ },
+ "rope_climb": {
+  "cat": "Skills",
+  "label": "Climb the rope",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0703,
+  "rms": 0.0059,
+  "seconds": 0.95,
+  "audible": 0.722
+ },
+ "ladder_up": {
+  "cat": "Skills",
+  "label": "Ladder: climb up",
+  "old": "climbUp",
+  "loop": false,
+  "peak": 0.0599,
+  "rms": 0.0064,
+  "seconds": 1,
+  "audible": 0.86,
+  "oldMeasure": {
+   "peak": 0.0274,
+   "rms": 0.0041,
+   "seconds": 1.2,
+   "audible": 0.854
+  }
+ },
+ "ladder_down": {
+  "cat": "Skills",
+  "label": "Ladder: climb down",
+  "old": "climbDown",
+  "loop": false,
+  "peak": 0.061,
+  "rms": 0.0066,
+  "seconds": 1,
+  "audible": 0.864,
+  "oldMeasure": {
+   "peak": 0.0273,
+   "rms": 0.0041,
+   "seconds": 1.2,
+   "audible": 0.855
+  }
+ },
+ "stairs": {
+  "cat": "Skills",
+  "label": "Stairs (up or down a flight)",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0422,
+  "rms": 0.0038,
+  "seconds": 0.7,
+  "audible": 0.371
+ },
+ "pulley": {
+  "cat": "Skills",
+  "label": "Pulley / windlass creak",
+  "old": "pulleyCreak",
+  "loop": false,
+  "peak": 0.0561,
+  "rms": 0.0036,
+  "seconds": 0.85,
+  "audible": 0.589,
+  "oldMeasure": {
+   "peak": 0.0234,
+   "rms": 0.0041,
+   "seconds": 1.2,
+   "audible": 0.725
+  }
+ },
+ "swing_stab": {
+  "cat": "Combat",
+  "label": "Swing: stab",
+  "old": "CombatFX swing stab",
+  "loop": false,
+  "peak": 0.0601,
+  "rms": 0.0075,
+  "seconds": 0.14,
+  "audible": 0.063,
+  "oldMeasure": {
+   "peak": 0.043,
+   "rms": 0.0021,
+   "seconds": 1.2,
+   "audible": 0.071
+  }
+ },
+ "swing_slash": {
+  "cat": "Combat",
+  "label": "Swing: slash",
+  "old": "CombatFX swing slash",
+  "loop": false,
+  "peak": 0.0529,
+  "rms": 0.008,
+  "seconds": 0.22,
+  "audible": 0.126,
+  "oldMeasure": {
+   "peak": 0.0813,
+   "rms": 0.0038,
+   "seconds": 1.2,
+   "audible": 0.121
+  }
+ },
+ "swing_crush": {
+  "cat": "Combat",
+  "label": "Swing: crush",
+  "old": "CombatFX swing crush",
+  "loop": false,
+  "peak": 0.055,
+  "rms": 0.0077,
+  "seconds": 0.28,
+  "audible": 0.162,
+  "oldMeasure": {
+   "peak": 0.0667,
+   "rms": 0.0047,
+   "seconds": 1.2,
+   "audible": 0.153
+  }
+ },
+ "hit_slash": {
+  "cat": "Combat",
+  "label": "Hit: slash",
+  "old": "CombatFX hit",
+  "loop": false,
+  "peak": 0.1147,
+  "rms": 0.0115,
+  "seconds": 0.3,
+  "audible": 0.08,
+  "oldMeasure": {
+   "peak": 0.2885,
+   "rms": 0.0164,
+   "seconds": 1.2,
+   "audible": 0.11
+  }
+ },
+ "hit_stab": {
+  "cat": "Combat",
+  "label": "Hit: stab",
+  "old": "CombatFX hit",
+  "loop": false,
+  "peak": 0.1073,
+  "rms": 0.0115,
+  "seconds": 0.3,
+  "audible": 0.081,
+  "oldMeasure": {
+   "peak": 0.2345,
+   "rms": 0.0157,
+   "seconds": 1.2,
+   "audible": 0.11
+  }
+ },
+ "hit_crush": {
+  "cat": "Combat",
+  "label": "Hit: crush",
+  "old": "CombatFX hit",
+  "loop": false,
+  "peak": 0.0922,
+  "rms": 0.0111,
+  "seconds": 0.35,
+  "audible": 0.152,
+  "oldMeasure": {
+   "peak": 0.2791,
+   "rms": 0.0158,
+   "seconds": 1.2,
+   "audible": 0.11
+  }
+ },
+ "hurt": {
+  "cat": "Combat",
+  "label": "Player is hit",
+  "old": "CombatFX hurt",
+  "loop": false,
+  "peak": 0.0937,
+  "rms": 0.0126,
+  "seconds": 0.25,
+  "audible": 0.095,
+  "oldMeasure": {
+   "peak": 0.2182,
+   "rms": 0.016,
+   "seconds": 1.2,
+   "audible": 0.119
+  }
+ },
+ "block": {
+  "cat": "Combat",
+  "label": "Block (0 on a guard)",
+  "old": "CombatFX block",
+  "loop": false,
+  "peak": 0.0906,
+  "rms": 0.0091,
+  "seconds": 0.15,
+  "audible": 0.031,
+  "oldMeasure": {
+   "peak": 0.0945,
+   "rms": 0.0038,
+   "seconds": 1.2,
+   "audible": 0.059
+  }
+ },
+ "miss": {
+  "cat": "Combat",
+  "label": "Miss (0 on a beast)",
+  "old": "CombatFX block",
+  "loop": false,
+  "peak": 0.0491,
+  "rms": 0.0053,
+  "seconds": 0.14,
+  "audible": 0.063,
+  "oldMeasure": {
+   "peak": 0.0924,
+   "rms": 0.0037,
+   "seconds": 1.2,
+   "audible": 0.059
+  }
+ },
+ "bow": {
+  "cat": "Combat",
+  "label": "Bow: loose",
+  "old": "CombatFX bow",
+  "loop": false,
+  "peak": 0.0875,
+  "rms": 0.0069,
+  "seconds": 0.45,
+  "audible": 0.188,
+  "oldMeasure": {
+   "peak": 0.1633,
+   "rms": 0.008,
+   "seconds": 1.2,
+   "audible": 0.14
+  }
+ },
+ "arrow_hit": {
+  "cat": "Combat",
+  "label": "Arrow hits",
+  "old": "CombatFX arrowHit",
+  "loop": false,
+  "peak": 0.1174,
+  "rms": 0.0112,
+  "seconds": 0.2,
+  "audible": 0.062,
+  "oldMeasure": {
+   "peak": 0.1741,
+   "rms": 0.0082,
+   "seconds": 1.2,
+   "audible": 0.072
+  }
+ },
+ "arrow_miss": {
+  "cat": "Combat",
+  "label": "Arrow misses",
+  "old": "CombatFX arrowHit miss",
+  "loop": false,
+  "peak": 0.066,
+  "rms": 0.0081,
+  "seconds": 0.12,
+  "audible": 0.044,
+  "oldMeasure": {
+   "peak": 0.0886,
+   "rms": 0.003,
+   "seconds": 1.2,
+   "audible": 0.044
+  }
+ },
+ "spell_charge": {
+  "cat": "Combat",
+  "label": "Spell: gather (wind)",
+  "old": "CombatFX charge",
+  "loop": false,
+  "peak": 0.052,
+  "rms": 0.0077,
+  "seconds": 0.5,
+  "audible": 0.363,
+  "oldMeasure": {
+   "peak": 0.0599,
+   "rms": 0.0071,
+   "seconds": 1.2,
+   "audible": 0.388
+  }
+ },
+ "spell_cast": {
+  "cat": "Combat",
+  "label": "Spell: release (wind)",
+  "old": "CombatFX release",
+  "loop": false,
+  "peak": 0.0786,
+  "rms": 0.0085,
+  "seconds": 0.32,
+  "audible": 0.177,
+  "oldMeasure": {
+   "peak": 0.0623,
+   "rms": 0.0035,
+   "seconds": 1.2,
+   "audible": 0.167
+  }
+ },
+ "spell_hit": {
+  "cat": "Combat",
+  "label": "Spell: impact",
+  "old": "CombatFX magicHit",
+  "loop": false,
+  "peak": 0.0967,
+  "rms": 0.0092,
+  "seconds": 0.3,
+  "audible": 0.128,
+  "oldMeasure": {
+   "peak": 0.2561,
+   "rms": 0.0117,
+   "seconds": 1.2,
+   "audible": 0.165
+  }
+ },
+ "spell_splash": {
+  "cat": "Combat",
+  "label": "Spell: splash (miss)",
+  "old": "CombatFX splash",
+  "loop": false,
+  "peak": 0.055,
+  "rms": 0.006,
+  "seconds": 0.38,
+  "audible": 0.171,
+  "oldMeasure": {
+   "peak": 0.0777,
+   "rms": 0.0046,
+   "seconds": 1.2,
+   "audible": 0.214
+  }
+ },
+ "body_fall": {
+  "cat": "Combat",
+  "label": "Body falls",
+  "old": "CombatFX thud",
+  "loop": false,
+  "peak": 0.0708,
+  "rms": 0.0093,
+  "seconds": 0.3,
+  "audible": 0.142,
+  "oldMeasure": {
+   "peak": 0.1889,
+   "rms": 0.0145,
+   "seconds": 1.2,
+   "audible": 0.144
+  }
+ },
+ "player_death": {
+  "cat": "Combat",
+  "label": "Adventurer dies",
+  "old": "Sfx.death",
+  "loop": false,
+  "peak": 0.0638,
+  "rms": 0.0088,
+  "seconds": 1.8,
+  "audible": 1.005,
+  "oldMeasure": {
+   "peak": 0.0753,
+   "rms": 0.0056,
+   "seconds": 1.8,
+   "audible": 0.329
+  }
+ },
+ "rat_idle": {
+  "cat": "Creatures",
+  "label": "Rat: squeak",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0202,
+  "rms": 0.0057,
+  "seconds": 0.2,
+  "audible": 0.14
+ },
+ "rat_attack": {
+  "cat": "Creatures",
+  "label": "Rat: bite",
+  "old": "CombatFX snap",
+  "loop": false,
+  "peak": 0.0393,
+  "rms": 0.0091,
+  "seconds": 0.2,
+  "audible": 0.08,
+  "oldMeasure": {
+   "peak": 0.0786,
+   "rms": 0.0022,
+   "seconds": 1.2,
+   "audible": 0.075
+  }
+ },
+ "rat_hurt": {
+  "cat": "Creatures",
+  "label": "Rat: hurt",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0311,
+  "rms": 0.0113,
+  "seconds": 0.16,
+  "audible": 0.082
+ },
+ "rat_death": {
+  "cat": "Creatures",
+  "label": "Rat: dies",
+  "old": "CombatFX death (saw)",
+  "loop": false,
+  "peak": 0.0326,
+  "rms": 0.0119,
+  "seconds": 0.42,
+  "audible": 0.23,
+  "oldMeasure": {
+   "peak": 0.071,
+   "rms": 0.0068,
+   "seconds": 1.2,
+   "audible": 0.342
+  }
+ },
+ "goblin_idle": {
+  "cat": "Creatures",
+  "label": "Goblin: mutter",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0286,
+  "rms": 0.0058,
+  "seconds": 0.45,
+  "audible": 0.371
+ },
+ "goblin_attack": {
+  "cat": "Creatures",
+  "label": "Goblin: attack",
+  "old": "CombatFX swing",
+  "loop": false,
+  "peak": 0.0447,
+  "rms": 0.0088,
+  "seconds": 0.3,
+  "audible": 0.145,
+  "oldMeasure": {
+   "peak": 0.0526,
+   "rms": 0.0035,
+   "seconds": 1.2,
+   "audible": 0.117
+  }
+ },
+ "goblin_hurt": {
+  "cat": "Creatures",
+  "label": "Goblin: hurt",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0354,
+  "rms": 0.0103,
+  "seconds": 0.22,
+  "audible": 0.111
+ },
+ "goblin_death": {
+  "cat": "Creatures",
+  "label": "Goblin: dies",
+  "old": "CombatFX death (saw)",
+  "loop": false,
+  "peak": 0.0615,
+  "rms": 0.0124,
+  "seconds": 0.7,
+  "audible": 0.441,
+  "oldMeasure": {
+   "peak": 0.071,
+   "rms": 0.0068,
+   "seconds": 1.2,
+   "audible": 0.342
+  }
+ },
+ "chicken_idle": {
+  "cat": "Creatures",
+  "label": "Chicken: cluck",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0251,
+  "rms": 0.0051,
+  "seconds": 0.36,
+  "audible": 0.16
+ },
+ "chicken_hurt": {
+  "cat": "Creatures",
+  "label": "Chicken: squawk",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0311,
+  "rms": 0.0087,
+  "seconds": 0.35,
+  "audible": 0.167
+ },
+ "chicken_attack": {
+  "cat": "Creatures",
+  "label": "Chicken: peck",
+  "old": "CombatFX snap",
+  "loop": false,
+  "peak": 0.0434,
+  "rms": 0.008,
+  "seconds": 0.2,
+  "audible": 0.096,
+  "oldMeasure": {
+   "peak": 0.0589,
+   "rms": 0.0021,
+   "seconds": 1.2,
+   "audible": 0.075
+  }
+ },
+ "chicken_death": {
+  "cat": "Creatures",
+  "label": "Chicken: dies",
+  "old": "CombatFX death (saw)",
+  "loop": false,
+  "peak": 0.0481,
+  "rms": 0.0101,
+  "seconds": 0.6,
+  "audible": 0.347,
+  "oldMeasure": {
+   "peak": 0.071,
+   "rms": 0.0068,
+   "seconds": 1.2,
+   "audible": 0.342
+  }
+ },
+ "cow_idle": {
+  "cat": "Creatures",
+  "label": "Cow: moo",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0313,
+  "rms": 0.0077,
+  "seconds": 1.2,
+  "audible": 0.812
+ },
+ "cow_hurt": {
+  "cat": "Creatures",
+  "label": "Cow: hurt",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0439,
+  "rms": 0.0098,
+  "seconds": 0.35,
+  "audible": 0.216
+ },
+ "cow_attack": {
+  "cat": "Creatures",
+  "label": "Cow: butt",
+  "old": "CombatFX swing crush",
+  "loop": false,
+  "peak": 0.0452,
+  "rms": 0.0088,
+  "seconds": 0.3,
+  "audible": 0.167,
+  "oldMeasure": {
+   "peak": 0.0947,
+   "rms": 0.005,
+   "seconds": 1.2,
+   "audible": 0.159
+  }
+ },
+ "cow_death": {
+  "cat": "Creatures",
+  "label": "Cow: dies",
+  "old": "CombatFX death (saw)",
+  "loop": false,
+  "peak": 0.0557,
+  "rms": 0.0114,
+  "seconds": 1.3,
+  "audible": 0.857,
+  "oldMeasure": {
+   "peak": 0.071,
+   "rms": 0.0065,
+   "seconds": 1.3,
+   "audible": 0.342
+  }
+ },
+ "bell": {
+  "cat": "World",
+  "label": "Ferry bell (one ring)",
+  "old": "bell ding (sines)",
+  "loop": false,
+  "peak": 0.07,
+  "rms": 0.0056,
+  "seconds": 2.6,
+  "audible": 1.195,
+  "oldMeasure": {
+   "peak": 0.0791,
+   "rms": 0.0069,
+   "seconds": 2.6,
+   "audible": 0.724
+  }
+ },
+ "skiff_push": {
+  "cat": "World",
+  "label": "Skiff pushes off",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0544,
+  "rms": 0.0062,
+  "seconds": 1.2,
+  "audible": 0.495
+ },
+ "oar": {
+  "cat": "World",
+  "label": "Oar stroke",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0648,
+  "rms": 0.0042,
+  "seconds": 0.8,
+  "audible": 0.441
+ },
+ "water_loop": {
+  "cat": "World",
+  "label": "Shore water loop",
+  "old": "(none)",
+  "loop": true,
+  "peak": 0.0156,
+  "rms": 0.0025,
+  "seconds": 8,
+  "audible": 8
+ },
+ "pond_loop": {
+  "cat": "World",
+  "label": "Pond loop (Minnow Hollow)",
+  "old": "pond ambience (band noise)",
+  "loop": true,
+  "peak": 0.0111,
+  "rms": 0.002,
+  "seconds": 6,
+  "audible": 6,
+  "oldMeasure": {
+   "peak": 0.0064,
+   "rms": 0.0007,
+   "seconds": 3,
+   "audible": 1.168
+  }
+ },
+ "frog": {
+  "cat": "World",
+  "label": "Frog croak",
+  "old": "holm_fishing croak (saw)",
+  "loop": false,
+  "peak": 0.0149,
+  "rms": 0.0023,
+  "seconds": 0.45,
+  "audible": 0.304,
+  "oldMeasure": {
+   "peak": 0.0109,
+   "rms": 0.0007,
+   "seconds": 1.2,
+   "audible": 0.078
+  }
+ },
+ "duck": {
+  "cat": "World",
+  "label": "Duck quack",
+  "old": "holm_fishing quack (square)",
+  "loop": false,
+  "peak": 0.0111,
+  "rms": 0.0024,
+  "seconds": 0.35,
+  "audible": 0.227,
+  "oldMeasure": {
+   "peak": 0.0118,
+   "rms": 0.0009,
+   "seconds": 1.2,
+   "audible": 0.051
+  }
+ },
+ "bird": {
+  "cat": "World",
+  "label": "Bird chirp",
+  "old": "holm_fishing chirp",
+  "loop": false,
+  "peak": 0.0204,
+  "rms": 0.0031,
+  "seconds": 0.2,
+  "audible": 0.108,
+  "oldMeasure": {
+   "peak": 0.0115,
+   "rms": 0.0008,
+   "seconds": 1.2,
+   "audible": 0.12
+  }
+ },
+ "mill_rush": {
+  "cat": "World",
+  "label": "Mill race loop",
+  "old": "mill loop (band noise)",
+  "loop": true,
+  "peak": 0.0191,
+  "rms": 0.0037,
+  "seconds": 5,
+  "audible": 5,
+  "oldMeasure": {
+   "peak": 0.0126,
+   "rms": 0.0014,
+   "seconds": 3,
+   "audible": 1.556
+  }
+ },
+ "mill_slap": {
+  "cat": "World",
+  "label": "Mill paddle slap",
+  "old": "mill slap",
+  "loop": false,
+  "peak": 0.0219,
+  "rms": 0.0023,
+  "seconds": 0.25,
+  "audible": 0.113,
+  "oldMeasure": {
+   "peak": 0.0077,
+   "rms": 0.0004,
+   "seconds": 1.2,
+   "audible": 0.052
+  }
+ },
+ "mill_creak": {
+  "cat": "World",
+  "label": "Mill axle creak",
+  "old": "mill creak (saw)",
+  "loop": false,
+  "peak": 0.0193,
+  "rms": 0.0018,
+  "seconds": 0.6,
+  "audible": 0.289,
+  "oldMeasure": {
+   "peak": 0.0076,
+   "rms": 0.0009,
+   "seconds": 1.2,
+   "audible": 0.284
+  }
+ },
+ "forge_loop": {
+  "cat": "World",
+  "label": "Furnace loop (by the furnace)",
+  "old": "(none)",
+  "loop": true,
+  "peak": 0.0271,
+  "rms": 0.0052,
+  "seconds": 6,
+  "audible": 6
+ },
+ "step_grass": {
+  "cat": "World",
+  "label": "Footstep: grass / earth",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0149,
+  "rms": 0.0025,
+  "seconds": 0.08,
+  "audible": 0.022
+ },
+ "step_wood": {
+  "cat": "World",
+  "label": "Footstep: planks",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.017,
+  "rms": 0.0025,
+  "seconds": 0.08,
+  "audible": 0.021
+ },
+ "step_stone": {
+  "cat": "World",
+  "label": "Footstep: stone",
+  "old": "(none)",
+  "loop": false,
+  "peak": 0.0231,
+  "rms": 0.0026,
+  "seconds": 0.06,
+  "audible": 0.011
+ }
+}

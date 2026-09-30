@@ -1051,9 +1051,16 @@ const Quest = {
   },
 };
 
-/* ---------- WebAudio SFX: noise-based, more realistic ---------- */
+/* ---------- Sound effects (sound pass, owner review 2026-09-29; docs/rebuild/HOLM_SOUND_INVENTORY.md) ----------
+ * Every effect is a recipe in src/sfx_recipes.js, synthesized by src/sfx_lib.js (noise bursts, resonant filters, pitch
+ * envelopes, modal rings, plucked strings, small formant voices; never a square or saw wave) and played here as one
+ * buffer source and one gain node on the SFX bus: _master (the Sound effects slider, saved as cr_vol_sfx) -> a gentle
+ * high shelf (-3 dB over 7 kHz) -> a soft peak catcher -> the speakers. The music has its own bus (src/audio_music2004.js).
+ * Nothing sounds before the player's first click or key (the browser's autoplay rule: no queued burst on the first
+ * gesture), nothing is built at volume 0 (mute), and every play is nudged a little in pitch and level (SfxLib.play).
+ * The named methods below are the call sites' vocabulary; a sound with a world position (at:{x,z}) fades with distance. */
 const Sfx = {
-  ctx:null, _noiseBuf:null, _master:null,
+  ctx:null, _noiseBuf:null, _master:null, _tame:null, _limit:null, unlocked:false, _warmed:false, _deathAt:-1e9,
   vol:(function(){ try{ var v=localStorage.getItem('cr_vol_sfx'); return v!=null?+v:1; }catch(e){ return 1; } })(),
   ensure(){
     if(!this.ctx){ this.ctx = new (window.AudioContext||window.webkitAudioContext)();
@@ -1061,13 +1068,57 @@ const Sfx = {
       this._noiseBuf=this.ctx.createBuffer(1,len,this.ctx.sampleRate);
       const d=this._noiseBuf.getChannelData(0);
       for(let i=0;i<len;i++) d[i]=Math.random()*2-1;
-      this._master=this.ctx.createGain(); this._master.gain.value=this.vol; this._master.connect(this.ctx.destination);
+      this._master=this.ctx.createGain(); this._master.gain.value=this.vol; this._master.__sfxName='sfx-bus';
+      try{
+        this._tame=this.ctx.createBiquadFilter(); this._tame.type='highshelf'; this._tame.frequency.value=7000; this._tame.gain.value=-3;
+        this._limit=this.ctx.createDynamicsCompressor(); this._limit.threshold.value=-14; this._limit.knee.value=10; this._limit.ratio.value=4;
+        this._limit.attack.value=.003; this._limit.release.value=.2;
+        this._master.connect(this._tame); this._tame.connect(this._limit); this._limit.connect(this.ctx.destination);
+      }catch(e){ this._master.connect(this.ctx.destination); }
     }
-    if(this.ctx.state==='suspended') this.ctx.resume();
+    if(this.ctx.state==='suspended' && this.gesture()) this.ctx.resume();
     return this.ctx;
   },
+  // the browser's autoplay rule: true once the player has clicked, tapped or pressed a key on the page
+  gesture(){
+    if(this.unlocked) return true;
+    try{ if(typeof navigator!=='undefined' && navigator.userActivation && navigator.userActivation.hasBeenActive) this.unlocked=true; }catch(e){}
+    return this.unlocked;
+  },
+  ready(){ return this.vol>0 && this.gesture() && typeof SfxLib!=='undefined'; },
   setVolume(v){ this.vol=Math.max(0,Math.min(1,v)); try{ localStorage.setItem('cr_vol_sfx',this.vol); }catch(e){} if(this._master) this._master.gain.value=this.vol; },
+  // how loud a sound at world point p is where the adventurer stands: full within 2.5 tiles, gone by `range`
+  falloff(p,range){
+    if(!p || typeof player==='undefined' || !player) return 1;
+    const d=Math.hypot(player.position.x-p.x, player.position.z-p.z), r=range||16;
+    if(d<=2.5) return 1; if(d>=r) return 0; const k=1-(d-2.5)/(r-2.5); return k*k;
+  },
+  // play a recipe: o {gain, rate, delay, at:{x,z}, range}
+  play(id,o){
+    if(!this.ready()) return null;
+    try{ o=o||{}; let g=o.gain==null?1:o.gain; if(o.at){ g*=this.falloff(o.at,o.range); if(g<.01) return null; }
+      const ctx=this.ensure(); this.warm();
+      return SfxLib.play(ctx, this._master, id, {gain:g, rate:o.rate, delay:o.delay, variant:o.variant});
+    }catch(e){ return null; }
+  },
+  // a looping bed (a fire's crackle, water, the furnace): {setGain(g), stop()}; null until sound may play
+  loop(id){
+    if(!this.ready()) return null;
+    try{ const ctx=this.ensure(), h=SfxLib.play(ctx, this._master, id, {gain:0, loop:true}); if(!h) return null;
+      return {id, h, g:0, setGain(g){ g=Math.max(0,g); if(Math.abs(g-this.g)<1e-4) return; this.g=g; try{ h.gain.gain.setTargetAtTime(g, ctx.currentTime, .25); }catch(e){ h.gain.gain.value=g; } },
+        stop(){ try{ h.gain.gain.setTargetAtTime(0, ctx.currentTime, .1); h.src.stop(ctx.currentTime+.6); }catch(e){} } };
+    }catch(e){ return null; }
+  },
+  // the common sounds render ahead, a few per idle moment, after the first gesture (a first play never renders on the spot)
+  warm(){
+    if(this._warmed || typeof SfxLib==='undefined' || !SfxLib.WARM) return; this._warmed=true;
+    const ctx=this.ctx, ids=SfxLib.WARM.slice(), step=()=>{ const t0=performance.now(); try{ while(ids.length && performance.now()-t0<6) SfxLib.warm(ctx,[ids.shift()]); }catch(e){ ids.length=0; } if(ids.length) later(step); };
+    const later=f=>{ if(typeof requestIdleCallback==='function') requestIdleCallback(f,{timeout:500}); else setTimeout(f,60); };
+    later(step);
+  },
+  // the old primitives, kept for any caller outside this pass: gated like everything else, and never square or saw
   noise(dur, freq, q, vol, type='bandpass', slideTo){
+    if(!this.ready()) return;
     try{ const ctx=this.ensure();
       const src=ctx.createBufferSource(); src.buffer=this._noiseBuf; src.loop=true;
       const f=ctx.createBiquadFilter(); f.type=type; f.frequency.value=freq; f.Q.value=q||1;
@@ -1079,9 +1130,10 @@ const Sfx = {
     }catch(e){}
   },
   tone(freq, dur, type, vol, slideTo){
+    if(!this.ready()) return;
     try{ const ctx=this.ensure();
       const o=ctx.createOscillator(), g=ctx.createGain();
-      o.type=type||'sine'; o.frequency.value=freq;
+      o.type=(type==='square'||type==='sawtooth')?'triangle':(type||'sine'); o.frequency.value=freq;
       if(slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, ctx.currentTime+dur);
       g.gain.value=vol||0.05;
       g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+dur);
@@ -1089,30 +1141,115 @@ const Sfx = {
       o.start(); o.stop(ctx.currentTime+dur);
     }catch(e){}
   },
-  click(){ this.tone(700,0.04,'square',0.015); },
-  swing(){ this.noise(0.22, 900, 1.2, 0.10, 'bandpass', 220); },                 // whoosh
-  hitFlesh(){ this.tone(110,0.13,'sine',0.12,55); this.noise(0.08, 350, 1, 0.10, 'lowpass'); },
-  takeHit(){ this.tone(90,0.15,'sine',0.12,50); this.noise(0.1, 300, 1, 0.08, 'lowpass'); },
-  block(){ this.noise(0.06, 2400, 3, 0.04); },
-  bowShoot(){ this.tone(520,0.07,'triangle',0.09,180); this.noise(0.06, 3000, 2, 0.05, 'highpass'); }, // string pluck
-  arrowHit(){ this.noise(0.07, 1400, 2, 0.10, 'bandpass', 300); this.tone(140,0.08,'sine',0.08,70); }, // thwack
-  magicCast(){ this.tone(280,0.3,'sine',0.06,1100); this.noise(0.25, 4000, 4, 0.02, 'highpass'); },
-  magicHit(){ this.tone(900,0.18,'sine',0.07,200); this.noise(0.12, 2200, 2, 0.05); },
-  chop(){ this.noise(0.07, 700, 2, 0.12, 'bandpass', 200); this.tone(160,0.06,'triangle',0.08,90); },
-  mine(){ this.tone(2300,0.05,'square',0.035,1400); this.noise(0.05, 4500, 4, 0.05, 'highpass'); },   // clink
-  smith(){ this.tone(1850,0.07,'square',0.05,980); this.noise(0.08,3200,3,.045,'highpass'); },
-  smelt(){ this.noise(.34,620,.8,.055,'lowpass',260); this.tone(170,.28,'triangle',.035,105); },
-  splash(){ this.noise(0.35, 900, 0.8, 0.08, 'lowpass', 250); },
-  eat(){ this.noise(0.09, 500, 1, 0.07, 'lowpass'); this.tone(220,0.06,'triangle',0.04); },
-  coin(){ this.tone(1180,0.06,'sine',0.06); this.tone(1560,0.08,'sine',0.05); },
-  treeFall(){ this.noise(0.5, 300, 0.8, 0.10, 'lowpass', 80); },
-  kill(){ this.tone(150,0.35,'sawtooth',0.06,55); },
-  death(){ this.tone(300,0.5,'sawtooth',0.08,60); },
-  quest(){ this.tone(392,0.14,'square',0.05); setTimeout(()=>this.tone(523,0.2,'square',0.05),140); },
-  // level-up (owner 2026-09-29): a soft, cozy firework (whoosh up, two soft pops and a crackle, a small warm chime),
-  // synthesized in src/fx_levelup.js on the audio clock under the SFX volume; the old square-wave triad was retired
-  level(){ try{ if(typeof LevelUpFX!=='undefined' && LevelUpFX.sound){ const ctx=this.ensure(); LevelUpFX.sound(ctx, this._master||ctx.destination); } }catch(e){} },
-  // quest complete keeps its own three-note cue (it used to share level()'s; split so only the level-up changed)
-  questDone(){ this.tone(440,0.12,'square',0.05); setTimeout(()=>this.tone(554,0.12,'square',0.05),120);
-           setTimeout(()=>this.tone(659,0.22,'square',0.05),240); },
+  // ---- UI
+  click(){ this.play('ui_click'); },
+  tab(){ this.play('ui_tab'); },
+  windowOpen(){ this.play('ui_window_open'); },
+  windowClose(){ this.play('ui_window_close'); },
+  mapOpen(){ this.play('ui_map_open'); },
+  mapClose(){ this.play('ui_map_close'); },
+  dialogue(){ this.play('ui_dialogue'); },
+  quest(){ this.play('quest_step'); },
+  questDone(){ this.play('quest_done'); },
+  // level-up (owner 2026-09-29): the fireworks stay; the sound is the picked candidate (SfxLib.LEVEL_PICK, a lute arpeggio)
+  level(){ this.play((typeof SfxLib!=='undefined'&&SfxLib.LEVEL_PICK)||'level_up_a'); },
+  coin(){ this.play('coins'); },
+  // ---- items
+  material(id){
+    const it=(typeof ITEMS!=='undefined'&&ITEMS[id])||{}, m=it.model||'', n=((it.name||'')+' '+id).toLowerCase(), t=it.tier||'';
+    if(it.equip==='ammo'||/arrow|bolt/.test(n)) return 'ammo';
+    if(m==='axe'||m==='pick'||typeof it.tool==='string'||/hatchet|pickaxe/.test(n)) return 'tool';
+    if(/^(bow|shortbow|longbow|staff|wand)$/.test(m)||/\b(bow|shortbow|longbow|staff|wand)\b/.test(n)||/wood_shield|wooden/.test(n)) return 'wood';
+    if(/leather|hide/.test(t+' '+n)||/chaps|vambrace|coif/.test(m+' '+n)) return 'leather';
+    if(/cloth|wool|starweave/.test(t)||/^(robe|hat|cape|hood|apron|amulet|ring)$/.test(m)||/robe|cape|hat|hood|apron|shirt|trousers|cloak|amulet|ring/.test(n)) return 'cloth';
+    return it.equip?'metal':'cloth';
+  },
+  equip(id){ this.play('equip_'+this.material(id)); },
+  unequip(id){ const k=this.material(id); this.play('unequip_'+(k==='ammo'?'wood':k)); },
+  pickup(){ this.play('pickup'); },
+  drop(){ this.play('drop'); },
+  // the strongbox; at the island's vault the iron gate sounds instead (HolmIslandAnim, as it swings)
+  bankOpen(){ try{ if(typeof HolmIslandAnim!=='undefined'&&HolmIslandAnim.atVault&&HolmIslandAnim.atVault()) return; }catch(e){} this.play('bank_open'); },
+  bankDeposit(){ this.play('bank_deposit'); },
+  bankWithdraw(){ this.play('bank_withdraw'); },
+  // eating: a drinkable (the menu's "Drink" rule, osrs_menu_items.js) gulps instead of crunching
+  eat(id){ const d=id&&typeof ITEMS!=='undefined'&&ITEMS[id]; this.play(id&&((d&&d.drink)||/(^|_)(ale|potion|brew|wine|beer|tea|milk|juice|mead|cider)(_|$)/.test(id))?'drink':'eat'); },
+  drink(){ this.play('drink'); },
+  // ---- doors (at: the door's world point, so a door across the yard is quieter)
+  doorOpen(at){ this.play('door_open',{at,range:12}); },
+  doorClose(at){ this.play('door_close',{at,range:12}); },
+  doorLocked(at){ this.play('door_locked',{at,range:12}); },
+  gateOpen(at){ this.play('gate_open',{at,range:12}); },
+  gateClose(at){ this.play('gate_close',{at,range:12}); },
+  stairs(){ this.play('stairs'); },
+  // ---- skills. A stroke sound (chop, the pickaxe) follows the stroke itself: while the island's sound director
+  // (HolmSound) watches the adventurer's clip it plays the blow at the axe's or pick's lowest point, and the tick's call
+  // here stands down; anywhere else the tick plays it.
+  stroke(kind){ try{ return typeof HolmSound!=='undefined' && !!HolmSound.syncs && HolmSound.syncs(kind); }catch(e){ return false; } },
+  chop(){ if(!this.stroke('chop')) this.play('chop'); },
+  mine(){ if(!this.stroke('mine')) this.play('mine'); },
+  logLand(){ this.play('log_land',{delay:.12}); },
+  // the tree starts to fall: the creak now; the landing comes from the island's fall animation (HolmIslandAnim), or ~1 s on
+  treeFall(at){ this.play('tree_creak',{at,range:20}); if(!(typeof HolmIslandAnim!=='undefined'&&HolmIslandAnim.active&&HolmIslandAnim.active())) this.play('tree_fall',{at,range:24,delay:.95}); },
+  treeLand(at){ this.play('tree_fall',{at,range:24}); },
+  oreBreak(){ this.play('ore_break',{delay:.08}); },
+  rockEmpty(at){ this.play('rock_empty',{at,delay:.25}); },
+  prospect(){ this.play('prospect'); },
+  netCast(){ this.play('fish_cast'); },
+  splash(){ this.play('fish_splash'); },
+  fishCatch(){ this.play('fish_catch'); },
+  tinderStrike(){ this.play('fire_strike'); },
+  fireCatch(){ this.play('fire_catch'); },
+  sizzle(){ this.play('cook_sizzle'); },
+  cookDone(){ this.play('cook_done'); },
+  burn(){ this.play('cook_burn'); },
+  bakeIn(){ this.play('bake_in'); },
+  bakeDone(){ this.play('bake_done'); },
+  furnace(){ this.play('smelt_roar'); },
+  smelt(){ this.play('smelt_bar'); },
+  anvil(){ this.play('anvil'); },
+  // the item comes off the anvil; without the island's hammer-strike watcher (the mainland) the last blow rings here too
+  smith(){ if(!(typeof HolmIslandAnim!=='undefined'&&HolmIslandAnim.active&&HolmIslandAnim.active())) this.play('anvil'); this.play('smith_done',{delay:.15}); },
+  bucketTake(){ this.play('bucket_take'); },
+  bucketFill(kind){ this.play(kind==='flour'?'bucket_flour':'bucket_water'); },
+  dough(){ this.play('dough'); },
+  ropeTie(){ this.play('rope_tie'); },
+  ropeClimb(){ this.play('rope_climb'); },
+  ladder(dir){ this.play(dir==='down'?'ladder_down':'ladder_up'); },
+  // ---- combat (the island's blows and voices come through CombatFX, src/combat_fx.js)
+  swing(type){ this.play('swing_'+(type==='stab'||type==='crush'?type:'slash')); },
+  hitFlesh(type,big){ this.play('hit_'+(type==='stab'||type==='crush'?type:'slash'),{rate:big?.9:1}); },
+  takeHit(big){ this.play('hurt',{rate:big?.9:1}); },
+  block(){ this.play('block'); },
+  miss(){ this.play('miss'); },
+  bowShoot(){ this.play('bow'); },
+  arrowHit(ok){ this.play(ok===false?'arrow_miss':'arrow_hit'); },
+  spellCharge(){ this.play('spell_charge'); },
+  magicCast(){ this.play('spell_cast'); },
+  magicHit(){ this.play('spell_hit'); },
+  spellSplash(){ this.play('spell_splash'); },
+  bodyFall(at){ this.play('body_fall',{at}); },
+  kill(){ this.play('body_fall'); },
+  // the adventurer falls (combat_engine startPlayerDeath); the respawn's call a few ticks later stands down
+  death(){ const n=(typeof performance!=='undefined'&&performance.now)?performance.now():Date.now(); if(n-this._deathAt<8000) return; this._deathAt=n; this.play('player_death'); },
+  // a creature's voice: kind 'idle' | 'attack' | 'hurt' | 'death' for the rat, goblin, chicken and cow; false if it has none
+  species(npc){ const t=npc&&npc.t||{}, m=String(t.model||'').toLowerCase(), id=String(npc&&npc.typeId||'').toLowerCase();
+    if(/^(cinder_)?rat$/.test(m)||/(^|_)rat(_|$)/.test(id)) return 'rat';
+    if(m==='goblin'||/(^|_)(gob|goblin|gnarlgob)(_|$)/.test(id)) return 'goblin';
+    if(m==='chicken'||/(^|_)(chicken|hen|pasturehen)(_|$)/.test(id)) return 'chicken';
+    if(m==='cow'||/(^|_)(cow|calf|moorcalf)(_|$)/.test(id)) return 'cow';
+    return null; },
+  creature(npc,kind){ const s=this.species(npc); if(!s || typeof SfxLib==='undefined' || !SfxLib.DEFS[s+'_'+kind]) return false;
+    const m=npc.mesh&&npc.mesh.position; this.play(s+'_'+kind,{at:m?{x:m.x,z:m.z}:null,range:kind==='idle'?11:18}); return true; },
+  // ---- world
+  bell(gain,at){ this.play('bell',{gain:gain==null?1:gain,at,range:30}); },
+  skiffPush(){ this.play('skiff_push'); },
+  oar(){ this.play('oar'); },
+  step(surface){ this.play(surface==='wood'?'step_wood':surface==='stone'?'step_stone':'step_grass'); },
 };
+// the autoplay rule: the first click, tap or key on the page unlocks sound (and wakes a context made before it)
+if(typeof document!=='undefined'){
+  const unlock=()=>{ Sfx.unlocked=true; try{ if(Sfx.ctx && Sfx.ctx.state==='suspended') Sfx.ctx.resume(); }catch(e){}
+    ['pointerdown','mousedown','keydown','touchstart'].forEach(ev=>document.removeEventListener(ev,unlock,true)); };
+  ['pointerdown','mousedown','keydown','touchstart'].forEach(ev=>document.addEventListener(ev,unlock,{capture:true,passive:true}));
+}

@@ -195,7 +195,7 @@ UI.refreshEquip = function(){
         if(it.dBonus)p.push('+'+it.dBonus+' Defence'); if(it.magB||it.mBonus)p.push('+'+(it.magB||it.mBonus)+' Magic');
         if(it.prayB)p.push('+'+it.prayB+' Prayer');
         d.title=it.name+(p.length?'\n'+p.join('\n'):'')+'\nClick to remove';
-        d.onclick=()=>{ if(Player.addItem(v,1)){ Player.equip[k]=null; Sfx.click();
+        d.onclick=()=>{ if(Player.addItem(v,1)){ Player.equip[k]=null; Sfx.unequip(v);
           if(typeof refreshPlayerGear==='function') refreshPlayerGear(); UI.refreshEquip(); UI.refreshInv&&UI.refreshInv(); } };
       } else {
         const im=document.createElement('img'); im.src=ghost(k); d.appendChild(im);

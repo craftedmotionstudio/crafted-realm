@@ -24,7 +24,7 @@ var InvMenu = {
     Player.inv[i]=null;
     if(Player.usingItem===item.id && Player.count(item.id)===0) Player.usingItem=null;
     makeDrop(item.id, item.qty||1, x, z);
-    if(typeof Sfx!=='undefined' && Sfx.click) Sfx.click();
+    if(typeof Sfx!=='undefined' && Sfx.drop) Sfx.drop();
     UI.refreshInv();
     return true;
   },

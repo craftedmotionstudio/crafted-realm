@@ -13,8 +13,8 @@
  * Drawing: one THREE.Points (one draw call) with a small shader: per-spark size in world units (scaled by the target the
  *   world is being drawn into, so ClassicPixels' low-resolution look options get the same world size in chunky pixels),
  *   colour, fade, atlas cell and spin.
- * Sound: sound(ctx, dest) is the level-up cue Sfx.level() plays (a soft whoosh up, two soft pops and a little crackle, a
- *   small warm two-note chime), synthesized with WebAudio and scheduled on the audio clock; quiet beside the music.
+ * Sound: sound(ctx, dest) plays the picked level-up recipe (sound pass 2026-09-29: a warm lute arpeggio that rises with the
+ *   rockets and blooms as they burst; src/sfx_recipes.js), quiet beside the music. Sfx.level() plays the same recipe.
  * HARD RULE (as src/combat_fx.js): presentation only, and never Math.random (a private LCG drives every scatter), so a
  *   level-up inside a fight never shifts the combat rolls of a seeded replay.
  * Wiring: Events 'levelUp' -> burst(player); animate() -> update(dt); Sfx.level() -> sound(). */
@@ -140,26 +140,14 @@ var LevelUpFX=(function(){
   if(n){var at=geo.attributes;at.position.needsUpdate=at.aColor.needsUpdate=at.aAlpha.needsUpdate=at.aSize.needsUpdate=at.aFrame.needsUpdate=at.aRot.needsUpdate=true}
  }
 
- /* ---------------- the level-up sound: a soft firework, on the audio clock ---------------- */
- var noiseBufs=[];
- function noiseFor(ctx){for(var i=0;i<noiseBufs.length;i++)if(noiseBufs[i].ctx===ctx)return noiseBufs[i].buf;
-  var len=Math.floor(ctx.sampleRate*.6),buf=ctx.createBuffer(1,len,ctx.sampleRate),d=buf.getChannelData(0);for(var j=0;j<len;j++)d[j]=rnd()*2-1;
-  noiseBufs.push({ctx:ctx,buf:buf});if(noiseBufs.length>3)noiseBufs.shift();return buf}
+ /* ---------------- the level-up sound (sound pass 2026-09-29) ----------------
+  * The owner liked the fireworks but not the noise under them: the sound is now the picked level-up recipe
+  * (SfxLib.LEVEL_PICK in src/sfx_recipes.js, a warm lute arpeggio rising with the rockets and blooming as they burst),
+  * one buffer source and one gain node on the given output. Sfx.level() plays it through the SFX bus. */
  function sound(ctx,dest){
-  if(!ctx)return null;dest=dest||ctx.destination;var t0=ctx.currentTime+.02,buf=noiseFor(ctx),nodes=0;
-  function env(g,t,att,peak,dec){g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(peak,t+att);g.gain.exponentialRampToValueAtTime(.0001,t+att+dec)}
-  function hiss(t,att,dec,type,f0,f1,q,peak){var s=ctx.createBufferSource();s.buffer=buf;s.loop=true;var f=ctx.createBiquadFilter();f.type=type;
-   f.frequency.setValueAtTime(f0,t);if(f1)f.frequency.exponentialRampToValueAtTime(f1,t+att+dec);f.Q.value=q;var g=ctx.createGain();env(g,t,att,peak,dec);
-   s.connect(f);f.connect(g);g.connect(dest);s.start(t,rnd()*.4);s.stop(t+att+dec+.05);nodes+=3}
-  function tone(t,freq,type,att,dec,peak,f1){var o=ctx.createOscillator();o.type=type;o.frequency.setValueAtTime(freq,t);if(f1)o.frequency.exponentialRampToValueAtTime(f1,t+att+dec);
-   var g=ctx.createGain();env(g,t,att,peak,dec);o.connect(g);g.connect(dest);o.start(t);o.stop(t+att+dec+.05);nodes+=2}
-  hiss(t0,.34,.12,'bandpass',320,2400,1.3,.035);                                // the whoosh up
-  hiss(t0+.47,.004,.1,'lowpass',1500,480,.7,.05);tone(t0+.47,170,'sine',.004,.12,.035,80);   // pop
-  hiss(t0+.63,.004,.09,'lowpass',1150,420,.7,.035);tone(t0+.63,150,'sine',.004,.11,.025,75);  // a softer second pop
-  for(var i=0;i<10;i++)hiss(t0+.52+rnd()*.62,.002,.018+rnd()*.02,'highpass',3200+rnd()*2400,0,.8,.007+rnd()*.009);   // crackle
-  // the chime: a small warm bell, A5 then C#6 (a fundamental, a quiet octave, a brief inharmonic shimmer)
-  [[880,.55],[1108.73,.62]].forEach(function(nt){tone(t0+nt[1],nt[0],'sine',.012,1.2,.03);tone(t0+nt[1],nt[0]*2,'sine',.01,.6,.009);tone(t0+nt[1],nt[0]*2.76,'sine',.006,.25,.004)});
-  last={at:t0,nodes:nodes,duration:1.9};return last;
+  if(!ctx||typeof SfxLib==='undefined')return null;dest=dest||ctx.destination;
+  var h=SfxLib.play(ctx,dest,SfxLib.LEVEL_PICK||'level_up_a');if(!h)return null;
+  last={at:h.at,nodes:2,duration:+h.duration.toFixed(3),id:h.id};return last;
  }
  var last=null;
 

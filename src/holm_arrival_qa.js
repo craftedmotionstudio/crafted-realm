@@ -131,7 +131,7 @@ var HolmArrivalQA=(function(){
  }
  function toggleDoor(id,enter){
   var next={arrival:doors.arrival,garden:doors.garden};next[id]=!next[id];
-  if(bridge.setDoors(next)){doors=next;owner.setDoors(doors,{animate:true});
+  if(bridge.setDoors(next)){doors=next;owner.setDoors(doors,{animate:true});if(typeof Sfx!=='undefined'&&Sfx.doorOpen){if(next[id])Sfx.doorOpen();else Sfx.doorClose()}
    // opened from outside: once the leaf has swung clear, step through into the doorway (the roof lifts, the room shows)
    if(enter&&next[id]&&!insideHouse(player.position)){var inn=doorwayInside(id);if(inn)setTimeout(function(){if(bridge&&!bridge.snapshot().moving&&doors[id])bridge.order(inn)},650)}}
   else UI.chat('Step clear of the doorway first.','plain');
@@ -179,7 +179,7 @@ var HolmArrivalQA=(function(){
    if(!sn||(Math.hypot(sn.x-player.position.x,sn.z-player.position.z)<.3&&!bridge.snapshot().moving)){readPlaque();return true}
    if(bridge.order(sn))pending={id:sn.id,kind:'statue'};else readPlaque();return true}
   // M5.2b: a shut door says why; an open one is walked through like the floor beneath it
-  if(u.kind==='island_gate'&&island){var gm=HolmIslandGates.message(u.islandGate);if(gm){UI.chat(gm,'plain');return true}if(bridge.order({x:point.x,y:point.y,z:point.z}))return true;UI.chat('There is no open route to that spot.','plain');return true}
+  if(u.kind==='island_gate'&&island){var gm=HolmIslandGates.message(u.islandGate);if(gm){UI.chat(gm,'plain');if(typeof Sfx!=='undefined'&&Sfx.doorLocked)Sfx.doorLocked(point);return true}if(bridge.order({x:point.x,y:point.y,z:point.z}))return true;UI.chat('There is no open route to that spot.','plain');return true}
   // M6.1: a tutor: walk to a stance beside them, then talk (chat-box dialogue)
   if(u.kind==='island_tutor'&&island){var tg=obj;while(tg&&!/^island-tutor-/.test(tg.name||''))tg=tg.parent;var tp=(tg||obj).getWorldPosition(new THREE.Vector3());
    var tn=beside(tp);if(tn&&Math.hypot(tn.x-player.position.x,tn.z-player.position.z)<.3&&!bridge.snapshot().moving){HolmIslandTutors.talk(u.islandTutor);return true}
@@ -197,7 +197,7 @@ var HolmArrivalQA=(function(){
    return true;
   }
   if(u.kind==='island_service'&&u.islandService&&island){   // M4.2: walk to the measured stance, then serve
-   var sv=u.islandService,blockedMsg=typeof HolmIslandGates!=='undefined'&&HolmIslandGates.serviceBlocked(sv.building,sv.target);if(blockedMsg){UI.chat(blockedMsg,'plain');return true}
+   var sv=u.islandService,blockedMsg=typeof HolmIslandGates!=='undefined'&&HolmIslandGates.serviceBlocked(sv.building,sv.target);if(blockedMsg){UI.chat(blockedMsg,'plain');if(/locked|barred|bolted|shut/i.test(blockedMsg)&&typeof Sfx!=='undefined'&&Sfx.doorLocked)Sfx.doorLocked(point);return true}
    // owner review 5 (2026-09-28): the mine shaft wants a rope tied to its frame before it can be climbed (HolmShaftRope)
    var rope=sv.rope&&typeof HolmShaftRope!=='undefined'?HolmShaftRope.click(sv):null;if(rope&&rope.refuse){UI.chat(rope.refuse,'plain');return true}
    var sg=graphForDoors(doors),stance=sg.byId&&sg.byId[sv.node];
@@ -261,7 +261,7 @@ var HolmArrivalQA=(function(){
    if(kind==='island_service'){var call=p0.service.call;
     if(p0.tie){HolmShaftRope.tie();return}
     if(p0.service.rope&&typeof HolmShaftRope!=='undefined'&&!HolmShaftRope.tied()){UI.chat(HolmShaftRope.LINES.refuse,'plain');return}
-    if(p0.service.climb){var up=graphForDoors(doors).byId[p0.service.climb];if(up){placeAt(up);if(typeof HolmIslandPlayer!=='undefined'&&HolmIslandPlayer.active())HolmIslandPlayer.play('climb');if(p0.service.notify)try{Tutorial.notify(p0.service.notify[0],p0.service.notify[1])}catch(e){}}else UI.chat('The ladder leads nowhere yet.','plain');if(!call)return}
+    if(p0.service.climb){var up=graphForDoors(doors).byId[p0.service.climb];if(up){if(typeof Sfx!=='undefined'&&Sfx.ladder){if(p0.service.rope)Sfx.ropeClimb();else Sfx.ladder(up.y>player.position.y?'up':'down')}placeAt(up);if(typeof HolmIslandPlayer!=='undefined'&&HolmIslandPlayer.active())HolmIslandPlayer.play('climb');if(p0.service.notify)try{Tutorial.notify(p0.service.notify[0],p0.service.notify[1])}catch(e){}}else UI.chat('The ladder leads nowhere yet.','plain');if(!call)return}
     if(!call){UI.chat(p0.service.say||(p0.service.label+'. (Its lesson comes with the full tutorial.)'),'plain');return}
     // module globals may be lexical (const UI), so resolve by name rather than only on window
     var mod=typeof window!=='undefined'&&window[call[0]];if(!mod&&/^[A-Za-z_]\w*$/.test(call[0])){try{mod=new Function('return typeof '+call[0]+'!==\'undefined\'?'+call[0]+':null')()}catch(e){mod=null}}
@@ -279,7 +279,7 @@ var HolmArrivalQA=(function(){
   var foot=near('ground',bw.x+s.x,bw.z+s.startZ+.5),head=near('upper',bw.x+s.x,bw.z+s.endZ-.5);if(!foot||!head)return null;
   return up?{from:foot,to:head}:{from:head,to:foot}}
  // 2004 stairs have no climb animation: the adventurer simply stands on the other floor, facing on into the room
- function climbStairs(sc){placeAt(sc.to);var dz=sc.to.z-sc.from.z,dx=sc.to.x-sc.from.x;if(Math.hypot(dx,dz)>.1)player.rotation.y=Math.atan2(dx,dz)}
+ function climbStairs(sc){if(typeof Sfx!=='undefined'&&Sfx.stairs)Sfx.stairs();placeAt(sc.to);var dz=sc.to.z-sc.from.z,dx=sc.to.x-sc.from.x;if(Math.hypot(dx,dz)>.1)player.rotation.y=Math.atan2(dx,dz)}
  // the firemaker's step off the fire tile on the graph: west first, then east, south, north (island draft only)
  function stepAside(){if(!island||!active()||!bridge)return false;var g=graphForDoors(doors),cur=g.byId[bridge.snapshot().nodeId];if(!cur)return false;
   var nb=(g.links[cur.id]||[]).map(function(id){return g.byId[id]});

@@ -75,13 +75,13 @@ var HolmTeachingKitchen=(function(){
     if(!onHolm()) return;
     if(bucketsHeld()>=BUCKET_LOAN_LIMIT){ UI.chat('Two buckets are plenty for one loaf. Return one to the shelf once it is empty.','plain'); return; }
     if(!hasSpace()){ UI.chat('You need a free inventory slot for the bucket.','plain'); return; }
-    Player.addItem('bucket',1); if(typeof Sfx!=='undefined'&&Sfx.click) Sfx.click();
+    Player.addItem('bucket',1); if(typeof Sfx!=='undefined'&&Sfx.bucketTake) Sfx.bucketTake();
     UI.chat('You lift a stave bucket from the shelf. The flour bin and the water butt will each fill one.','plain');
   }
   function returnBucket(){
     if(!onHolm()) return;
     if(Player.count('bucket')<1){ UI.chat('You have no empty bucket to hang back on the shelf.','plain'); return; }
-    Player.removeItem('bucket',1); UI.refreshInv();
+    Player.removeItem('bucket',1); UI.refreshInv(); if(typeof Sfx!=='undefined'&&Sfx.bucketTake) Sfx.bucketTake();
     UI.chat('You hang the empty bucket back on its peg.','plain');
   }
   function fillFrom(id,label,line){
@@ -94,7 +94,7 @@ var HolmTeachingKitchen=(function(){
       Player.removeItem('bucket',1); Player.addItem(id,1); UI.refreshInv();
       // review 9: the kit adventurer dips the bucket in (the kit's 'scoop' clip; HolmSkillTools hangs the bucket in the hand)
       try{ if(typeof HolmIslandPlayer!=='undefined'&&HolmIslandPlayer.active()&&HolmIslandPlayer.playAs) HolmIslandPlayer.playAs('scoop','scoop'); }catch(e){}
-      if(typeof Sfx!=='undefined'&&Sfx.click) Sfx.click();
+      if(typeof Sfx!=='undefined'&&Sfx.bucketFill) Sfx.bucketFill(label);
       UI.chat(line,'plain');
     };
   }
@@ -104,7 +104,7 @@ var HolmTeachingKitchen=(function(){
     if(!onHolm()) return;
     if(Player.count('dough')>0||Player.count('bread_dough')>0){ UI.chat('You already carry dough. Mix it with flour and water before taking more.','plain'); return; }
     if(!hasSpace()){ UI.chat('You need a free inventory slot for the dough.','plain'); return; }
-    Player.addItem('dough',1); if(typeof Sfx!=='undefined'&&Sfx.click) Sfx.click();
+    Player.addItem('dough',1); if(typeof Sfx!=='undefined'&&Sfx.pickup) Sfx.pickup();
     UI.chat('You lift a cool lump of dough from under the proving cloth. Now knead it into the flour and water.','plain');
   }
   function readRecipe(){

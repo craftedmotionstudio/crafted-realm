@@ -11,7 +11,7 @@ UI.openBank = function(announce=true){
       bg.appendChild(slotEl(s, ()=>{
         if(Player.addItem(s.id, def.stack?s.qty:1)){
           if(def.stack || s.qty===1) Player.bank.splice(i,1); else s.qty--;
-          UI.openBank(false); }
+          Sfx.bankWithdraw(); UI.openBank(false); }
       }, undefined, true));   // the vault stacks everything — always show the count
     });
     if(!Player.bank.length) bg.innerHTML='<i style="grid-column:1/-1;color:#9a8e78">Your vault is empty.</i>';
@@ -20,12 +20,12 @@ UI.openBank = function(announce=true){
       ig.appendChild(slotEl(s, s?()=>{
         const ex=Player.bank.find(b=>b.id===s.id);
         if(ex) ex.qty+=s.qty; else Player.bank.push({id:s.id, qty:s.qty});
-        Player.inv[i]=null; UI.refreshInv(); UI.openBank(false);
+        Player.inv[i]=null; Sfx.bankDeposit(); UI.refreshInv(); UI.openBank(false);
       }:null));
     });
     document.getElementById('bank-modal').style.display='block';
     if(announce && typeof Events!=='undefined') Events.emit('modalOpened', {id:'bank-modal'});
-    if(announce) Sfx.coin();
+    if(announce) Sfx.bankOpen();
   };
 UI.currentShop='bazaar';
 UI.openShop = function(shopKey, announce=true){
@@ -78,7 +78,7 @@ UI.bankWithdraw = function(i, n){
     if(!free){ UI.chat('Your pack is full.','plain'); return 0; } want=Math.min(want, free); }
   if(want<=0 || !Player.addItem(s.id, want)) return 0;
   s.qty-=want; if(s.qty<=0) Player.bank.splice(Player.bank.indexOf(s),1);
-  UI.openBank(false); return want;
+  Sfx.bankWithdraw(); UI.openBank(false); return want;
 };
 UI.bankDeposit = function(i, n){
   const s=Player.inv[i]; if(!s) return 0;
@@ -88,7 +88,7 @@ UI.bankDeposit = function(i, n){
     for(const j of order){ if(moved>=n) break; const x=Player.inv[j]; if(x&&x.id===id){ Player.inv[j]=null; moved+=x.qty||1; } } }
   if(!moved) return 0;
   const ex=Player.bank.find(b=>b.id===id); if(ex) ex.qty+=moved; else Player.bank.push({id, qty:moved});
-  UI.refreshInv(); UI.openBank(false); return moved;
+  Sfx.bankDeposit(); UI.refreshInv(); UI.openBank(false); return moved;
 };
 UI._shopState = function(){
   const shop=SHOPS[this.currentShop]||SHOPS.bazaar, DEF=10;

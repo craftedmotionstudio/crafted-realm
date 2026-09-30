@@ -110,15 +110,17 @@ const UI = {
     if(sdef0 && (Player.inv[i].id==='hammer')){ UI.chat('Take it to an anvil with some metal bars.','plain'); return; }
     const s=Player.inv[i]; if(!s) return;
     const def=ITEMS[s.id];
-    Sfx.click();
+    if(!def.equip) Sfx.click();
     if(def.equip){
       if(def.reqSkill && def.reqLvl && Player.lvl(def.reqSkill) < def.reqLvl){
+        Sfx.click();
         UI.chat(`You need ${def.reqSkill==='Attack'?'an':'a'} ${def.reqSkill} level of ${def.reqLvl} to ${def.equip==='weapon'?'wield':'wear'} the ${def.name}.`,'plain');
         return;
       }
       const slot=def.equip, prev=Player.equip[slot];
       Player.equip[slot]=s.id; Player.inv[i]=null;
       if(prev) Player.addItem(prev,1);
+      Sfx.equip(s.id);   // by material: a tool's haft and head, a blade, wood, leather, cloth (Sfx.material)
       UI.chat(`You ${slot==='weapon'?'wield':'wear'} the ${def.name}.`,'plain');
       refreshPlayerGear();
       Tutorial.notify('equip', s.id);
@@ -127,7 +129,7 @@ const UI = {
     if(def.heal){
       if(typeof LocalCombat!=='undefined' && LocalCombat.ready()){ LocalCombat.eat(i); return; }
       Player.hp=Math.min(Player.maxHp, Player.hp+def.heal);
-      Player.inv[i]=null; Sfx.eat();
+      Player.inv[i]=null; Sfx.eat(s.id);
       UI.chat(`You eat the ${def.name.toLowerCase()}. It heals some health.`,'plain');
       this.refreshInv(); return;
     }
@@ -173,7 +175,7 @@ const UI = {
       else right.textContent='—';
       row.appendChild(left); row.appendChild(right);
       if(v){ row.style.cursor='pointer'; row.title='Click to remove';
-        row.onclick=()=>{ if(Player.addItem(v,1)){ Player.equip[k]=null;
+        row.onclick=()=>{ if(Player.addItem(v,1)){ Player.equip[k]=null; Sfx.unequip(v);
           refreshPlayerGear(); UI.refreshEquip(); } }; }
       el.appendChild(row);
     });
@@ -338,15 +340,19 @@ const UI = {
     const box=document.getElementById('dlg-opts'); box.innerHTML='';
     (opts||[{label:'Farewell.', fn:null}]).forEach(o=>{
       const b=document.createElement('button'); b.className='opt'; b.textContent=o.label;
-      b.onclick=()=>{ UI.closeModal('dialogue-modal'); Sfx.click(); if(o.fn) o.fn(); };
+      b.onclick=()=>{ UI.closeModal('dialogue-modal'); Sfx.dialogue(); if(o.fn) o.fn(); };
       box.appendChild(b);
     });
     document.getElementById('dialogue-modal').style.display='block';
     if(typeof Events!=='undefined') Events.emit('modalOpened', {id:'dialogue-modal'});
   },
-  closeModal(id){ document.getElementById(id).style.display='none'; },
+  closeModal(id){ const el=document.getElementById(id);
+    // a window closing folds shut (the chat-box dialogue pages turn instead: Sfx.dialogue in its buttons)
+    if(el.style.display==='block' && id!=='dialogue-modal'){ if(id==='worldmap-modal') Sfx.mapClose(); else Sfx.windowClose(); }
+    el.style.display='none'; },
   openWorldMap(){
     const m=document.getElementById('worldmap-modal');
+    if(m.style.display!=='block') Sfx.mapOpen();
     m.style.display='block';
     drawWorldMap();
     const c=document.getElementById('worldmap');
@@ -426,7 +432,7 @@ document.querySelectorAll('.tab-btn').forEach(b=>{
     if(b.dataset.tab==='prayers' && UI.refreshPrayers) UI.refreshPrayers();
     if(b.dataset.tab==='spells' && UI.refreshSpells) UI.refreshSpells();
     if(b.dataset.tab==='combat' && UI.refreshCombat) UI.refreshCombat();
-    Sfx.click();
+    Sfx.tab();
   };
 });
 
@@ -812,11 +818,11 @@ function toggleDoor(door){
   if(u.open){
     door.rotation.y=u.closedRot; u.open=false; u.label='Open <b>Door</b>';
     if(!WORLD.colliders.includes(u.col)) WORLD.colliders.push(u.col);
-    Sfx.click();
+    Sfx.doorClose(door.position);
   } else {
     door.rotation.y=u.openRot; u.open=true; u.label='Close <b>Door</b>';
     const i=WORLD.colliders.indexOf(u.col); if(i>=0) WORLD.colliders.splice(i,1);
-    Sfx.click();
+    Sfx.doorOpen(door.position);
   }
   // keep the flag grid in sync around the doorway (bake ignores doors today, but this
   // covers future door WALL flags and any collider the swing displaces)

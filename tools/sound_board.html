@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crafted Realm sound board</title>
+<style>
+:root{--bg:#1f1a14;--panel:#2b241b;--edge:#4a3d2c;--ink:#efe3c8;--dim:#b3a383;--gold:#e0b04a;--new:#8fc46a;--old:#c9855a;--pick:#f0cf6a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 Georgia,'Times New Roman',serif}
+header{position:sticky;top:0;z-index:5;background:#241e16ee;border-bottom:1px solid var(--edge);padding:10px 16px;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+h1{font-size:19px;margin:0;color:var(--gold);font-weight:normal;letter-spacing:.5px}
+header label{color:var(--dim);font-size:13px}
+header input[type=range]{vertical-align:middle;width:120px}
+main{max-width:1180px;margin:0 auto;padding:10px 16px 60px}
+.intro{color:var(--dim);max-width:900px}
+nav{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px}
+nav a{color:var(--ink);text-decoration:none;border:1px solid var(--edge);border-radius:3px;padding:2px 8px;font-size:13px;background:var(--panel)}
+nav a:hover{border-color:var(--gold)}
+h2{font-size:16px;color:var(--gold);border-bottom:1px solid var(--edge);padding-bottom:3px;margin:26px 0 8px;font-weight:normal}
+.row{display:grid;grid-template-columns:minmax(150px,230px) auto 170px 1fr;gap:6px 12px;align-items:center;padding:7px 8px;border-bottom:1px solid #3a3024}
+.row:hover{background:#2f271d}
+.row.pick{background:#3a3120;outline:1px solid var(--pick)}
+.name b{font-weight:normal}
+.name code{display:block;color:var(--dim);font-size:11px;font-family:Consolas,monospace}
+.btns{display:flex;gap:5px;flex-wrap:wrap}
+button{font:13px Georgia,serif;cursor:pointer;border-radius:3px;border:1px solid var(--edge);background:#3b3124;color:var(--ink);padding:3px 9px}
+button:hover{border-color:var(--gold)}
+button.new{border-color:#5c7a45}
+button.old{border-color:#7a5238;color:#ecc6a8}
+button.on{background:#5c7a45}
+canvas.w{width:170px;height:34px;background:#18130e;border:1px solid #3a3024;border-radius:2px}
+.made{color:var(--dim);font-size:12.5px}
+.badge{display:inline-block;font-size:11px;padding:0 5px;border-radius:2px;margin-left:4px;vertical-align:1px}
+.badge.r{background:#5a3b25;color:#f1cfb2}.badge.n{background:#3d5a2c;color:#d8efc6}.badge.p{background:#6a5520;color:#fff0c0}
+.why{background:var(--panel);border:1px solid var(--edge);border-radius:4px;padding:8px 12px;margin:8px 0;color:var(--ink);font-size:13.5px}
+@media (max-width:760px){.row{grid-template-columns:1fr auto}.row canvas.w{display:none}.made{grid-column:1/-1}}
+/* the waveform / spectrogram sheet (tools/render_sfx.js) */
+body.sheet{background:#15110c}
+body.sheet header,body.sheet main{display:none}
+#sheet{display:none;padding:10px}
+body.sheet #sheet{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.cell{background:#1d1812;border:1px solid #3a3024;padding:4px}
+.cell .t{font:11px Consolas,monospace;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cell .t i{color:var(--dim);font-style:normal}
+.cell canvas{display:block;width:100%}
+.cell .lbl{font:10px Consolas,monospace;color:var(--dim)}
+.cell .lbl.o{color:#e0a47c}.cell .lbl.n{color:#a8d88a}
+</style>
+</head>
+<body>
+<header>
+ <h1>Crafted Realm sound board</h1>
+ <label>Volume <input id="vol" type="range" min="0" max="100" value="80"></label>
+ <label><input id="music" type="checkbox"> under a quiet music bed (to judge the mix)</label>
+ <button id="stopall">Stop all</button>
+ <span id="status" class="made"></span>
+</header>
+<main>
+ <p class="intro">Every sound effect in the game, synthesized (<code>src/sfx_lib.js</code>, recipes in <code>src/sfx_recipes.js</code>).
+  <b>Play</b> is the new sound, <b>Play x3</b> plays it three times as the game would (each play is nudged a little in pitch and level),
+  and <b>Old</b> plays the sound it replaced, where there was one. Inventory and wiring: <code>docs/rebuild/HOLM_SOUND_INVENTORY.md</code>.</p>
+ <nav id="nav"></nav>
+ <div class="why" id="why"></div>
+ <div id="list"></div>
+</main>
+<div id="sheet"></div>
+<script src="../src/sfx_lib.js"></script>
+<script src="../src/sfx_recipes.js"></script>
+<script src="sfx_legacy.js"></script>
+<script>
+(function(){
+ 'use strict';
+ var L=SfxLib,ctx=null,bus=null,master=null,loops={},music=null;
+ var qs=new URLSearchParams(location.search),SHEET=qs.get('sheet')==='1';
+ var CATS=[];L.ORDER.forEach(function(id){var c=L.DEFS[id].cat;if(CATS.indexOf(c)<0)CATS.push(c)});
+ function audio(){if(!ctx){ctx=new (window.AudioContext||window.webkitAudioContext)();master=ctx.createGain();master.gain.value=vol();master.connect(ctx.destination);bus=master;bus.__sfxName='board-bus'}
+  if(ctx.state==='suspended')ctx.resume();return ctx}
+ function vol(){return (+document.getElementById('vol').value||0)/100}
+ document.getElementById('vol').oninput=function(){if(master)master.gain.value=vol()};
+ function status(t){document.getElementById('status').textContent=t}
+ function playNew(id,times){audio();var d=L.DEFS[id];
+  if(d.loop){if(loops[id]){try{loops[id].src.stop()}catch(e){}delete loops[id];paint();return}loops[id]=L.play(ctx,bus,id,{});paint();return}
+  for(var i=0;i<(times||1);i++)L.play(ctx,bus,id,{delay:i*Math.max(.35,Math.min(1.2,d.dur*.9))});
+  var m=L.measure(L.render(id,22050,0),22050);status(id+': peak '+m.peak+', '+m.audible+' s')}
+ function playOld(key){audio();if(!SfxLegacy.play(ctx,bus,key))status('no old sound for '+key)}
+ document.getElementById('stopall').onclick=function(){Object.keys(loops).forEach(function(k){try{loops[k].src.stop()}catch(e){}});loops={};stopMusic();paint()};
+ // a quiet stand-in music bed (a soft sustained chord), only to judge how the effects sit under music
+ function startMusic(){audio();if(music)return;var g=ctx.createGain();g.gain.value=.05;g.connect(bus);var os=[196,246.94,293.66,392].map(function(f){var o=ctx.createOscillator();o.type='triangle';o.frequency.value=f;o.connect(g);o.start();return o});music={g:g,os:os}}
+ function stopMusic(){if(!music)return;music.os.forEach(function(o){try{o.stop()}catch(e){}});music=null;document.getElementById('music').checked=false}
+ document.getElementById('music').onchange=function(){this.checked?startMusic():stopMusic()};
+ function wave(cv,data){var w=cv.width=340,h=cv.height=68,g=cv.getContext('2d'),n=data.length,pk=0,i;for(i=0;i<n;i++)pk=Math.max(pk,Math.abs(data[i]));pk=pk||1;
+  g.fillStyle='#18130e';g.fillRect(0,0,w,h);g.strokeStyle='#8fc46a';g.beginPath();for(var x=0;x<w;x++){var a=Math.floor(x/w*n),b=Math.floor((x+1)/w*n),lo=0,hi=0;for(i=a;i<b;i++){if(data[i]<lo)lo=data[i];if(data[i]>hi)hi=data[i]}
+   g.moveTo(x+.5,h/2-hi/pk*h*.46);g.lineTo(x+.5,h/2-lo/pk*h*.46+1)}g.stroke()}
+ function paint(){document.querySelectorAll('button[data-loop]').forEach(function(b){var on=!!loops[b.dataset.loop];b.classList.toggle('on',on);b.textContent=on?'Stop loop':'Play loop'})}
+ function build(){
+  var nav=document.getElementById('nav'),list=document.getElementById('list');
+  CATS.forEach(function(c){var a=document.createElement('a');a.href='#cat-'+c.replace(/\W+/g,'-');a.textContent=c;nav.appendChild(a);
+   var h=document.createElement('h2');h.id='cat-'+c.replace(/\W+/g,'-');h.textContent=c;list.appendChild(h);
+   L.ORDER.filter(function(id){return L.DEFS[id].cat===c}).forEach(function(id){var d=L.DEFS[id],row=document.createElement('div');row.className='row'+(id===L.LEVEL_PICK?' pick':'');
+    var oldKey=d.old&&SfxLegacy.has(d.old)?d.old:null;
+    row.innerHTML='<div class="name"><b></b>'+(oldKey?'<span class="badge r">replaced</span>':(d.old&&d.old!=='(none)'?'':'<span class="badge n">new</span>'))+(id===L.LEVEL_PICK?'<span class="badge p">picked</span>':'')+'<code>'+id+'</code></div><div class="btns"></div><canvas class="w"></canvas><div class="made"></div>';
+    row.querySelector('b').textContent=d.label;row.querySelector('.made').textContent=d.made+(oldKey?' (was: '+d.old+')':'');
+    var bt=row.querySelector('.btns');
+    function btn(t,cls,fn){var b=document.createElement('button');b.textContent=t;b.className=cls;b.onclick=fn;bt.appendChild(b);return b}
+    if(d.loop){var lb=btn('Play loop','new',function(){playNew(id)});lb.dataset.loop=id}
+    else{btn('Play','new',function(){playNew(id,1)});btn('Play x3','new',function(){playNew(id,3)})}
+    if(oldKey)btn('Old','old',function(){playOld(oldKey)});
+    list.appendChild(row);
+    var cv=row.querySelector('canvas');setTimeout(function(){wave(cv,L.render(id,11025,0))},0)})});
+  var lv=L.DEFS[L.LEVEL_PICK];
+  document.getElementById('why').innerHTML='<b>Level-up: three candidates, one picked.</b> The fireworks stay as they are; the noise under them changed. '+
+   '<b>A, the lute arpeggio, is the pick</b>: warm plucked strings (a medieval sound, not a synth beep) rising C-E-G with the rockets and blooming on the burst at 0.46 s, so the ear and the eye agree; '+
+   'short (the notes are gone by 1.2 s) and soft-edged, with no whoosh or pops. '+
+   'B, the music box, is pretty but thin and tinkly, too close to a UI chime, and it can sound childish on the hundredth level. '+
+   'C, the horn call, reads as a fanfare: heavier and more "announcement" than cozy. '+
+   'Old: the firework whoosh, pops and crackle the owner did not like. <button class="new" id="lvA">A (picked)</button> <button class="new" id="lvB">B</button> <button class="new" id="lvC">C</button> <button class="old" id="lvO">Old</button>';
+  document.getElementById('lvA').onclick=function(){playNew('level_up_a')};document.getElementById('lvB').onclick=function(){playNew('level_up_b')};
+  document.getElementById('lvC').onclick=function(){playNew('level_up_c')};document.getElementById('lvO').onclick=function(){playOld('Sfx.level')};
+ }
+
+ /* ---------------- the sheet: waveform + spectrogram for every sound, new (and old where there was one) ---------------- */
+ function fft(re,im){var n=re.length,i,j,k,l;for(i=1,j=0;i<n;i++){var bit=n>>1;for(;j&bit;bit>>=1)j^=bit;j^=bit;if(i<j){var t=re[i];re[i]=re[j];re[j]=t;t=im[i];im[i]=im[j];im[j]=t}}
+  for(l=2;l<=n;l<<=1){var a=-2*Math.PI/l,wr=Math.cos(a),wi=Math.sin(a);for(i=0;i<n;i+=l){var cr=1,ci=0;for(k=0;k<l/2;k++){var ur=re[i+k],ui=im[i+k],vr=re[i+k+l/2]*cr-im[i+k+l/2]*ci,vi=re[i+k+l/2]*ci+im[i+k+l/2]*cr;
+   re[i+k]=ur+vr;im[i+k]=ui+vi;re[i+k+l/2]=ur-vr;im[i+k+l/2]=ui-vi;var nr=cr*wr-ci*wi;ci=cr*wi+ci*wr;cr=nr}}}}
+ function heat(v){v=Math.max(0,Math.min(1,v));var r=Math.min(1,v*2.2),g=Math.max(0,Math.min(1,v*2-.45)),b=Math.max(0,v*3-2.2)+.12*(1-v);return 'rgb('+(r*255|0)+','+(g*235|0)+','+(b*200|0)+')'}
+ function spec(cv,data,sr,secs){var W=cv.width,H=cv.height,g=cv.getContext('2d'),N=512,hop=Math.max(32,Math.floor(secs*sr/W)),re=new Float64Array(N),im=new Float64Array(N);
+  g.fillStyle='#0d0a07';g.fillRect(0,0,W,H);var fmin=60,fmax=sr/2,ln=Math.log(fmax/fmin);
+  for(var x=0;x<W;x++){var s0=Math.floor(x*secs*sr/W);for(var i=0;i<N;i++){var v=data[s0+i]||0;re[i]=v*(.5-.5*Math.cos(2*Math.PI*i/(N-1)));im[i]=0}fft(re,im);
+   for(var y=0;y<H;y++){var f=fmin*Math.exp(ln*(1-y/H)),bin=Math.min(N/2-1,Math.round(f/sr*N)),m=Math.hypot(re[bin],im[bin]),db=20*Math.log10(m+1e-9);g.fillStyle=heat((db+70)/62);g.fillRect(x,y,1,1)}}}
+ function waveTo(cv,data,sr,secs,color){var W=cv.width,H=cv.height,g=cv.getContext('2d'),n=Math.min(data.length,Math.floor(secs*sr));g.fillStyle='#0d0a07';g.fillRect(0,0,W,H);
+  g.strokeStyle='#3a3024';g.beginPath();g.moveTo(0,H/2);g.lineTo(W,H/2);g.stroke();g.strokeStyle=color;g.beginPath();var sc=H/2/0.25;   // a shared scale: 0.25 full-scale fills the height
+  for(var x=0;x<W;x++){var a=Math.floor(x/W*n),b=Math.floor((x+1)/W*n),lo=0,hi=0;for(var i=a;i<b;i++){if(data[i]<lo)lo=data[i];if(data[i]>hi)hi=data[i]}g.moveTo(x+.5,H/2-hi*sc);g.lineTo(x+.5,H/2-lo*sc+1)}g.stroke()}
+ function renderOld(key,secs,sr){var off=new OfflineAudioContext(1,Math.ceil(secs*sr),sr);SfxLegacy.play(off,off.destination,key,0);return off.startRendering().then(function(b){return b.getChannelData(0)})}
+ function b64(ab){var u=new Uint8Array(ab),s='';for(var i=0;i<u.length;i+=32768)s+=String.fromCharCode.apply(null,u.subarray(i,i+32768));return btoa(s)}
+ async function sheet(){var host=document.getElementById('sheet'),SR=22050,out={news:{},olds:{},meta:{}};
+  for(var i=0;i<L.ORDER.length;i++){var id=L.ORDER[i],d=L.DEFS[id],secs=Math.min(3,d.loop?3:d.dur),data=L.render(id,SR,0),oldKey=d.old&&SfxLegacy.has(d.old)?d.old:null,old=null;
+   if(oldKey){try{old=await renderOld(oldKey,Math.max(secs,1.2),SR)}catch(e){old=null}}
+   var c=document.createElement('div');c.className='cell';var m=L.measure(data,SR);
+   c.innerHTML='<div class="t">'+id+' <i>'+d.label.replace(/</g,'&lt;')+'</i></div><div class="lbl n">new: peak '+m.peak+'  rms '+m.rms+'  '+m.audible+' s'+(d.loop?' (loop, first 3 s)':'')+'</div>';
+   var w=document.createElement('canvas');w.width=270;w.height=40;c.appendChild(w);waveTo(w,data,SR,secs,'#a8d88a');
+   var s=document.createElement('canvas');s.width=270;s.height=70;c.appendChild(s);spec(s,data,SR,secs);
+   if(old){var mo=L.measure(old,SR),lo=document.createElement('div');lo.className='lbl o';lo.textContent='old ('+oldKey+'): peak '+mo.peak+'  rms '+mo.rms;c.appendChild(lo);
+    var w2=document.createElement('canvas');w2.width=270;w2.height=40;c.appendChild(w2);waveTo(w2,old,SR,secs,'#e0a47c');
+    var s2=document.createElement('canvas');s2.width=270;s2.height=50;c.appendChild(s2);spec(s2,old,SR,secs);out.olds[id]={key:oldKey,wav:b64(L.wav(old,SR)),measure:mo}}
+   host.appendChild(c);out.meta[id]={label:d.label,cat:d.cat,measure:m,old:oldKey}}
+  window.__sheet=out;window.__sheetDone=true}
+ build();
+ if(SHEET){document.body.classList.add('sheet');sheet().catch(function(e){window.__sheetError=String(e&&e.stack||e);window.__sheetDone=true})}
+})();
+</script>
+</body>
+</html>
