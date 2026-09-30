@@ -53,11 +53,11 @@ var CozyFire=(function(){
   clips.forEach(function(k){if(!k.root||!k.root.parent)return;var box=new THREE.Box3(),hit=false;
    k.clip.tracks.forEach(function(tr){var n=k.root.getObjectByName(tr.name.split('.')[0]);if(n){n.updateMatrixWorld(true);var b=new THREE.Box3().setFromObject(n);if(!b.isEmpty()){box.union(b);hit=true}}});
    if(!hit)return;var c=box.getCenter(new THREE.Vector3());add({x:c.x,y:box.max.y-.05,z:c.z},/torch/i.test(k.clip.name)?'torch':'hearth',/torch/i.test(k.clip.name)?.4:1)});
-  // the cavern's wall torches: one merged mesh of three flames; each flame is a cluster of its vertices
-  if(typeof scene!=='undefined'&&scene){var tf=scene.getObjectByName('Cavern_TorchFlame');if(tf)tf.traverse(function(m){if(!m.isMesh||!m.geometry||!m.geometry.attributes.position)return;m.updateMatrixWorld(true);
+  // merged flame meshes (the cavern's wall torches; the Keep's torches and hearths, tagged torch-flame / hearth-flame): each flame is a cluster of its vertices
+  if(typeof scene!=='undefined'&&scene)[['Cavern_TorchFlame','torch',.4],['Keep_Shell_TorchFlames','torch',.4],['Keep_Upper_Shell_TorchFlames','torch',.4],['Keep_Furnishing_HearthFire','hearth',1],['Keep_Upper_Furnishing_HearthFire','hearth',1]].forEach(function(src){var tf=scene.getObjectByName(src[0]);if(tf)tf.traverse(function(m){if(!m.isMesh||!m.geometry||!m.geometry.attributes.position)return;m.updateMatrixWorld(true);
    var pa=m.geometry.attributes.position,v=new THREE.Vector3(),cells={};for(var i=0;i<pa.count;i+=3){v.fromBufferAttribute(pa,i).applyMatrix4(m.matrixWorld);var key=Math.round(v.x/1.2)+','+Math.round(v.z/1.2);
     var c=cells[key]||(cells[key]={x:0,z:0,n:0,top:-1e9});c.x+=v.x;c.z+=v.z;c.n++;if(v.y>c.top)c.top=v.y}
-   Object.keys(cells).forEach(function(k){var c=cells[k];add({x:c.x/c.n,y:c.top,z:c.z/c.n},'torch',.4)})})}
+   Object.keys(cells).forEach(function(k){var c=cells[k];add({x:c.x/c.n,y:c.top,z:c.z/c.n},src[1],src[2])})})})
   stats.sources=out.length;return out}
 
  /* ---------------- embers: one Points, a fixed pool ---------------- */
