@@ -1,0 +1,406 @@
+{
+ "layout": "holm-path-tiles-authored-v1",
+ "tiles": 657,
+ "segments": [
+  {
+   "id": "dock-guide-house",
+   "name": "dock to Guide House",
+   "from": "dock",
+   "to": "guide-house:front-door",
+   "w": 2,
+   "tiles": 36
+  },
+  {
+   "id": "guide-house-back",
+   "name": "Guide House back door down the knoll",
+   "from": "guide-house:back-door",
+   "to": "junction:knoll-foot",
+   "w": 2,
+   "tiles": 14
+  },
+  {
+   "id": "knoll-bridge",
+   "name": "the knoll foot to the timber bridge",
+   "from": "junction:knoll-foot",
+   "to": "crossing:timber_teaching_bridge",
+   "w": 1,
+   "tiles": 14
+  },
+  {
+   "id": "bridge-camp",
+   "name": "timber bridge to the Survival camp",
+   "from": "crossing:timber_teaching_bridge",
+   "to": "survival:camp",
+   "w": 1,
+   "tiles": 10
+  },
+  {
+   "id": "hollow-path",
+   "name": "the Hollow Path: Survival camp past Wenna and the teaching oaks to Fire Beach",
+   "from": "junction:camp-corner",
+   "to": "hollow:fire-beach",
+   "w": 2,
+   "tiles": 22
+  },
+  {
+   "id": "camp-bakehouse",
+   "name": "Survival camp up the bench to the Bakehouse lane",
+   "from": "junction:camp-gap",
+   "to": "junction:bakehouse-corner",
+   "w": 1,
+   "tiles": 18
+  },
+  {
+   "id": "bakehouse-lane",
+   "name": "the Bakehouse lane",
+   "from": "junction:bakehouse-corner",
+   "to": "junction:bakehouse-yard",
+   "w": 2,
+   "tiles": 22
+  },
+  {
+   "id": "bakehouse-door",
+   "name": "Bakehouse door",
+   "from": "bakehouse:entrance",
+   "to": "junction:bakehouse-yard",
+   "w": 2,
+   "tiles": 6
+  },
+  {
+   "id": "bakehouse-lodge",
+   "name": "Bakehouse lane to the Quest Lodge door",
+   "from": "junction:bakehouse-corner",
+   "to": "lodge:entrance",
+   "w": 2,
+   "tiles": 38
+  },
+  {
+   "id": "lodge-quarry",
+   "name": "Quest Lodge up the mesa ramp to the Quarry Gate",
+   "from": "junction:lodge-front",
+   "to": "quarry:approach",
+   "w": 1,
+   "tiles": 36
+  },
+  {
+   "id": "keep-bank",
+   "name": "Warden's Keep gate court down the ledge to the Holm Bank court",
+   "from": "court:keep-court",
+   "to": "court:bank-court",
+   "w": 1,
+   "tiles": 22
+  },
+  {
+   "id": "bank-mage",
+   "name": "Holm Bank court across the gully to the Mage tower door",
+   "from": "court:bank-court",
+   "to": "mage:entrance",
+   "w": 2,
+   "tiles": 42
+  },
+  {
+   "id": "mage-climb",
+   "name": "Mage tower door up the crown climb",
+   "from": "mage:entrance",
+   "to": "junction:crown-ramp-foot",
+   "w": 2,
+   "tiles": 64
+  },
+  {
+   "id": "crown-ramp",
+   "name": "the crown climb ramp",
+   "from": "junction:crown-ramp-foot",
+   "to": "junction:crown-ramp-head",
+   "w": 1,
+   "tiles": 8
+  },
+  {
+   "id": "crown-lastlight",
+   "name": "the crown climb to Lastlight",
+   "from": "junction:crown-ramp-head",
+   "to": "junction:lastlight-west",
+   "w": 2,
+   "tiles": 40
+  },
+  {
+   "id": "lastlight-stair",
+   "name": "Lastlight to the Keeper's Stair head",
+   "from": "junction:lastlight-west",
+   "to": "stair:head",
+   "w": 2,
+   "tiles": 26
+  },
+  {
+   "id": "lastlight-door",
+   "name": "Lastlight storm door",
+   "from": "junction:lastlight-west",
+   "to": "lastlight:door",
+   "w": 1,
+   "tiles": 4
+  },
+  {
+   "id": "stair-haven",
+   "name": "Keeper's Stair foot to the haven pier",
+   "from": "stair:foot",
+   "to": "haven:shore",
+   "w": 1,
+   "tiles": 7
+  },
+  {
+   "id": "village-lane",
+   "name": "the village lane: Quest Lodge lane past Hettie's Garden gate to the stone village bridge",
+   "from": "junction:village-corner",
+   "to": "crossing:stone_village_bridge",
+   "w": 2,
+   "tiles": 51
+  },
+  {
+   "id": "bridge-mill",
+   "name": "stone village bridge to the Creakwheel Mill",
+   "from": "crossing:stone_village_bridge",
+   "to": "mill:door",
+   "w": 2,
+   "tiles": 10
+  },
+  {
+   "id": "mill-road",
+   "name": "the village road: Creakwheel Mill down to the east lane",
+   "from": "mill:door",
+   "to": "junction:village-road-foot",
+   "w": 1,
+   "tiles": 28
+  },
+  {
+   "id": "east-lane",
+   "name": "the east lane: Guide House knoll up the bank shoulder to the Mage tower lane",
+   "from": "junction:knoll-foot",
+   "to": "junction:bank-shoulder",
+   "w": 1,
+   "tiles": 53
+  },
+  {
+   "id": "mage-farm",
+   "name": "Mage practice yard to Haycombe Farm",
+   "from": "court:mage-yard",
+   "to": "farm:yard",
+   "w": 1,
+   "tiles": 35
+  }
+ ],
+ "courts": [
+  {
+   "id": "keep-court",
+   "name": "Warden's Keep gate court",
+   "rect": [
+    85,
+    45,
+    89,
+    48
+   ],
+   "tiles": 20
+  },
+  {
+   "id": "bank-court",
+   "name": "Holm Bank court",
+   "rect": [
+    83,
+    62,
+    90,
+    64
+   ],
+   "tiles": 24
+  },
+  {
+   "id": "mage-yard",
+   "name": "Mage practice yard",
+   "rect": [
+    109,
+    63,
+    114,
+    64
+   ],
+   "tiles": 12
+  }
+ ],
+ "junctions": [
+  {
+   "id": "knoll-foot",
+   "name": "the knoll foot below the Guide House back door",
+   "at": [
+    64,
+    87
+   ]
+  },
+  {
+   "id": "camp-corner",
+   "name": "the Survival camp's east corner, the head of the Hollow Path",
+   "at": [
+    33,
+    87
+   ]
+  },
+  {
+   "id": "camp-gap",
+   "name": "the gap between the Survival camp and the rocks",
+   "at": [
+    38,
+    87
+   ]
+  },
+  {
+   "id": "bakehouse-corner",
+   "name": "the Bakehouse lane's west corner",
+   "at": [
+    36,
+    71
+   ]
+  },
+  {
+   "id": "bakehouse-yard",
+   "name": "the Bakehouse door yard",
+   "at": [
+    45,
+    70
+   ]
+  },
+  {
+   "id": "lodge-front",
+   "name": "in front of the Quest Lodge door",
+   "at": [
+    36,
+    55
+   ]
+  },
+  {
+   "id": "village-corner",
+   "name": "where the village lane leaves the Quest Lodge lane",
+   "at": [
+    38,
+    56
+   ]
+  },
+  {
+   "id": "village-road-foot",
+   "name": "where the village road meets the east lane",
+   "at": [
+    73,
+    79
+   ]
+  },
+  {
+   "id": "bank-shoulder",
+   "name": "the bank shoulder, where the east lane meets the Mage tower lane",
+   "at": [
+    95,
+    63
+   ]
+  },
+  {
+   "id": "crown-ramp-foot",
+   "name": "the foot of the crown climb ramp",
+   "at": [
+    127,
+    45
+   ]
+  },
+  {
+   "id": "crown-ramp-head",
+   "name": "the head of the crown climb ramp",
+   "at": [
+    127,
+    38
+   ]
+  },
+  {
+   "id": "lastlight-west",
+   "name": "below Lastlight's west wall",
+   "at": [
+    114,
+    31
+   ]
+  }
+ ],
+ "audit": {
+  "components": 4,
+  "componentSizes": [
+   567,
+   47,
+   36,
+   7
+  ],
+  "counts": {
+   "isolated": 0,
+   "offRoute": 0,
+   "ragged": 3,
+   "staircase": 2,
+   "clipped": 3,
+   "parallel": 0
+  },
+  "strayTiles": 5,
+  "crossWidths": {
+   "1": 193,
+   "2": 295,
+   "3": 34
+  },
+  "unserved": [],
+  "findings": {
+   "isolated": [],
+   "offRoute": [],
+   "ragged": [
+    [
+     47,
+     55,
+     "width3"
+    ],
+    [
+     47,
+     56,
+     "width3"
+    ],
+    [
+     47,
+     57,
+     "width3"
+    ]
+   ],
+   "staircase": [
+    [
+     28,
+     47
+    ],
+    [
+     83,
+     50
+    ]
+   ],
+   "clipped": [
+    [
+     112,
+     26,
+     "unwalkable"
+    ],
+    [
+     112,
+     27,
+     "unwalkable"
+    ],
+    [
+     112,
+     28,
+     "unwalkable"
+    ]
+   ],
+   "parallel": []
+  }
+ },
+ "decor": {
+  "takenUp": [],
+  "restored": [],
+  "written": false
+ },
+ "graph": {
+  "nodes": 10468,
+  "edges": 27691,
+  "hash": "d41278dc47dbc168"
+ }
+}

@@ -51,7 +51,10 @@ function collect(){
 // a Studio workspace's target list is fixed at init: when the island gains files, publish through the next version
 function workspaceId(rows){let v=1;for(;;v++){const m=path.join(ROOT,WS,'holm-island-publish-v'+v,'studio-workspace.json');if(!fs.existsSync(m))return 'holm-island-publish-v'+v;
   const have=new Set(JSON.parse(fs.readFileSync(m,'utf8')).targets.map(t=>t.path));if(rows.every(r=>have.has(r.target)))return 'holm-island-publish-v'+v}}
-const mode=process.argv[2]||'plan',rows=collect(),id=workspaceId(rows);
+// --fresh: start the next free publish workspace (a new snapshot of live) instead of reusing the last one whose targets
+// cover the rows -- needed when merges already changed published files since that workspace's snapshot
+function freshId(){for(let v=1;;v++){if(!fs.existsSync(path.join(ROOT,WS,'holm-island-publish-v'+v,'studio-workspace.json')))return 'holm-island-publish-v'+v}}
+const mode=process.argv[2]||'plan',rows=collect(),id=process.argv.includes('--fresh')?freshId():workspaceId(rows);
 const bytes=rows.reduce((a,r)=>a+fs.statSync(r.src).size,0);
 console.log('[HOLM PUBLISH] '+rows.length+' files, '+(bytes/1048576).toFixed(1)+' MB -> assets/holm_island/');
 if(mode==='plan'){rows.slice(0,12).forEach(r=>console.log('  '+r.target));if(rows.length>12)console.log('  …');process.exit(0)}
