@@ -29,7 +29,7 @@ function fresh(file,o){o=o||{};delete require.cache[require.resolve(file)];
  return m}
 
 check('1 values: v3 by default; ?look= for the tab; saved panel values win over the config; the copied JSON as the default; reset; ?look=panel',()=>{
- const cfg=fs.readFileSync(path.join(root,'src/config.js'),'utf8');assert(/holmLookOption:\s*'3'/.test(cfg)&&/holmLook:\s*null/.test(cfg),'shipped default = look v3');
+ const cfg=fs.readFileSync(path.join(root,'src/config.js'),'utf8');assert(/holmLookOption:\s*'3'/.test(cfg)&&/holmLook:\s*\{pixelLines:670,colourDepth:0,characterFacets:0\.7,chunkyTexels:true\}/.test(cfg),"shipped default = the owner's pick (2026-09-29: 670 lines, full colour, facets 0.7, chunky texels)");
  let v=fresh(V4,{cfg:{holmLookOption:'3',holmLook:null}});v.__restore();
  assert.deepStrictEqual(v.get(),v.DEFAULTS,'v3 = every control off');assert.strictEqual(v.option(),'3');assert.strictEqual(v.snapshot().source,'default');
  ['4a','4b','4c','3'].forEach(p=>{const x=fresh(V4,{search:'?look='+p});x.__restore();assert.strictEqual(x.option(),p);assert.strictEqual(x.snapshot().source,'url');

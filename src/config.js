@@ -33,7 +33,8 @@ const GameConfig = {
   holmLookOption: '3',
   // the Look panel's values as the shipped default (its 'Copy settings' JSON, e.g. {pixelLines:334,colourDepth:1,...});
   // null = the preset above. A browser's own saved panel values (localStorage) still win for that browser
-  holmLook: null,
+  // owner pick 2026-09-29 (review 9): 670 lines of gentle pixels, full colour, 4b's character facets and chunky texels
+  holmLook: {pixelLines:670,colourDepth:0,characterFacets:0.7,chunkyTexels:true},
   // classic pixels (look pass 2): the 3D view drawn at a 2004-size internal resolution and scaled up with hard pixels
   // (src/classic_pixels.js). Off by default; Settings -> "Classic pixels", ?classic=1 / ?classic=0 for one session
   classicPixels: false,
