@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* Render every sound effect offline (sound pass 2026-09-29): the evidence for docs/rebuild/HOLM_SOUND_INVENTORY.md.
- *  1. Node renders each recipe (src/sfx_recipes.js) straight to a 16-bit mono WAV at 44.1 kHz:
+ *  1. Node renders each recipe (src/sfx_recipes.js) straight to a 16-bit mono WAV (22.05 kHz; --sr 44100 for full rate):
  *     scratchpad/sound_pass/wav/<id>.wav, and a levels table (peak, rms, audible seconds) to scratchpad/sound_pass/levels.json;
  *  2. headless Chrome opens the sound board in its sheet mode (tools/sound_board.html?sheet=1): a waveform and a spectrogram
  *     of every sound, new and (where one existed) old, the old ones rendered from tools/sfx_legacy.js by an
@@ -12,7 +12,7 @@ const fs=require('fs'),path=require('path');
 const L=require('../src/sfx_lib.js');require('../src/sfx_recipes.js');
 const OUT=path.join(__dirname,'..','scratchpad','sound_pass'),WAV=path.join(OUT,'wav');
 fs.mkdirSync(path.join(WAV,'old'),{recursive:true});
-const SR=44100,levels={};
+const ai=process.argv.indexOf('--sr'),SR=ai>0?+process.argv[ai+1]:22050,levels={};   // 22.05 kHz keeps the archive small; the sound board plays them at the device rate
 for(const id of L.ORDER){const b=L.render(id,SR,0);fs.writeFileSync(path.join(WAV,id+'.wav'),Buffer.from(L.wav(b,SR)));
  const d=L.DEFS[id];levels[id]=Object.assign({cat:d.cat,label:d.label,old:d.old||null,loop:!!d.loop},L.measure(b,SR))}
 fs.writeFileSync(path.join(OUT,'levels.json'),JSON.stringify(levels,null,1));

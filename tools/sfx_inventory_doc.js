@@ -74,7 +74,7 @@ variation, and Old where a sound was replaced; the three level-up candidates sid
 ## Cozy fires
 
 - **Lit logs** (every campfire, the island's Blender campfire included): the flame's height used one sine at 3.2 Hz,
-  +-25%; now three slow sines (about 0.35, 0.6 and 0.95 Hz) at +-9% height, +-3% width and a slight lean, and the fire's
+  +-25%; now three slow sines (about 0.5, 0.95 and 1.45 Hz) at about +-9% height, +-3% width and a slight lean, and the fire's
   light breathes with it (+-7%). \`src/cozy_fire.js\`.
 - **Every Blender flicker clip** (the Guide House, bakehouse and Quest Lodge hearths, the bakehouse oven, the cavern
   furnace's glow, the storm cellar's wall torches): half speed and 0.65 weight (the swing blended toward the flame's rest

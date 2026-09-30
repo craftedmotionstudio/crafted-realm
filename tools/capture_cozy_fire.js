@@ -15,13 +15,13 @@ const BASE=process.env.SMOKE_BASE||'http://127.0.0.1:8777',sleep=ms=>new Promise
 const W=960,H=600,N=14,GAP=40;
 const HUD_HIDE='#side-panel,#chatbox-frame,#mm-cluster,#hud-rail,#zone-box,#action-text,#holm-intro-note,#hud-tip,#music-menu,#test-travel-toggle,#objective,#build-stamp,.xp-drop,#xp-tracker,#loot-tracker,#hint-arrow{visibility:hidden!important}';
 const SUBJECTS={
- // a campfire lit on the grass east of the Guide House's porch (the island's Blender campfire, WORLD.fires)
- campfire:{setup:async page=>page.evaluate(()=>{const want={x:66.5,z:104.5},n=HolmArrivalQA.graphNodes().filter(q=>/land|IslandTerrain/.test(q.surface)).map(q=>[q,Math.hypot(q.x-want.x,q.z-want.z)]).sort((a,b)=>a[1]-b[1]);
-   const f0=n[0][0],st=n.find(e=>Math.hypot(e[0].x-f0.x,e[0].z-f0.z)>2.5)[0];HolmArrivalQA.qaPlace(st.id);const f=window.makeCampfire(f0.x,f0.z);f.userData.ttl=900;window.__subj={x:f0.x,y:f.position.y,z:f0.z};
-   return {x:f0.x,y:f.position.y,z:f0.z}}),cam:p=>[p.x,p.z,p.y+.4,.6,.42,4.2],
+ // a campfire lit on the open grass north of the landing, between the trees (the island's Blender campfire, WORLD.fires)
+ campfire:{setup:async page=>page.evaluate(()=>{const want={x:56,z:110},n=HolmArrivalQA.graphNodes().filter(q=>/land|IslandTerrain/.test(q.surface)).map(q=>[q,Math.hypot(q.x-want.x,q.z-want.z)]).sort((a,b)=>a[1]-b[1]);
+   const f0=n[0][0],st=n.find(e=>Math.hypot(e[0].x-f0.x,e[0].z-f0.z)>2.5&&e[0].z>f0.z)[0];HolmArrivalQA.qaPlace(st.id);const f=window.makeCampfire(f0.x,f0.z);f.userData.ttl=900;window.__subj={x:f0.x,y:f.position.y,z:f0.z};
+   return {x:f0.x,y:f.position.y,z:f0.z}}),cam:p=>[p.x,p.z,p.y+.4,Math.PI,.42,4.2],
   trace:()=>{const f=(WORLD.fires||[]).find(q=>q.name==='island-campfire')||WORLD.fires[0];return f&&f.userData.flame?f.userData.flame.scale.y:NaN}},
  // the bakehouse hearth and oven (Blender HearthFlicker / OvenFlicker clips)
- hearth:{setup:async page=>page.evaluate(()=>{HolmArrivalQA.qaPlace('b:bakehouse:-4:-3:1');return {x:42.0,y:5.75,z:62.9}}),cam:p=>[p.x,p.z,p.y+.3,Math.PI/2+1.25,.38,4.6],
+ hearth:{setup:async page=>page.evaluate(()=>{HolmArrivalQA.qaPlace('b:bakehouse:-4:-3:1');return {x:42.5,y:5.45,z:62.49}}),cam:p=>[p.x,p.z,p.y,0,.25,3.2],
   trace:()=>{const n=scene.getObjectByName('Kitchen_HearthFlame0');if(!n)return NaN;return n.scale.y}}
 };
 async function shoot(mode){
@@ -42,6 +42,9 @@ async function shoot(mode){
    res[name]={frames,trace:tr,cozy:cz,subject:p}}
  }finally{await browser.close()}
  return res}
+function chart(A,B){const all=A.concat(B).map(r=>r[1]).filter(Number.isFinite),lo=Math.min(...all),hi=Math.max(...all);
+ const pts=d=>d.filter(r=>Number.isFinite(r[1])).map(r=>(r[0]/4000*1260+5).toFixed(1)+','+(160-(r[1]-lo)/((hi-lo)||1)*150).toFixed(1)).join(' ');
+ return '<svg width="1270" height="170" style="background:#0d0a07;display:block"><polyline fill="none" stroke="#e0a47c" stroke-width="1.5" points="'+pts(A)+'"/><polyline fill="none" stroke="#a8d88a" stroke-width="1.5" points="'+pts(B)+'"/></svg>'}
 function stats(tr){const v=tr.filter(r=>Number.isFinite(r[1]));if(v.length<3)return null;let lo=Infinity,hi=-Infinity,rate=0;for(let i=0;i<v.length;i++){lo=Math.min(lo,v[i][1]);hi=Math.max(hi,v[i][1]);if(i){const dt=(v[i][0]-v[i-1][0])/1000;if(dt>0)rate=Math.max(rate,Math.abs(v[i][1]-v[i-1][1])/dt)}}
  const mean=v.reduce((s,r)=>s+r[1],0)/v.length;let cross=0;for(let i=1;i<v.length;i++)if((v[i-1][1]-mean)*(v[i][1]-mean)<0)cross++;
  return {min:+lo.toFixed(3),max:+hi.toFixed(3),swingPct:+((hi-lo)/2/mean*100).toFixed(1),maxRatePerS:+rate.toFixed(2),crossingsPerS:+(cross/((v[v.length-1][0]-v[0][0])/1000)).toFixed(2),samples:v.length}}
@@ -56,9 +59,7 @@ function stats(tr){const v=tr.filter(r=>Number.isFinite(r[1]));if(v.length<3)ret
    const row=(label,r,s)=>'<div class="lab">'+label+(s?'  <i>height swing +-'+s.swingPct+'%, fastest change '+s.maxRatePerS+'/s, '+s.crossingsPerS+' flickers/s</i>':'')+'</div><div class="row">'+r.frames.slice(0,7).map(f=>'<figure><img src="'+b64(f.file)+'"><figcaption>'+(f.ms-r.frames[0].ms)+' ms</figcaption></figure>').join('')+'</div>';
    const html='<html><body style="margin:0;background:#15110c;color:#efe3c8;font:14px Georgia"><div style="padding:10px"><h2 style="margin:4px 0;color:#e0b04a;font-weight:normal">Cozy fires: '+name+' (before: ?cozyFire=0, after: as shipped)</h2>'+
     '<style>.row{display:flex;gap:4px}figure{margin:0}img{width:180px;height:165px;object-fit:cover;display:block}figcaption{font:11px Consolas;color:#b3a383}.lab{margin:8px 0 3px}.lab i{color:#b3a383;font-style:normal;font-size:12px}</style>'+
-    row('Before',before[name],summary[name].before)+row('After',after[name],summary[name].after)+'<div class="lab">Flame height over 4 s (orange: before, green: after)</div><canvas id="c" width="1270" height="170" style="background:#0d0a07"></canvas></div>'+
-    '<script>const A='+JSON.stringify(before[name].trace)+',B='+JSON.stringify(after[name].trace)+';const c=document.getElementById("c").getContext("2d");const all=A.concat(B).map(r=>r[1]).filter(Number.isFinite);const lo=Math.min(...all),hi=Math.max(...all);'+
-    'function line(d,col){c.strokeStyle=col;c.lineWidth=1.5;c.beginPath();d.forEach((r,i)=>{const x=r[0]/4000*1260+5,y=160-(r[1]-lo)/((hi-lo)||1)*150;i?c.lineTo(x,y):c.moveTo(x,y)});c.stroke()}line(A,"#e0a47c");line(B,"#a8d88a")</script></body></html>';
+    row('Before',before[name],summary[name].before)+row('After',after[name],summary[name].after)+'<div class="lab">Flame height over 4 s (orange: before, green: after)</div>'+chart(before[name].trace,after[name].trace)+'</div></body></html>';
    await page.setContent(html,{waitUntil:'load'});const h=await page.evaluate(()=>document.body.scrollHeight);await page.setViewport({width:1300,height:h});
    await page.screenshot({path:path.join(OUT,'..','fire_strip_'+name+'.jpg'),type:'jpeg',quality:85,fullPage:true})}
  }finally{await browser.close()}

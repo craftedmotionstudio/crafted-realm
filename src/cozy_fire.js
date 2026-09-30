@@ -3,7 +3,7 @@
  * Just a very cozy fire." One pass over every fire in the game:
  *  - slower and softer flames:
  *     - lit logs (every WORLD.fires campfire, the island's Blender campfire included): the old flicker was one sine at
- *       3.2 Hz, +-25% height; now three slow sines (about 0.35, 0.6 and 0.95 Hz), +-9% height, +-3% width, a slight lean,
+ *       3.2 Hz, +-25% height; now three slow sines (about 0.5, 0.95 and 1.45 Hz), about +-9% height, +-3% width, a slight lean,
  *       and the fire's light breathes with it (+-7%);
  *     - every Blender flicker clip (the hearths of the Guide House, the bakehouse and the Quest Lodge, the bakehouse oven,
  *       the cavern furnace's glow, the cellar wall torches): played at 0.5x speed and at 0.65 weight (the clip's swing
@@ -40,7 +40,7 @@ var CozyFire=(function(){
   if(!u._cozy){u._cozy={ph:rnd()*6.283,sx:fl.scale.x,sy:fl.scale.y,sz:fl.scale.z,rx:fl.rotation.x,rz:fl.rotation.z}}
   var c=u._cozy,p=c.ph;
   if(!enabled){fl.scale.y=1+Math.sin(performance.now()*0.02)*0.25;return}
-  var h=.09*(.55*Math.sin(2.2*t+p)+.3*Math.sin(3.8*t+p*1.7)+.15*Math.sin(6.0*t+p*2.3)),w=.03*Math.sin(2.9*t+p*.6);
+  var h=.1*(.5*Math.sin(3.3*t+p)+.32*Math.sin(5.9*t+p*1.7)+.18*Math.sin(9.1*t+p*2.3)),w=.03*Math.sin(4.1*t+p*.6);
   fl.scale.set(c.sx*(1+w),c.sy*(1+h),c.sz*(1-w*.6));fl.rotation.x=c.rx+.035*Math.sin(1.3*t+p);fl.rotation.z=c.rz+.03*Math.sin(1.7*t+p*1.3);
   var L=u.light;if(L&&!(L.userData&&L.userData.free)){var b=L.userData.base||.85;L.intensity=b*(1+.07*Math.sin(2.1*t+p)+.03*Math.sin(4.3*t+p))}}
 
@@ -96,16 +96,21 @@ var CozyFire=(function(){
   if(!enabled)return;
   // Blender sources: re-read now and then (buildings load late; a world reload replaces them)
   srcAge-=dt;if(!sources||srcAge<=0){sources=collect();srcAge=5}
-  var pl=typeof player!=='undefined'&&player?player.position:null,near=Infinity,hidden=typeof document!=='undefined'&&document.hidden;
-  function visit(s,isCamp){if(!pl)return;var d=Math.hypot(s.x-pl.x,s.z-pl.z),dy=Math.abs(s.y-pl.y);if(dy<4&&d<near)near=d;
-   if(d>22||dy>8)return;s.t-=dt*(s.rate||1);if(s.t<=0){s.t=(isCamp?1.6:2.4)+rnd()*3.2;spark(s);if(rnd()<.18)spark(s)}}
+  var pl=typeof player!=='undefined'&&player?player.position:null,want=0,hidden=typeof document!=='undefined'&&document.hidden;
+  // each fire: its crackle share (a hearth or a campfire in full, a wall torch faintly) and, now and then, an ember
+  // (none while the tab is hidden: nobody sees them, and the ember sheet is not even loaded until one is)
+  function visit(s,isCamp){if(!pl)return;var d=Math.hypot(s.x-pl.x,s.z-pl.z),dy=Math.abs(s.y-pl.y),w=s.kind==='torch'?.35:1;
+   if(dy<4){var g=d<=1.5?1:d>=7?0:Math.pow(1-(d-1.5)/5.5,1.6);if(g*w>want)want=g*w}
+   if(hidden||d>22||dy>8)return;s.t-=dt*(s.rate||1);if(s.t<=0){s.t=(isCamp?1.6:2.4)+rnd()*3.2;spark(s);if(rnd()<.18)spark(s)}}
   for(i=0;i<sources.length;i++)visit(sources[i],false);
-  for(i=0;i<fires.length;i++){var f=fires[i],u=f.userData;if(!u.flame)continue;if(!u._cozySrc)u._cozySrc={t:.3+rnd()};var fp=f.position,top=u._cozyTop;
+  for(i=0;i<fires.length;i++){var f=fires[i],u=f.userData;if(!u.flame)continue;
+   // WORLD.fires holds the lit logs (kind 'fire') and, on the mainland, wall torches and braziers: those spark and crackle as torches
+   if(!u._cozySrc){var camp=u.kind==='fire';u._cozySrc={t:.3+rnd(),kind:camp?'camp':'torch',rate:camp?1:.4}}var fp=f.position,top=u._cozyTop;
    if(top===undefined){try{var bb=new THREE.Box3().setFromObject(u.flame);top=u._cozyTop=bb.isEmpty()?fp.y+.6:bb.max.y-.1}catch(e){top=u._cozyTop=fp.y+.6}}
-   u._cozySrc.x=fp.x;u._cozySrc.z=fp.z;u._cozySrc.y=top;visit(u._cozySrc,true)}
+   u._cozySrc.x=fp.x;u._cozySrc.z=fp.z;u._cozySrc.y=top;visit(u._cozySrc,u._cozySrc.kind==='camp')}
   stepEmbers(dt);
   // the crackle: one quiet loop, as loud as the nearest fire is close (a wall torch counts, faintly)
-  var want=hidden||!isFinite(near)?0:near<=1.5?1:near>=7?0:Math.pow(1-(near-1.5)/5.5,1.6);
+  if(hidden)want=0;
   if(want>0&&!loop&&typeof Sfx!=='undefined'&&Sfx.loop)loop=Sfx.loop('fire_loop');
   if(loop){loopGain=want;loop.setGain(want)}stats.loopGain=+want.toFixed(3);
  }

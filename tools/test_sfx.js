@@ -157,7 +157,8 @@ const Legacy=require('./sfx_legacy.js');
  ok('lit logs flicker slower and softer: at most a quarter of the old rate of change, within +-10% height (was +-25%)',maxRate<omax/4&&hi<=1.1&&lo>=.9,{newRate:+maxRate.toFixed(3),oldRate:+omax.toFixed(3),lo:+lo.toFixed(3),hi:+hi.toFixed(3)});
  const cz=src('src/cozy_fire.js');
  ok('embers: one Points (one draw call) from a fixed pool of 48, the Blender ember cell, never a click target',/var MAX=48/.test(cz)&&/new THREE\.Points\(geo,mat\)/.test(cz)&&/levelup_sparks_v1\.png/.test(cz)&&/obj\.raycast=function\(\)\{\}/.test(cz));
- ok('the crackle: one looping voice for the whole world, as loud as the nearest fire is close',(cz.match(/Sfx\.loop\('fire_loop'\)/g)||[]).length===1&&/near<=1\.5\?1:near>=7\?0/.test(cz));
+ ok('the crackle: one looping voice for the whole world, as loud as the nearest fire is close (a wall torch faintly), silent and ember-less while the tab is hidden',
+  (cz.match(/Sfx\.loop\('fire_loop'\)/g)||[]).length===1&&/d<=1\.5\?1:d>=7\?0/.test(cz)&&/s\.kind==='torch'\?\.35:1/.test(cz)&&/if\(hidden\|\|d>22/.test(cz)&&/if\(hidden\)want=0/.test(cz));
  ok('?cozyFire=0 turns the pass off (the old flicker, the old speeds)',/get\('cozyFire'\)==='0'/.test(cz)&&/if\(!enabled\)\{fl\.scale\.y=1\+Math\.sin\(performance\.now\(\)\*0\.02\)\*0\.25;return\}/.test(cz));
  const gm=src('src/game5_main.js'),an=src('src/holm_island_anim.js');
  ok('every frame hands the fires to CozyFire (game5_main), the cavern torches read their curve at half speed, softened',/if\(typeof CozyFire!=='undefined'\) CozyFire\.update\(dt\);/.test(gm)&&/CozyFire\.TORCH_RATE/.test(an)&&/CozyFire\.TORCH_SOFT/.test(an));

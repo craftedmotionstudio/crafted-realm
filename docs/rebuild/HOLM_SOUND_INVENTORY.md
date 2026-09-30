@@ -60,7 +60,7 @@ variation, and Old where a sound was replaced; the three level-up candidates sid
 ## Cozy fires
 
 - **Lit logs** (every campfire, the island's Blender campfire included): the flame's height used one sine at 3.2 Hz,
-  +-25%; now three slow sines (about 0.35, 0.6 and 0.95 Hz) at +-9% height, +-3% width and a slight lean, and the fire's
+  +-25%; now three slow sines (about 0.5, 0.95 and 1.45 Hz) at about +-9% height, +-3% width and a slight lean, and the fire's
   light breathes with it (+-7%). `src/cozy_fire.js`.
 - **Every Blender flicker clip** (the Guide House, bakehouse and Quest Lodge hearths, the bakehouse oven, the cavern
   furnace's glow, the storm cellar's wall torches): half speed and 0.65 weight (the swing blended toward the flame's rest
@@ -380,5 +380,43 @@ Loudness: dB against the music (the loudest 50 ms). Old: the sound it replaced (
 ## Evidence and gates
 
 <!-- evidence -->
-_(filled in after the gates run)_
+Measured 2026-09-29 on the QA server (port 8261, `tools/serve_static.py`), final code of branch `holm-sound-fire`.
+
+- **Unit tests** (`tools/test_*.js`): 100 of 101 pass. New `tools/test_sfx.js` 53/53 (every recipe renders at its
+  loudness under the music, loops seamless, deterministic, variants differ; every inventory sound exists and every event
+  is wired, 132 call sites; no square/saw, no Math.random; the gesture gate, mute, the bus chain, all 57 Sfx names,
+  equip by material, species, falloff, the stroke hand-over; the cozy fires). `tools/test_levelup_fx.js` 57/57
+  (updated: the sound is the picked lute arpeggio). The one failure, `tools/test_holm_world_fixes.js`, reads
+  `.studio-workspaces/holm-arrival-package-v9/candidates/`, which this worktree's workspace copy does not have (only
+  `exports/`); it fails the same way without this pass.
+- **Smoke** (`tools/run_smoke_headless.js`): PASS three times, foreground and hidden-tab each time, the last on the exact
+  final code: 108/108 structural, 100 FPS, worst frame 17 ms (31 and 22 ms before), 96 draw calls, 0 console errors,
+  boot 4.9 s (3.6 s before). Earlier runs on a
+  machine at 97% CPU (other agents) missed the 5 s cold-boot budget; an A/B against the base build (`16448ba3`, served
+  side by side) missed it too (5.06 s, 5.81 s), so the budget miss is the machine's load, not this pass. Two hidden-tab
+  runs failed "minimap marker layer stays cached" because the ember sprite sheet loaded while the minimap's icons were
+  still loading; embers (and their sheet) now wait while the tab is hidden, and both later runs passed it.
+- **Island playthrough** (`tools/qa_holm_island_playthrough.js 1`): complete in 13.5 min on the final code, 18/18 lessons, 10/10 tutors, 0 page errors (and in 19.5 min on the
+  code before the last cozy-fire tweak). Two earlier attempts never booted: my first QA server (`python -m http.server`)
+  refused connections under the page's burst of requests; on `tools/serve_static.py` every run booted.
+- **Sound QA** (`tools/qa_sound_pass.js`, a real-input run of the whole curriculum and the crossing that records every
+  sound played): complete in 18.4 min, 18/18 lessons, 0 page errors; before the first click no audio context and 0
+  sounds; 68 distinct sounds heard (the bell 3, oars 3, the skiff push, the level-up 2, the relief chart, the hatchet's
+  tool equip, 8 chops and 15 pick strikes timed on the swing, the ore breaking off, the rock running empty, the rope tied
+  and climbed, bake in and out, the furnace, the anvil, rat voices, doors 29); 56 of 84 inventory events reached on this
+  route (the farm's hens and cows, goblins, the mill, eating, dropping and a few others are off the tutorial's path and
+  are covered by the checks below). `scratchpad/sound_pass/qa_sound_pass.json`.
+- **In-app browser** (the Claude browser pane on the QA server): before a real click `Sfx.chop()` built nothing and
+  made no audio context; after it the context ran and the login click played `ui_click`; a real click on the Skills tab
+  played `ui_tab`. With the audio context instrumented, all 81 named sounds and creature voices (the island's rats,
+  goblins, chickens and cows all present) each built exactly one buffer source into one gain into the SFX bus (volume,
+  high shelf -3 dB, compressor at -14 dB, ratio 4), no oscillators; at volume 0 nothing was built. Perf: CozyFire 0.006
+  ms a frame (a 0.8 ms re-scan every 5 s), the island director 0.003 ms, at most one extra draw call.
+- **Offline renders**: every sound to WAV (`scratchpad/sound_pass/wav/`, 22.05 kHz; the 83 replaced sounds rendered
+  from the old code in `wav/old/`), the waveform + spectrogram sheet of every sound, new above old
+  (`scratchpad/sound_pass/sheet_1..4.jpg`), levels (`levels.json`).
+- **Cozy fires, before / after** (`tools/capture_cozy_fire.js`; `scratchpad/sound_pass/fire_strip_campfire.jpg`,
+  `fire_strip_hearth.jpg`, `fire/traces.json`): the campfire's flame height swung +-25% at 6.5 flickers a second (fastest
+  change 6.3/s), now +-8% at 2 a second (0.58/s); the bakehouse hearth's clip swung +-15.5% (fastest 1.7/s), now +-10%
+  (0.53/s); embers rise over the cauldron in the after frames.
 <!-- /evidence -->
