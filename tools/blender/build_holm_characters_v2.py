@@ -46,6 +46,7 @@ chain and blended across each joint with smoothstep zones. Colours are stored as
 
 Clips (kit GLB): idle walk run attack_slash attack(alias) attack_stab attack_crush bow cast chop mine net cook
 cook_range (v4: reach into the oven) smith smelt climb block hit death talk wave firemake + 22 emote_<key> clips (v3.1)
++ scoop (review 9: dip a bucket at a barrel / well; round 4 also re-authors walk, run, chop, mine and the net squat)
 (player keyframe logic retargeted from build_holm_player_v1.py).
 Bram GLB: idle talk walk wave (holding his staff).
 
@@ -278,31 +279,55 @@ def torso_w(p, arm_share=0.5, leg_share=0.6):
     return wnorm(w)
 
 def skirt_w(p):
-    """coat tails / skirts / aprons: hips blending into the thighs going down (sides follow their leg)."""
+    """coat tails / skirts / aprons: hips blending into the thighs going down (sides follow their leg).
+    Round 4 (owner: the woman's feet "disconnect from her legs when running" in a long skirt): below the knee the cloth
+    hands over to the shins (SKIRT_SHIN of it at the hem), so a long hem stays round the ankles when a knee bends."""
     p = Vector(p)
     if p.z >= 0.97:
         return torso_w(p)
     u = 0.78 * ss(0.97, 0.50, p.z)
     k = ss(-SKIRT_KW, SKIRT_KW, p.x)
-    return wnorm(wmix(B('Hips'), [(B('LeftUpLeg'), k), (B('RightUpLeg'), 1 - k)], u))
+    w = wmix(B('Hips'), [(B('LeftUpLeg'), k), (B('RightUpLeg'), 1 - k)], u)
+    s = SKIRT_SHIN * ss(0.58, 0.32, p.z)
+    if s > 0:
+        w = wmix(w, [(B('LeftLeg'), k), (B('RightLeg'), 1 - k)], s)
+    return wnorm(w)
 SKIRT_KW = .05   # v4 profiles: a wider left / right blend so a split stance does not tear a slit up the back of a skirt
+SKIRT_SHIN = 0.0   # round 4 profiles: the share of a long hem that follows the shins
 
 def arm_w(sx):
     sd = 'Left' if sx > 0 else 'Right'
     return chain_w([BHEAD[B(sd + 'Arm')], BHEAD[B(sd + 'ForeArm')], BHEAD[B(sd + 'Hand')], BTAIL[B(sd + 'Hand')]],
                    [B(sd + 'Arm'), B(sd + 'ForeArm'), B(sd + 'Hand')], [.055, .035], root=B('Spine2'), root_s=.035, root_h=.045)
 
+ANKLE_BLEND = (0.10, 0.17)   # the rest-height band (m) where a foot hands over to the shin (feet parts; round 4: the legs too)
+LEG_ANKLE_Z = False   # round 4 profiles: trousers / bare shins use the feet's own ankle band, so a trouser hem and the shoe or
+# boot collar under it bend together (they no longer part at the ankle) and the foot turns on a crisp ankle
+
 def leg_w(sx):
     sd = 'Left' if sx > 0 else 'Right'
-    return chain_w([BHEAD[B(sd + 'UpLeg')], BHEAD[B(sd + 'Leg')], BHEAD[B(sd + 'Foot')], BHEAD[B(sd + 'ToeBase')]],
+    base = chain_w([BHEAD[B(sd + 'UpLeg')], BHEAD[B(sd + 'Leg')], BHEAD[B(sd + 'Foot')], BHEAD[B(sd + 'ToeBase')]],
                    [B(sd + 'UpLeg'), B(sd + 'Leg'), B(sd + 'Foot')], [.06, .035], root=B('Hips'), root_s=.02, root_h=.06)
+    if not LEG_ANKLE_Z:
+        return base
+    L, F = B(sd + 'Leg'), B(sd + 'Foot')
+    def f(p):
+        p = Vector(p)
+        w = base(p)
+        if p.z > .30:
+            return w
+        up = ss(ANKLE_BLEND[0], ANKLE_BLEND[1], p.z)
+        shin = sum(v for b, v in w if b in (L, F))
+        rest = [(b, v) for b, v in w if b not in (L, F)]
+        return wnorm(rest + [(L, shin * up), (F, shin * (1 - up))])
+    return f
 
 def foot_w(sx):
     sd = 'Left' if sx > 0 else 'Right'
     L, F, T = B(sd + 'Leg'), B(sd + 'Foot'), B(sd + 'ToeBase')
     def f(p):
         p = Vector(p)
-        up = ss(0.10, 0.17, p.z)
+        up = ss(ANKLE_BLEND[0], ANKLE_BLEND[1], p.z)
         toe = ss(-0.035, -0.085, p.y)
         return wnorm([(L, up), (F, (1 - up) * (1 - toe)), (T, (1 - up) * toe)])
     return f
@@ -1131,10 +1156,21 @@ def build_head(mb, bt, nose=1.0, old=False):
     if mh > 0:
         mb.box((0, face_y(0, mz, T, nose) - .0010, mz), (mwB if fem else mwA, .006, mh), 'A_EYES', H)
     nk = NECK_K.get(bt, 1.0) if isinstance(NECK_K, dict) else NECK_K
-    mb.loft([xring((0, .002, 1.40), (0, -.08, 1), nk * .060 / HEAD_WX, nk * .054, nk * .049, 6), xring((0, .000, 1.52), (0, -.02, 1), nk * .056 / HEAD_WX, nk * .050, nk * .051, 6),   # v2.8: back of the neck stays inside the collar
-             xring((0, .010, 1.625), (0, .10, 1), .048 / HEAD_WX, .040, .050, 6)],   # v2.7: neck rises into the skull base (no step from the side)
-            'C_SKIN', NECK_W, smooth=True)
+    if NECK_TUCK:   # round 4 (owner: "the top of the neck underneath the head, sticking out a little bit"): the nape rises to the
+        # skull base and then tapers INSIDE the skull (every ring above the base narrower than the skull at its height), so no
+        # neck edge or cap shows below the back of the head from any side
+        mb.loft([xring((0, .002, 1.40), (0, -.08, 1), nk * .060 / HEAD_WX, nk * .054, nk * .049, 6),
+                 xring((0, .000, 1.52), (0, -.02, 1), nk * .056 / HEAD_WX, nk * .050, nk * .051, 6),
+                 xring((0, .002, 1.566), (0, .02, 1), nk * .052 / HEAD_WX, nk * .046, nk * .044, 6),
+                 xring((0, -.004, 1.604), (0, .04, 1), .042 / HEAD_WX, .036, .030, 6),
+                 xring((0, -.008, 1.632), (0, .04, 1), .030 / HEAD_WX, .026, .020, 6)],
+                'C_SKIN', NECK_W, smooth=True)
+    else:
+        mb.loft([xring((0, .002, 1.40), (0, -.08, 1), nk * .060 / HEAD_WX, nk * .054, nk * .049, 6), xring((0, .000, 1.52), (0, -.02, 1), nk * .056 / HEAD_WX, nk * .050, nk * .051, 6),   # v2.8: back of the neck stays inside the collar
+                 xring((0, .010, 1.625), (0, .10, 1), .048 / HEAD_WX, .040, .050, 6)],   # v2.7: neck rises into the skull base (no step from the side)
+                'C_SKIN', NECK_W, smooth=True)
 NECK_K = 1.0   # v4 profiles: neck thickness (the neck shows above a lower collar)
+NECK_TUCK = False   # round 4 profiles: the neck's top tapers inside the skull
 
 # ==========================================================================================
 # KIT PARTS
@@ -2423,19 +2459,28 @@ def legs_both(mb, bt, spec, mat='C_LEGS', n=6, cap0=True, cap1=True):
     for sx in (-1, 1):
         mb.loft(leg_rings(bt, sx, spec, n), mat, leg_w(sx), cap0, cap1)
 
-def legs_skin(mb, bt, u0):
-    legs_both(mb, bt, [(u, 0.0) for u in [u0] + [u for u in U_LEG if u > u0 + .05]] + [(2.04, 0.0)], 'C_SKIN')
+def legs_skin(mb, bt, u0, off=0.0):
+    legs_both(mb, bt, [(u, off) for u in [u0] + [u for u in U_LEG if u > u0 + .05]] + [(2.04, off)], 'C_SKIN')
 
-def skirt(mb, bt, zs, hem_rad, off=.012, mat='C_LEGS', n=10, pleats=0.0, matfn=None, rim_mat=None):
-    """thick skirt from the waist (zs[-1]) flaring to hem_rad at zs[0]"""
+def skirt(mb, bt, zs, hem_rad, off=.012, mat='C_LEGS', n=10, pleats=0.0, matfn=None, rim_mat=None, hull=False):
+    """thick skirt from the waist (zs[-1]) flaring to hem_rad at zs[0]. hull (round 4, Ansel's robe: "his waist looks very
+    odd"): below the widest part of the hips the cloth falls straight on to the hem (an A-line) instead of pinching in to the
+    crotch ring first"""
     z_hem, z_top = zs[0], zs[-1]
     hem_rad = (hem_rad[0],) + tuple(v * BUILD['skirt'] for v in hem_rad[1:4]) + tuple(hem_rad[4:])
+    if hull:
+        zw = max((.86 + .005 * i for i in range(int((min(z_top, .99) - .86) / .005) + 1)), key=lambda z: body_r(bt, z)[0])
+        wide = body_r(bt, zw)
     outer, inner = [], []
     for z in zs:
         t = clamp((z_top - z) / (z_top - z_hem)) ** 0.9
         a = body_r(bt, min(z, .99)) if z > .86 else body_r(bt, .86)
         top = body_r(bt, z_top)
         base = a if z > .86 else tuple(x + (y - x) * clamp((.86 - z) / (.86 - z_hem)) for x, y in zip(a, hem_rad[1:]))
+        if hull and z < zw:
+            u = clamp((zw - z) / (zw - z_hem))
+            fall = tuple(x + (y - x) * u for x, y in zip(wide, hem_rad[1:]))
+            base = tuple(max(p_, q_) for p_, q_ in zip(base[:3], fall[:3])) + (fall[3],)
         rad = base
         bump = (lambda k, tt=t: pleats * tt * (1 if k % 2 == 0 else -0.3)) if pleats else None
         outer.append(body_ring(bt, z, off, n, rad=rad, bump=bump))
@@ -2476,7 +2521,7 @@ def leg_style(mb, bt, key):
     elif key == 'long skirt':
         belt(mb, bt, off=.016, buckle=False)
         skirt(mb, bt, [.12, .22, .36, .52, .68, .82, .92, 1.0], (.12, .235, .20, .21, .030), off=.014)
-        legs_skin(mb, bt, 1.5)
+        legs_skin(mb, bt, 1.12, -.006) if SKIRT_SHIN else legs_skin(mb, bt, 1.5)   # (round 4: slim shins run up under the skirt to the knee)
     elif key == 'short skirt':
         belt(mb, bt, off=.016, buckle=False)
         skirt(mb, bt, [.60, .68, .78, .88, .94, 1.0], (.60, .215, .15, .16, .030), off=.014)
@@ -3441,8 +3486,9 @@ def two_bone(root, L1, L2, target, pole):
 FOOT_REST = (BTAIL[B('LeftFoot')] - BHEAD[B('LeftFoot')]).normalized()
 TOE_REST = (BTAIL[B('LeftToeBase')] - BHEAD[B('LeftToeBase')]).normalized()
 
-def leg_ik(pose, side, ankle, pitch=0.0):
-    """aim thigh/shin so the ankle lands on `ankle`; pitch = foot toe-up (+) / heel-up (-) in degrees"""
+def leg_ik(pose, side, ankle, pitch=0.0, toe_k=0.0):
+    """aim thigh/shin so the ankle lands on `ankle`; pitch = foot toe-up (+) / heel-up (-) in degrees. toe_k (round 4): a
+    heel-up foot OFF the ground turns its toes this share of the way with it (0 = the toes stay flat, as on the ground)"""
     head, acc = fk(pose)
     sx = 1 if side == 'Left' else -1
     H = head[B(side + 'UpLeg')]
@@ -3453,8 +3499,36 @@ def leg_ik(pose, side, ankle, pitch=0.0):
     pose[side + 'Leg'] = ('aim', tuple(ank - knee))
     Rf = Matrix.Rotation(math.radians(-pitch), 3, 'X')
     pose[side + 'Foot'] = ('aim', tuple(Rf @ FOOT_REST))
-    pose[side + 'ToeBase'] = ('aim', tuple((Rf if pitch > 0 else Matrix.Identity(3)) @ TOE_REST))
+    Rt = Rf if pitch > 0 else (Matrix.Rotation(math.radians(-pitch * toe_k), 3, 'X') if toe_k else Matrix.Identity(3))
+    pose[side + 'ToeBase'] = ('aim', tuple(Rt @ TOE_REST))
     return over
+
+SHIN_REST_DEG = math.degrees(math.atan2(-(BHEAD[B('LeftFoot')] - BHEAD[B('LeftLeg')]).y, -(BHEAD[B('LeftFoot')] - BHEAD[B('LeftLeg')]).z))
+
+def shin_neutral_pitch(pose, side):
+    """round 4: the foot pitch (deg, + = toe up) that keeps the ankle at its rest angle to the shin as the shin is posed now"""
+    hd, _ = fk(pose)
+    d = hd[B(side + 'Foot')] - hd[B(side + 'Leg')]
+    return math.degrees(math.atan2(-d.y, -d.z)) - SHIN_REST_DEG
+
+def ankle_rel_deg(pose, side):
+    """round 4: the ankle's bend against the shin (deg): + = dorsiflexed (toes toward the shin), - = pointed (plantarflexed)"""
+    hd, _ = fk(pose)
+    s = hd[B(side + 'Foot')] - hd[B(side + 'Leg')]
+    f = hd[B(side + 'ToeBase')] - hd[B(side + 'Foot')]
+    s0 = BHEAD[B(side + 'Foot')] - BHEAD[B(side + 'Leg')]
+    f0 = BHEAD[B(side + 'ToeBase')] - BHEAD[B(side + 'Foot')]
+    a = lambda v: math.atan2(-v.y, -v.z)
+    return math.degrees((a(f) - a(s)) - (a(f0) - a(s0)))
+
+def _plin(path, x):
+    """piecewise-linear lookup of [(x, y), ...] (clamped at the ends)"""
+    if x <= path[0][0]:
+        return path[0][1]
+    for (x0, y0), (x1, y1) in zip(path, path[1:]):
+        if x <= x1:
+            return y0 + (y1 - y0) * (0.0 if x1 <= x0 else (x - x0) / (x1 - x0))
+    return path[-1][1]
 
 IDLE_FEET = None   # v4 profiles: {'Left': (x, y), 'Right': (x, y), 'drop': m, 'toe': deg} ground points of the idle feet
 
@@ -3498,7 +3572,8 @@ def gait_clip(name, frames, speed, duty, lift, drop, bob, front, p_on, p_off, ar
               kick=0.0, base=None, bob_phase=0.0, head_counter=.6, fore_swing=8.0, hips_pitch=0.0, arms=True,
               sway=0.0, roll=0.0, sh_twist=None, head_stab=0.0, osrs=None, swing_sides=('Left', 'Right'), lean_cap=None,
               swing_pitch=None, swing_y=None, head_pitch=0.0, trail=None, chest=0.0, face=None, arm_bias=0.0, lift_skew=None,
-              neck=None, lean_osc=0.0, arm_out=0.0, foot_roll=None, swing_path=None):
+              neck=None, lean_osc=0.0, arm_out=0.0, foot_roll=None, swing_path=None, twist2=None, swing_rel=None, toe_follow=0.0,
+              arm_in=0.0, fore_path=None):
     """grounded in-place cycle: the stance foot's ground pivot moves back at exactly `speed` (clip time) while the
     pelvis bobs; the swing foot arcs forward; arms swing opposite the legs; spine counter-twists.
     Review 5 (2026-09-28) options, all off by default: face = the face's pitch (deg, + = down) solved on the Head after the
@@ -3510,7 +3585,14 @@ def gait_clip(name, frames, speed, duty, lift, drop, bob, front, p_on, p_off, ar
     stance, the heel lifts from b of the stance and the foot pushes off the toe (smoothstep, not linear);
     swing_path=[(sw, dy, z), ...] = where the swinging ankle passes, relative to the hips (dy + = behind, z = height above
     the ground), between the push-off and the landing (a Catmull-Rom curve) -- e.g. the run's heel kick-back, knee drive
-    and the leg reaching out before it lands."""
+    and the leg reaching out before it lands.
+    Review 5 round 4 (owner 2026-09-30, "lock the run in"): twist2=(pelvis, chest) = the pelvis turns this many deg with the
+    forward leg and the chest the other way with the forward arm (net shoulder-line yaw = chest), the neck and head undo it so
+    the face looks ahead; swing_rel=[(sw, deg), ...] = the swinging foot's ankle angle against the SHIN (+ = toes up), blended
+    from the push-off pitch at the start and into the landing pitch at the end (a relaxed ankle that hangs pointed after the
+    push-off and flexes up before the landing); toe_follow = the toes turn with a heel-up foot in the air; arm_in = the arm
+    swings this many deg in toward the body's midline on its forward swing (never across it); fore_path=[(ph, deg), ...] =
+    the elbow bend over the arm's own swing phase (0 = fully back, .5 = fully forward) instead of fore + fore_swing."""
     T = frames / FPS
     Ts = duty * T
     keys = []
@@ -3539,12 +3621,25 @@ def gait_clip(name, frames, speed, duty, lift, drop, bob, front, p_on, p_off, ar
                       Spine=(lean, -hr * .55, (sy - hy) * .45), Spine1=(0, -hr * .30, (sy - hy) * .35), Spine2=(0, -hr * .15, (sy - hy) * .20),
                       Neck=(0, 0, -sy * .5 * head_stab), Head=(-lean * head_counter, 0, -sy * .5 * head_stab),
                       loc=(sway * cs, 0, -drop - bob * math.cos(4 * math.pi * (t - bob_phase))))
+        if twist2:   # round 4: the pelvis turns with the forward leg, the chest against it with the forward arm; the face stays ahead
+            tp, tq = twist2
+            _x = lambda n: tuple(kw.get(n, (0, 0, 0)))[:2] if isinstance(kw.get(n, (0, 0, 0))[0], (int, float)) else (0, 0)
+            kw['Hips'] = _x('Hips') + (-tp * c,)
+            for n, sh in (('Spine', .40), ('Spine1', .35), ('Spine2', .25)):
+                kw[n] = _x(n) + ((tq + tp) * sh * c,)
+            # the head (not the neck) turns back against most of the chest's turn: the face stays nearly ahead while the
+            # neck, and long hair gathered on it, keep with the shoulders (a cape over a platebody stays clear of the hair)
+            kw['Head'] = _x('Head') + (-tq * .7 * c,)
         sf = stance_flex_deg()
         if neck is not None:
-            kw['Neck'] = (neck - STANCE.get('Neck', (0, 0, 0))[0], 0, 0)   # (pose_rotations adds the stance back)
+            kw['Neck'] = (neck - STANCE.get('Neck', (0, 0, 0))[0], 0, kw.get('Neck', (0, 0, 0))[2] if twist2 else 0)   # (pose_rotations adds the stance back)
         if arms and not osrs:   # v3.0: Euler arm specs are deltas over the stance (whose elbow is already bent ~sf deg)
-            kw.update(LeftArm=(arm_swing * c - arm_bias, -3 - arm_out, 0), RightArm=(-arm_swing * c - arm_bias, 3 + arm_out, 0),
+            kw.update(LeftArm=(arm_swing * c - arm_bias, -3 - arm_out, -arm_in * max(0.0, -c)),
+                      RightArm=(-arm_swing * c - arm_bias, 3 + arm_out, arm_in * max(0.0, c)),
                       LeftForeArm=(-(fore - sf + fore_swing * max(0.0, -c)), 0, 0), RightForeArm=(-(fore - sf + fore_swing * max(0.0, c)), 0, 0))
+            if fore_path:   # round 4: the elbow bend over the arm's own swing (0 = fully back, .5 = fully forward)
+                kw['LeftForeArm'] = (-(_plin(fore_path, t) - sf), 0, 0)
+                kw['RightForeArm'] = (-(_plin(fore_path, (t + .5) % 1.0) - sf), 0, 0)
         if arms and osrs:      # arms swing at the sides in a plane parallel to the body's midline (never across the body)
             # v3.0: the bent stance arm pivots at the shoulder (Euler deltas over the stance): swing forward / back, a little
             # more elbow bend on the forward swing, and a touch of abduction on the back swing so the hand clears the hip
@@ -3599,9 +3694,14 @@ def gait_clip(name, frames, speed, duty, lift, drop, bob, front, p_on, p_off, ar
                     st_ = Hj + (Matrix.Rotation(math.radians(trail[1]) * ss(0.0, trail[0], sw), 3, 'X') @ d0.normalized()) * Lt
                     wt = 1.0 - ss(trail[0] * .55, trail[0], sw)
                     ank = ank.lerp(st_, wt)
+                if swing_rel:   # round 4: the ankle angle against the shin (a relaxed foot, pointed after the push-off)
+                    leg_ik(pose, side, ank, 0.0)
+                    ps = shin_neutral_pitch(pose, side) + _plin(swing_rel, sw)
+                    w0, w1 = 1.0 - ss(0.0, .18, sw), ss(.82, 1.0, sw)
+                    pitch = p_off * w0 + (1.0 - w0) * (p_on * w1 + ps * (1.0 - w1))
             worst = max(worst, leg_ik(pose, side, ank, pitch) if ph < duty else 0.0)
             if ph >= duty:
-                leg_ik(pose, side, ank, pitch)
+                leg_ik(pose, side, ank, pitch, toe_k=toe_follow * ss(0.0, .2, (ph - duty) / (1 - duty)))
         if lean_cap is not None:   # v2.9: measured on the posed chain (hips -> head)
             upright(pose, lean_cap[0] + lean_osc * math.cos(4 * math.pi * t), cap=lean_cap[1])
         if face is not None:
@@ -3654,6 +3754,29 @@ def gait_clip(name, frames, speed, duty, lift, drop, bob, front, p_on, p_off, ar
             thd.append(math.degrees(math.atan2(-(k_.y - h_.y), -(k_.z - h_.z))))
         flight += air == 2
     tilts = [chain_tilt(p_) for _, p_ in keys[:frames]]
+    # round 4: the ankle's bend against the shin over the cycle (left foot), the shoulder line's turn against the pelvis, and the
+    # hip fold of the STANCE leg (0 = torso and stance leg in one straight line; + = folded forward into a V) at contact and
+    # mid-stance -- the owner's "not folded over like a V ... almost a straight plane"
+    ank_rel, twist_rel, fold_c, fold_m = [], [], [], []
+    yaw = lambda v: math.degrees(math.atan2(v.y, v.x))
+    for f_, pose_ in keys[:frames]:
+        hd_, _ = fk(pose_)
+        ank_rel.append(ankle_rel_deg(pose_, 'Left'))
+        twist_rel.append(yaw(hd_[B('LeftArm')] - hd_[B('RightArm')]) - yaw(hd_[B('LeftUpLeg')] - hd_[B('RightUpLeg')]))
+        for side, off in (('Left', 0.0), ('Right', .5)):
+            ph = ((f_ % frames) / frames + off) % 1.0
+            if ph < duty:
+                up = hd_[B('Neck')] - hd_[B('Hips')]
+                leg = hd_[B(side + 'UpLeg')] - hd_[B(side + 'Foot')]
+                fold = math.degrees(math.atan2(-up.y, up.z) - math.atan2(-leg.y, leg.z))
+                if ph < 1.0 / frames - 1e-9:
+                    fold_c.append(fold)
+                if abs(ph - duty * .5) < .5 / frames + 1e-9:
+                    fold_m.append(fold)
+    r4 = {'ankle_rel_deg': [round(min(ank_rel), 1), round(max(ank_rel), 1)],
+          'shoulder_vs_pelvis_twist_deg': round((max(twist_rel) - min(twist_rel)) / 2, 1),
+          'hip_fold_at_contact_deg': round(sum(fold_c) / max(1, len(fold_c)), 1),
+          'hip_fold_mid_stance_deg': round(sum(fold_m) / max(1, len(fold_m)), 1)}
     GAIT_REPORT[name] = {'knee_flex_at_toe_off_deg': round(sum(kto) / max(1, len(kto)), 1), 'knee_flex_swing_end_min_deg': round(min(kre) if kre else 0.0, 1),
                          'knee_flex_stance_max_deg': round(max(kst) if kst else 0.0, 1), 'thigh_drive_max_deg': round(max(thd), 1),
                          'heel_kick_max_ankle_z_m': round(max(kick_h) if kick_h else 0.0, 3), 'flight_share': round(flight / frames, 3),
@@ -3664,6 +3787,7 @@ def gait_clip(name, frames, speed, duty, lift, drop, bob, front, p_on, p_off, ar
                          'max_planted_speed_error_mps': round(max((abs(v - speed) for v in speeds), default=0.0), 4),
                          'stride_m': round(speed * T, 3), 'step_m': round(speed * T / 2, 3), 'duty': duty,
                          'max_stance_reach_error_m': round(worst, 4)}
+    GAIT_REPORT[name].update(r4)
     return keys
 
 def chain_tilt(pose, to='Head'):
@@ -3818,12 +3942,15 @@ RUN_BASE = dict(frames=16, duty=.38, lift=.12, drop=.070, bob=.020, front=.20, p
                 arm_swing=34, fore=88, lean=3, twist=7, foot_x=.13, kick=.09, bob_phase=.19, head_counter=1.0,
                 fore_swing=6, hips_pitch=1, lean_cap=(2.0, True))   # v3.1: upright run, never more than 2 deg of lean
 
-def gait_params(kind, extra=None):
-    """the walk / run parameter set: the base, the profile's GAIT overrides, then `extra` (a review-5 gait option)"""
+def gait_params(kind, extra=None, over=None):
+    """the walk / run parameter set: the base, the profile's GAIT overrides (or `over` instead), then `extra` (a review-5
+    gait option)"""
     k = dict(WALK_BASE if kind == 'walk' else RUN_BASE)
-    k.update(GAIT.get(kind, {}))
+    k.update(GAIT.get(kind, {}) if over is None else over)
     k.update(extra or {})
     return k
+GAIT_OPT_BASE = {}   # round 4 profiles: the gait the review-5 options (A-H) were authored over (the v4a.2b walk / run), so the
+GAIT_OPT_STEP = {}   # new shipped defaults leave them exactly as the owner saw them; and their stepping
 
 def gait_keys(name, kind, k):
     """-> (frames, keys) of a grounded walk / run cycle from a gait_params() set"""
@@ -3880,6 +4007,102 @@ def v27_clips():
     C.update(v29_skill_clips())   # v2.9: firemake (new), cook and net re-authored
     return C
 
+# ---- owner review 9 (2026-09-30): the skilling strokes --------------------------------------------------------------------
+# chop: "the axe-swing arm looks odd" (the arm was swung straight up and down with the axe ending out sideways); mining:
+# "both hands on the pickaxe, swung over the head"; fishing: "crouch / squat a bit more when netting"; a bucket SCOOP for
+# filling at a barrel or a well. The tools are rigid in the right hand (src/holm_skill_tools.js solves each tool's line at the
+# clip's reference frame), so these strokes turn the hand exactly with the tool: the hand's orientation at every key is the
+# reference orientation turned by the rotation that carries the reference tool line onto that key's line (arm_reach_mat).
+SKILL_R4 = False   # round 4 profiles
+
+def arm_reach_mat(pose, side, grip, Rh, pole=None):
+    """arm_reach with the hand's whole orientation given (armature-space matrix): the GRIP lands on `grip`"""
+    sx = 1 if side == 'Left' else -1
+    W = BHEAD[B(side + 'Hand')]
+    wrist = Vector(grip) - Rh @ (GRIP_REST[side] - W)
+    head, acc = fk(pose)
+    S = head[B(side + 'Arm')]
+    L1 = (BHEAD[B(side + 'ForeArm')] - BHEAD[B(side + 'Arm')]).length
+    L2 = (W - BHEAD[B(side + 'ForeArm')]).length
+    elbow, wr, over = two_bone(S, L1, L2, wrist, Vector(pole) if pole else Vector((sx * .75, .35, -.55)))
+    REACH_ERR[0] = max(REACH_ERR[0], over)
+    REACH_LOCAL[0] = max(REACH_LOCAL[0], over)
+    pose[side + 'Arm'] = ('aim', tuple(elbow - S))
+    pose[side + 'ForeArm'] = ('aim', tuple(wr - elbow))
+    pose[side + 'Hand'] = ('mat', Rh)
+    return over
+
+def haft(phi, yaw=0.0):
+    """a tool line: phi = degrees above straight ahead in the swing plane (90 = up, 180 = back), yaw = the plane turned toward the
+    character's left"""
+    return (Matrix.Rotation(math.radians(yaw), 3, 'Z') @ Vector((0, -math.cos(math.radians(phi)), math.sin(math.radians(phi))))).normalized()
+
+def carry(R_ref, a_ref, a):
+    """the hand orientation that carries the tool from its reference line a_ref onto a (the tool is rigid in the hand)"""
+    return a_ref.rotation_difference(a).to_matrix() @ R_ref
+
+def r4_skill_clips():
+    C = {}
+    # ---- MINE: both hands on the haft (the left hand 17 cm below the right, toward the butt), raised over the head and swung
+    # down into the rock. The reference line (holm_skill_tools mine: forward and 20 deg down) is the strike at frame 11.
+    a_ref = haft(-20.4)
+    Rr_ref = hand_rot('Right', haft(-20.4 - 90), -90)
+    Rl_ref = hand_rot('Left', haft(-20.4 - 90), 90)
+    def _mine(phi, gr, body, pole_r=(-.8, .25, -.55), pole_l=(.8, .25, -.55)):
+        p_ = P(**body)
+        a = haft(phi)
+        arm_reach_mat(p_, 'Right', Vector(gr), carry(Rr_ref, a_ref, a), pole=pole_r)
+        arm_reach_mat(p_, 'Left', Vector(gr) - a * .17, carry(Rl_ref, a_ref, a), pole=pole_l)
+        return p_
+    def mine(phi, gr, **body):
+        return reach_assist(lambda: _mine(phi, gr, body))
+    up = mine(160, (-.03, .02, 1.70), Spine1=(-6, 0, 0), Spine2=(-4, 0, 0), Head=(-4, 0, 0))
+    mid = mine(95, (-.03, -.24, 1.46), Spine=(4, 0, 0))
+    strike = mine(-20.4, (-.03, -.42, .98), **dict(crouch(-16, 30), Spine=(16, 0, 0), Head=(8, 0, 0)))
+    recoil = mine(-10, (-.03, -.40, 1.03), **dict(crouch(-14, 26), Spine=(14, 0, 0), Head=(6, 0, 0)))
+    lift = mine(60, (-.03, -.30, 1.30), **dict(crouch(-6, 10), Spine=(6, 0, 0)))
+    C['mine'] = (30, [(0, up), (5, up), (9, mid), (11, strike), (15, strike), (19, recoil), (25, lift), (30, up)], True)
+    # ---- CHOP: one hand; the hatchet comes back over the right shoulder (elbow up, the blade behind the head) and swings
+    # forward and across into the trunk at waist height, the blade biting forward, the body turning with it; the left arm
+    # guards in front. The reference (holm_skill_tools chop: forward, a touch left and down) is the bite at frame 13-15.
+    c_ref = Vector((.2, -.96, -.2)).normalized()
+    Rc_ref = hand_rot('Right', Vector((.25, -.2, .95)).normalized(), -90)
+    stance = dict(LeftUpLeg=(-12, 0, 0), LeftLeg=(8, 0, 0), LeftFoot=(4, 0, 0), RightUpLeg=(7, 0, 0), RightLeg=(4, 0, 0), RightFoot=(-11, 0, 0))
+    guard = dict(LeftArm=A(.36, -.46, -.81), LeftForeArm=A(.02, -.90, -.44))
+    def _chop(a, gr, body):
+        p_ = P(**dict(stance, **guard, **body))
+        arm_reach_mat(p_, 'Right', Vector(gr), carry(Rc_ref, c_ref, Vector(a).normalized()), pole=(-.85, .2, -.3))
+        return p_
+    def chop(a, gr, **body):
+        return reach_assist(lambda: _chop(a, gr, body))
+    wind = chop((-.15, .55, .82), (-.25, .03, 1.52), Spine1=(-3, 0, -14), Spine2=(0, 0, -6), Head=(0, 0, 10))
+    swing = chop((.05, -.55, .83), (-.24, -.30, 1.30), Spine1=(0, 0, -4), Spine2=(0, 0, -2), Head=(0, 0, 4))
+    bite = chop(tuple(c_ref), (-.11, -.44, 1.03), Spine=(6, 0, 0), Spine1=(3, 0, 12), Spine2=(0, 0, 4), Head=(2, 0, -4), loc=(0, 0, -.014))
+    pull = chop((.10, -.80, .45), (-.18, -.36, 1.08), Spine=(5, 0, 0), Spine1=(2, 0, 6), Head=(2, 0, -2), loc=(0, 0, -.010))
+    lift_ = chop((-.05, -.10, .99), (-.26, -.14, 1.34), Spine1=(-1, 0, -8), Head=(0, 0, 6))
+    C['chop'] = (30, [(0, wind), (6, wind), (11, swing), (13, bite), (16, bite), (21, pull), (26, lift_), (30, wind)], True)
+    # ---- SCOOP (new, review 9: "an optional bucket-scoop clip for filling at a barrel or well"): the bucket hangs from the
+    # right hand by its handle (src/holm_skill_tools.js 'scoop': upright at frame 0), is lifted over the rim, dipped in, tipped
+    # forward to scoop, lifted out and brought back to the side; the left hand steadies itself on the rim
+    b_ref = Vector((0, 0, 1))
+    Rb_ref = hand_rot('Right', Vector((0, -.08, -1)).normalized(), 0)
+    Rrim = hand_rot('Left', Vector((.05, -.75, -.66)).normalized(), 0)
+    def _scoop(gr, b, body, rim=False):
+        p_ = P(**body)
+        arm_reach_mat(p_, 'Right', Vector(gr), carry(Rb_ref, b_ref, Vector(b).normalized()), pole=(-.8, .3, -.5))
+        if rim:
+            arm_reach_mat(p_, 'Left', Vector((.15, -.40, .93)), Rrim, pole=(.8, .3, -.5))
+        return p_
+    def scoop(gr, b, rim=False, **body):
+        return reach_assist(lambda: _scoop(gr, b, body, rim))
+    hang = scoop((-.25, -.05, 1.00), (0, 0, 1))
+    over = scoop((-.13, -.36, 1.16), (0, 0, 1), **dict(crouch(-3, 6), Spine=(8, 0, 0)))
+    dip = scoop((-.10, -.44, 1.00), (0, 0, 1), rim=True, **dict(crouch(-10, 18), Spine=(22, 0, 0), Head=(4, 0, 0)))
+    tip = scoop((-.10, -.46, .96), (0, -.70, .71), rim=True, **dict(crouch(-12, 22), Spine=(25, 0, 0), Head=(5, 0, 0)))
+    out = scoop((-.13, -.38, 1.16), (0, -.12, .99), rim=True, **dict(crouch(-4, 8), Spine=(11, 0, 0)))
+    C['scoop'] = (40, [(0, hang), (6, hang), (12, over), (18, dip), (24, tip), (29, tip), (34, out), (40, hang)], False)
+    return C
+
 def v29_skill_clips():
     """v2.9: firemake (kneel, strike the tinderbox at the logs), cook (hold the fish over the fire / range and turn it) and
     net (a clear two-handed cast). The right hand's GRIP -- the runtime's tool attach point -- is solved onto its target."""
@@ -3933,9 +4156,14 @@ def v29_skill_clips():
         return reach_assist(lambda: _net(gr, gl, dr, dl, **kw))
     hold = net((-.10, -.29, .96), (.10, -.29, .98), (.15, -.7, -.7), (-.15, -.7, -.7), Spine=(4, 0, 0))
     wind = net((-.11, -.16, 1.60), (.11, -.16, 1.62), (.1, -.2, .97), (-.1, -.2, .97), Spine=(-7, 0, 0), Head=(-6, 0, 0))
-    cast = net((-.10, -.56, 1.00), (.10, -.56, 1.02), (.1, -.97, -.2), (-.1, -.97, -.2), **dict(crouch(-14, 24), Spine=(24, 0, 0), Head=(4, 0, 0)))
-    low = net((-.10, -.445, .875), (.10, -.445, .895), (.1, -.8, -.6), (-.1, -.8, -.6), **dict(crouch(-14, 24), Spine=(26, 0, 0), Head=(6, 0, 0)))
-    draw = net((-.12, -.31, .95), (.12, -.31, .97), (.15, -.6, -.78), (-.15, -.6, -.78), **dict(crouch(-6, 10), Spine=(6, 0, 0)))
+    if SKILL_R4:   # (review 9: "crouch / squat a bit more when netting" -- the knees take the drop, not the back)
+        cast = net((-.10, -.56, .90), (.10, -.56, .92), (.1, -.97, -.2), (-.1, -.97, -.2), **dict(crouch(-28, 54), Spine=(20, 0, 0), Head=(2, 0, 0)))
+        low = net((-.10, -.445, .755), (.10, -.445, .775), (.1, -.8, -.6), (-.1, -.8, -.6), **dict(crouch(-30, 58), Spine=(22, 0, 0), Head=(4, 0, 0)))
+        draw = net((-.12, -.31, .90), (.12, -.31, .92), (.15, -.6, -.78), (-.15, -.6, -.78), **dict(crouch(-12, 22), Spine=(6, 0, 0)))
+    else:
+        cast = net((-.10, -.56, 1.00), (.10, -.56, 1.02), (.1, -.97, -.2), (-.1, -.97, -.2), **dict(crouch(-14, 24), Spine=(24, 0, 0), Head=(4, 0, 0)))
+        low = net((-.10, -.445, .875), (.10, -.445, .895), (.1, -.8, -.6), (-.1, -.8, -.6), **dict(crouch(-14, 24), Spine=(26, 0, 0), Head=(6, 0, 0)))
+        draw = net((-.12, -.31, .95), (.12, -.31, .97), (.15, -.6, -.78), (-.15, -.6, -.78), **dict(crouch(-6, 10), Spine=(6, 0, 0)))
     C['net'] = (48, [(0, hold), (10, wind), (17, cast), (22, low), (36, low), (44, draw), (48, hold)], True)
     return C
 
@@ -4049,9 +4277,12 @@ def hand_clearance(arm, acts):
     arm.animation_data.action = None
     return res
 
+TWO_HANDED = ('mine',)   # review 9: both hands on one haft -- the lower hand may sit up to 10 cm past the midline in front
+
 def assert_hands(report, label):
     bad = {n: r for n, r in report.items()   # (an emote may bring a hand across the body: bow, think, clap, cry, yawn)
-           if r['min_crotch_dist'] < HAND_MIN_CROTCH or (r['min_side_x'] < 0.0 and not n.startswith('emote_')) or r['between_legs_frames'] > 0}
+           if r['min_crotch_dist'] < HAND_MIN_CROTCH or (r['min_side_x'] < 0.0 and not n.startswith('emote_') and
+                                                         not (n in TWO_HANDED and r['min_side_x'] > -.10)) or r['between_legs_frames'] > 0}
     print('[HANDS] %s' % label, json.dumps(report))
     assert not bad, 'hands enter the crotch / cross the centreline in %s: %s' % (label, json.dumps(bad))
     idle = report.get('idle')
@@ -4500,6 +4731,8 @@ def build_kit():
     defs = clip_defs()
     defs.update(kit_npc_clips())
     defs.update(v27_clips())   # v2.7: grounded walk / run + re-authored chop, mine, net, cook
+    if SKILL_R4:
+        defs.update(r4_skill_clips())   # review 9: chop, mine (two hands, overhead), the bucket scoop
     defs.update(emote_clips())  # v3.1: the classic emote set (emote_<key>)
     for name, (frames, keys, loop) in defs.items():
         spec = step_spec(name)
@@ -4630,7 +4863,12 @@ TUTOR_GAIT = {}   # v4 profiles: best_gait overrides for the tutors' stroll
 def tut_hold_pose(tid):
     """the held arm's base pose (the props are authored in this pose)"""
     d = {}
-    if tid == 'durgin':      # pickaxe resting on the right shoulder, hand gripping the shaft in front of the shoulder
+    if tid == 'durgin' and TUTOR_HOLD_R4:   # review 9 ("Foreman Durgin holds his pickaxe with a curled-in arm"): the haft rests on
+        # the right shoulder, the hand holds it low and forward at the chest with the elbow down and open, not tucked up
+        p_ = P()
+        arm_reach(p_, 'Right', DURGIN_GRIP_R4, (.05, -.80, .60), -80, pole=(-.6, .45, -.65))
+        d = {k: p_[k] for k in ('RightArm', 'RightForeArm', 'RightHand')}
+    elif tid == 'durgin':      # pickaxe resting on the right shoulder, hand gripping the shaft in front of the shoulder
         p_ = P()
         arm_reach(p_, 'Right', Vector((-.19, -.13, 1.28)), (.10, -.55, .83), -80, pole=(-.8, .3, -.45))
         d = {k: p_[k] for k in ('RightArm', 'RightForeArm', 'RightHand')}
@@ -4640,6 +4878,11 @@ def tut_hold_pose(tid):
         d = {k: p_[k] for k in ('RightArm', 'RightForeArm', 'RightHand')}
     elif tid == 'ilse':      # staff upright in the right hand (as Bram)
         d = dict(HOLD)
+    elif tid == 'ansel' and TUTOR_HOLD_R4:   # review 9 ("his book isn't held correctly in his hand"): the book held upright
+        # against the chest IN the left hand, fingers under its bottom edge
+        p_ = P()
+        arm_reach(p_, 'Left', ANSEL_GRIP_R4, (-.30, -.35, .89), 80, pole=(.9, .2, -.4))
+        d = {k: p_[k] for k in ('LeftArm', 'LeftForeArm', 'LeftHand')}
     elif tid == 'ansel':     # book tucked under the left arm, forearm under it
         p_ = P()
         arm_reach(p_, 'Left', Vector((.27, -.20, 1.06)), (.05, -.95, .30), 0, pole=(.9, .3, -.3))
@@ -4795,7 +5038,14 @@ def ext_sleeve_rolls(mb, bt):
     for sx in (-1, 1):
         mb.loft(arm_rings(bt, sx, [(.76, .014), (.78, .022), (.85, .022), (.87, .014)]), 'C_TORSO', arm_w(sx))   # v3.0: at the short sleeve's end
 
+ROBE_R4 = False   # round 4 profiles: Ansel's robe falls straight from the hips (no pinch) under a slim sash
 def ext_robe_skirt(mb, bt):
+    if ROBE_R4:   # (owner review 9: "the Loremaster's waist looks very odd" -- a 4 cm shelf of a sash over a skirt pinched in below it)
+        skirt(mb, bt, [.10, .20, .34, .50, .66, .80, .90, .99], (.10, .235, .20, .21, .030), off=.020, mat='C_TORSO', rim_mat='A_TRIM', hull=True)
+        band_o = [_skirt_outer_ring(bt, z, [.10, .20, .34, .50, .66, .80, .90, .99], (.10, .235, .20, .21, .030), .026) for z in (.105, .15)]
+        mb.loft(band_o, 'A_TRIM', skirt_w, cap0=False, cap1=False, smooth=False)
+        belt(mb, bt, .952, .992, off=.026, mat='A_TRIM', buckle=False)
+        return
     skirt(mb, bt, [.10, .20, .34, .50, .66, .80, .90, .99], (.10, .235, .20, .21, .030), off=.020, mat='C_TORSO', rim_mat='A_TRIM')
     band_o = [_skirt_outer_ring(bt, z, [.10, .20, .34, .50, .66, .80, .90, .99], (.10, .235, .20, .21, .030), .026) for z in (.105, .15)]
     mb.loft(band_o, 'A_TRIM', skirt_w, cap0=False, cap1=False, smooth=False)
@@ -4988,6 +5238,10 @@ def _posed_prop(arm, pose, bone, build, bm, name, coll):
     clear_pose(arm)
     return mb.to_object(name, bm, arm, coll=coll)
 
+TUTOR_HOLD_R4 = False   # round 4 profiles: review 9's tutor holds (Durgin's pick, Ansel's book)
+DURGIN_GRIP_R4 = Vector((-.17, -.27, 1.12))
+ANSEL_GRIP_R4 = Vector((.07, -.21, 1.07))
+
 def tutor_props(tid, arm, bm, coll):
     t = TUTORS[tid]
     out = {}
@@ -4995,6 +5249,9 @@ def tutor_props(tid, arm, bm, coll):
     if tid == 'durgin':
         g = grip_of(base, 'Right')
         d = Vector((.05, .72, .69)).normalized()
+        if TUTOR_HOLD_R4:   # the haft runs from the hand up over the top of the right shoulder
+            hd_, _ = fk(base)
+            d = (hd_[B('RightArm')] + Vector((0, .02, .075)) - g).normalized()
         def build(mb, bone):
             mb.loft([xring(g + d * t_, d, .013, .013, .013, 6) for t_ in (-.14, .30, .70)], 'A_WOOD', bone)
             head_c = g + d * .70
@@ -5022,6 +5279,13 @@ def tutor_props(tid, arm, bm, coll):
             mb.loft([xring(c + Vector((0, 0, dz)), (0, 0, 1), r, r, r, 6) for dz, r in ((-.036, .006), (-.025, .026), (0.0, .036), (.025, .026), (.036, .006))],
                     'A_GEM', bone)
         out['Staff'] = _posed_prop(arm, base, 'RightHand', build, bm, 'Ilse_Staff', coll)
+    elif tid == 'ansel' and TUTOR_HOLD_R4:
+        g = grip_of(base, 'Left')
+        def build(mb, bone):   # upright against the chest, its bottom edge in the fist (cover out, pages toward the chest)
+            c = Vector((g.x - .025, g.y + .012, g.z + .085))
+            mb.box(tuple(c), (.15, .036, .20), 'A_BOOK', bone)
+            mb.box(tuple(c + Vector((0, .006, 0))), (.138, .030, .188), 'A_SHIRT', bone)
+        out['Book'] = _posed_prop(arm, base, 'LeftHand', build, bm, 'Ansel_Book', coll)
     elif tid == 'ansel':
         def build(mb, bone):
             c = Vector((.225, -.05, 1.17))
@@ -6836,9 +7100,10 @@ def build_gait_options():
     for kind in ('walk', 'run'):
         for key, opt in sorted(GAIT_OPTIONS.get(kind, {}).items()):
             name = '%s_%s' % (kind, key)
-            prm = gait_params(kind, opt.get('gait'))
+            # (round 4: an option is a delta over the gait it was authored on; 'fresh' ones are whole sets over the base)
+            prm = gait_params(kind, opt.get('gait'), over={} if opt.get('fresh') else GAIT_OPT_BASE.get(kind))
             fr, keys = gait_keys(name, kind, prm)
-            spec = opt.get('step') or step_spec(kind)
+            spec = opt.get('step') or GAIT_OPT_STEP.get(kind) or step_spec(kind)
             ks = step_keys(fr, keys, spec)
             acts[name] = make_clip(arm, name, fr, ks)
             step_action(acts[name], fr, ks, spec)
@@ -6994,6 +7259,13 @@ def main():
     os.makedirs(WS, exist_ok=True)
     os.makedirs(os.path.join(RENDER_DIR, 'grid'), exist_ok=True)
     reset_scene()
+    if GAIT_OPT_BASE:   # round 4: the shipped walk / run level the face too -- under the options' head-to-chest floor (the nape
+        # and long hair gathered on it stay clear of a cape collar and an amulet chain)
+        HEAD_REL_MIN[0] = None
+        ref = upright(P(), 0.0)
+        level_head(ref, 0.0)
+        HEAD_REL_MIN[0] = round(head_rel(ref), 2)
+        print('[GAIT] head-to-chest floor %.2f deg' % HEAD_REL_MIN[0])
     arm, mats, objs, clips, defs = build_kit()
     hands_kit = hand_clearance(arm, clips)
     arm.animation_data.action = None

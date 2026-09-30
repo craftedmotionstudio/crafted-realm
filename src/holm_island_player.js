@@ -7,7 +7,7 @@
  * after a ladder, death. Island draft only (?holmIsland=1): the live game keeps its player until the cutover (M7). */
 var HolmIslandPlayer=(function(){
  'use strict';
- var URL='assets/models/holm_kit_v2.glb?v=15',st={root:null,clips:{},busy:null};
+ var URL='assets/models/holm_kit_v2.glb?v=16',st={root:null,clips:{},busy:null};
  var HAIR={short:'Hair_Short',long:'Hair_Long',ponytail:'Hair_Ponytail',bun:'Hair_Bun',mohawk:'Hair_Mohawk'};
  function hex(n){return '#'+('000000'+(Number(n)>>>0).toString(16)).slice(-6)}
  function look(){var c=typeof CharCfg!=='undefined'?CharCfg:{};return {female:c.gender==='f',hair:HAIR[c.hairStyle]||(c.hairStyle==='bald'?null:'Hair_Short'),beard:!!c.beard&&c.gender!=='f',
@@ -158,7 +158,7 @@ var HolmIslandPlayer=(function(){
     if(!(typeof HolmKit!=='undefined'&&HolmKit.ready())&&typeof recolorPlayer==='function')recolorPlayer(look().colors);
     try{if(typeof refreshGLBGear==='function')refreshGLBGear()}catch(e){}
     if(st.swapActor)st.swapActor(c);
-    applyLook(rig);hookSwing();st.root=c;st.rig=rig;
+    applyLook(rig);hookSwing();st.root=c;st.rig=rig;st.baseY=rig.position.y;
   }catch(e){console.error('[HolmIslandPlayer] install failed; the code-built adventurer stays',e)}
  }
  // per frame (the island provider, the online loop): install, the gait options, the look and the skill's tool; which clip
@@ -171,7 +171,9 @@ var HolmIslandPlayer=(function(){
   // gear refits can re-show meshes: keep exactly the chosen body, hair and beard (cheap, about twenty meshes)
   var now=Date.now();if(!st.lastLook||now-st.lastLook>1000){st.lastLook=now;applyLook(st.rig)}
   // OSRS: the weapon and shield go away and the skill's tool is in the hand while the action runs
-  if(typeof HolmSkillTools!=='undefined')HolmSkillTools.update()}
+  if(typeof HolmSkillTools!=='undefined')HolmSkillTools.update();
+  // review 9: on a slope the uphill foot stands on its own ground, not inside the hill (src/holm_foot_ground.js)
+  if(typeof HolmFootGround!=='undefined')HolmFootGround.update(player,st.rig,st.baseY)}
  // play a clip as a named 2004 skilling kind (src/skill_timing.js), e.g. playAs('cook','bake') at an oven
  function playAs(name,kind){st.kind=kind||null;try{return play(name)}finally{st.kind=null}}
  return {load:load,update:update,supervise:supervise,play:play,playAs:playAs,emote:emote,emoteStatus:emoteStatus,refreshLook:refreshLook,active:function(){return !!st.root&&typeof player!=='undefined'&&player===st.root},look:look};

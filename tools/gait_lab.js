@@ -10,6 +10,8 @@
  * Sliders are applied every frame on top of the clip (runtime offsets and scales, see applyPose): the change is instant. The
  * picks (Best / Not right + a note) are saved in this browser and exported as JSON; GaitLab.bake(settings) samples the tuned
  * pose at 30 fps as glTF-local bone rotations for tools/blender/bake_gait_lab.py to turn into a real clip.
+ * Round 4: "shipped" is the new walk / run (the kit's own clips); S = the v4a.2b clips they replaced; K / L = round-4 variants.
+ * A candidate build can be previewed before it ships: ?gaits=<repo path of a gaits GLB>&kit=<repo path of a kit GLB>.
  * Presentation only: nothing here changes the game. */
 (function(){
 'use strict';
@@ -18,9 +20,12 @@ const DEG=Math.PI/180;
 const REF_SERVER='http://127.0.0.1:8150/';
 const LS_STATE='gaitLab.state.v1',LS_PICKS='gaitLab.picks.v1';
 const GO=window.HolmGaitOptions||null;
-const U=GO&&GO.urls?GO.urls:{gaits:'assets/models/holm_kit_v2_gaits.glb',mesh:{b:'assets/models/holm_kit_v2_mesh_b.glb',c:'assets/models/holm_kit_v2_mesh_c.glb'}};
+const U0=GO&&GO.urls?GO.urls:{gaits:'assets/models/holm_kit_v2_gaits.glb',mesh:{b:'assets/models/holm_kit_v2_mesh_b.glb',c:'assets/models/holm_kit_v2_mesh_c.glb'}};
 const ROOT='../';
-const KIT_URL=ROOT+'assets/models/holm_kit_v2.glb?v=15';
+// a candidate build can be previewed without touching the game: ?gaits=<path>&kit=<path> (repo-relative, this site only)
+const QS=new URLSearchParams(location.search),rel=v=>v&&/^[\w.\/-]+\.glb$/.test(v)&&!/\.\./.test(v)?v:null;
+const U=Object.assign({},U0,rel(QS.get('gaits'))?{gaits:rel(QS.get('gaits'))+'?t='+Date.now()}:{});
+const KIT_URL=ROOT+(rel(QS.get('kit'))?rel(QS.get('kit'))+'?t='+Date.now():'assets/models/holm_kit_v2.glb?v=16');
 const PAL_URL=ROOT+'assets/models/holm_kit_v2_palettes.json';
 // the 2004 cameras (tools/ref2004: side strips 1150 units from the lane, look point at mid-height; the follow camera's boom
 // pitch*3+600 = 984 units, look point 50 units up), in tiles; our character stands 1.5 tiles = 1.813 kit metres
@@ -32,18 +37,20 @@ const GRASS='#4b5e30',GROUND_COL=0x55693a;
 
 // ---- presets ------------------------------------------------------------------------------------------------------------
 const NOTES={
- walk:{cur:'The walk the game ships now.',
+ walk:{cur:'SHIPPED (round 4): a casual walk tipped 2.5 deg forward, the shoulders turning a little against the hips with the arms, a slight head bob, straight legs at the heel strike.',
+  S:'The walk shipped until round 4 (v4a.2b): 11 deg lean, face down, a 5 % head bob.',K:'Round 4 variant: the new walk with a touch more lean (4 deg), shoulder turn and arm swing.',
   A:'Round 1: the shipped legs with a calmer upper body.',B:'Round 1: shorter reach, trailing back leg.',C:'Round 1: the 2004 trailing legs.',
   D:'Round 2: upright, relaxed arms (+-14 deg), straight legs at the heel strike, slow heel-to-toe roll.',
   E:'Round 2: D with a little more arm swing (+-20 deg) and a fuller roll.',F:'Round 2: the 2004 foot timing, arms +-17 deg.',
-  G:'NEW strut: upright and a hair back, chest up, shoulders open, arms carried a little out with an easy swing, a touch of swagger.',
-  H:'NEW casual stroll: upright, loose shoulders, small relaxed arm swing, gentle sway, the least effort.'},
- run:{cur:'The run the game ships now.',
+  G:'Round 3 strut: upright and a hair back, chest up, shoulders open, arms carried a little out with an easy swing, a touch of swagger.',
+  H:'Round 3 casual stroll: upright, loose shoulders, small relaxed arm swing, gentle sway, the least effort.'},
+ run:{cur:'SHIPPED (round 4): a casual run leaning 7 deg from the ankles (torso, hips and stance leg in one line), the ankles rolling heel-to-toe and pushing off pointed, the chest turning against the hips, 180 steps a minute.',
+  S:'The run shipped until round 4 (v4a.2b): the 26 deg stoop with the hips folded.',K:'Round 4 variant: 10 deg lean, a slightly higher knee and heel, arms +-34.',L:'Round 4 variant: lighter -- 5 deg, lower heel and knee, arms +-26.',
   A:'Round 1: spine 12 deg, head up.',B:'Round 1: the 2004 lean from a straight back.',C:'Round 1: spine 6 deg, lighter.',
   D:'Round 2: easy run, 7 deg lean, full extension, flight.',E:'Round 2: woods run, 9 deg lean, higher knee.',F:'Round 2: 2004 run, 12 deg lean.',
-  G:'NEW light jog: nearly upright (2 deg), short easy stride, low knee and heel, arms bent and close, gentle bounce.',
-  H:'NEW easy jog: G with a little more going on (4 deg, slightly higher knee, arms +-32).'}};
-const PRESETS={walk:['cur','G','H','D','E','F','A','B','C'],run:['cur','G','H','D','E','F','A','B','C']};
+  G:'Round 3 light jog: nearly upright (2 deg), short easy stride, low knee and heel, arms bent and close, gentle bounce.',
+  H:'Round 3 easy jog: G with a little more going on (4 deg, slightly higher knee, arms +-32).'}};
+const PRESETS={walk:['cur','K','S','G','H','D','E','F','A','B','C'],run:['cur','K','L','S','G','H','D','E','F','A','B','C']};
 function presetLabel(mode,k){if(k==='cur')return 'shipped';const L=GO&&GO.labels&&GO.labels[mode];return (L&&L[k])||k}
 
 // ---- sliders ------------------------------------------------------------------------------------------------------------
@@ -150,7 +157,8 @@ function wp(n,out){return M.bones[n].getWorldPosition(out)}
 function bindClip(clip){return clip.tracks.map(tr=>{const m=/^(.+)\.(quaternion|position|scale)$/.exec(tr.name);const o=m&&M.rig.getObjectByName(m[1]);
  return o?{o,p:m[2],it:tr.createInterpolant()}:null}).filter(Boolean)}
 function evalClip(t){for(const b of M.bind)b.o[b.p].fromArray(b.it.evaluate(t));M.rig.updateMatrixWorld(true)}
-function selectClip(){const clip=clipFor(S.mode,S.preset[S.mode]);if(!clip||!M.rig)return;
+function selectClip(){if(M.rig&&!clipFor(S.mode,S.preset[S.mode]))S.preset[S.mode]='cur';   // (a preset this build does not carry)
+ const clip=clipFor(S.mode,S.preset[S.mode]);if(!clip||!M.rig)return;
  const key=clip.name+'|'+M.meshUrl;if(M.cur===key)return;
  M.clip=clip;M.bind=bindClip(clip);M.cur=key;
  // measures over one cycle of the clip (the sliders scale and offset relative to these)
@@ -247,12 +255,14 @@ function drawOurs(){if(!M.rig||!M.clip||!M.pre){renderer.render(scene,camera);re
 
 // ---- UI -----------------------------------------------------------------------------------------------------------------
 function setOn(sel,val,attr){document.querySelectorAll(sel).forEach(b=>b.classList.toggle('on',b.getAttribute(attr)===val))}
-function buildPresets(){const box=$('presets');box.innerHTML='';for(const k of PRESETS[S.mode]){const b=document.createElement('button');
+function presetKeys(mode){const ks=PRESETS[mode].slice();for(const n of Object.keys(M.gaitClips).sort()){const m=/^(walk|run)_([A-Z][A-Z0-9]*)$/.exec(n);
+ if(m&&m[1]===mode&&!ks.includes(m[2]))ks.push(m[2])}return ks}
+function buildPresets(){const box=$('presets');box.innerHTML='';for(const k of presetKeys(S.mode)){const b=document.createElement('button');
  b.textContent=k==='cur'?'shipped':k;b.title=presetLabel(S.mode,k);b.dataset.k=k;if(S.preset[S.mode]===k)b.classList.add('on');
  const has=k==='cur'?!!M.kitClips[S.mode]:!!M.gaitClips[S.mode+'_'+k];b.disabled=!has&&Object.keys(M.gaitClips).length>0;
  b.onclick=()=>{S.preset[S.mode]=k;save();refreshAll()};box.appendChild(b);
- if(k==='cur'||k==='H'||k==='F'){const sp=document.createElement('span');sp.style.width='8px';box.appendChild(sp)}}
- const lab=document.createElement('div');lab.className='note';lab.style.width='100%';lab.textContent='new (round 3): G, H  \u00b7  round 2: D, E, F  \u00b7  round 1: A, B, C';box.appendChild(lab)}
+ if(k==='cur'||k==='S'||k==='H'||k==='F'){const sp=document.createElement('span');sp.style.width='8px';box.appendChild(sp)}}
+ const lab=document.createElement('div');lab.className='note';lab.style.width='100%';lab.textContent='shipped = round 4 (new)  \u00b7  round 4 variants: '+(S.mode==='run'?'K, L':'K')+'  \u00b7  S = shipped until round 4  \u00b7  round 3: G, H  \u00b7  round 2: D, E, F  \u00b7  round 1: A, B, C';box.appendChild(lab)}
 function buildSliders(){const box=$('sliders');box.innerHTML='';const sl=S.sliders[S.mode];
  for(const d of SLIDERS[S.mode]){const row=document.createElement('div');row.className='slider';
   row.innerHTML='<span>'+d.label+'</span><input type="range" min="'+d.min+'" max="'+d.max+'" step="'+d.step+'"><span class="val"></span><button title="reset">&#8634;</button>';

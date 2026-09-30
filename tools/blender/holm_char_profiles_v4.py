@@ -330,6 +330,72 @@ GAIT_OPTIONS_R3 = {
 for _k in ('walk', 'run'):
     GAIT_OPTIONS[_k].update(GAIT_OPTIONS_R3[_k])
 
+# ---- review 5, ROUND 4 (owner 2026-09-30: "we really need to get the running animation locked in") -- the NEW SHIPPED walk and
+# run (the kit's own clips); every earlier option stays in the gaits GLB as authored (GAIT_OPT_BASE / GAIT_OPT_STEP), and the
+# v4a.2b clips they replace are kept as walk_S / run_S.
+# RUN: "the ankles aren't really rotating; we don't have a nice pace; we're not getting the left and right torso twist";
+# "leaning forward way too much ... like they're hunched over ... can't be folded over like a V; it needs to be straightened
+# out. A casual run." -> the lean comes from the ankles: pelvis and torso tilt together 7 deg (hips_pitch = the chain lean, no
+# fold at the hip: the torso lines up with the stance leg at mid-stance, -7 deg, and folds only 21 deg at the landing where the
+# v4a.2b run folded 47); the foot lands flat-ish (toes 8 up) just ahead of the hips and rolls through to a full push off the
+# toes (-48 deg), the ankle then hangs pointed and flexes up before the next landing (ankle 24 deg pointed .. 26 flexed against
+# the shin); the pelvis turns 6 deg with the forward leg and the chest 10 deg the other way with the forward arm (16 deg of
+# shoulder-line turn against the hips; the head takes back 70 % of the chest's turn, so the face stays nearly ahead and the
+# neck -- and long hair gathered under a cape -- keeps with the shoulders); a natural 180 steps a minute (20 frames = the 2004 cycle, 0.66 s)
+# with a 30 % float, a gentle bounce (1.7 % of height), the heel coming up behind to about knee height, the elbows bent ~80-95
+# deg swinging +-30 deg from the shoulder and a little in toward the body on the way forward. Slide-free at 3.33 tiles/s. The
+# 8 held poses sit on the moments that read: landing, mid-stance, push-off, float (frames 0 3 6 8 | 10 13 16 18).
+# WALK: "very slightly turn their torso when swinging their arms ... more of a casual walk. The slight head bob"; "leaning back
+# a little bit; they need to be tilted forward just slightly" -> round 3's G/H walk tipped 2.5 deg FORWARD (not back), the
+# shoulders turning 4 deg against a 3 deg pelvis turn, a slight head bob (2.8 % of height; 2004 2.3, v4a.2b 5.0), straight legs
+# at the heel strike and mid-stance (knees 4 deg) bending only at the push-off. Slide-free at 1.67 tiles/s: 26 frames (0.87 s,
+# 138 steps a minute; 2004 0.92 s) for a 0.87 m step.
+_RUN_R4 = dict(frames=20, duty=.34, drop=.02, bob=.016, bob_phase=.17, front_fix=.22, p_on=8, p_off=-48, foot_roll=(.18, .42),
+               swing_path=[(.10, .62, .25), (.25, .50, .42), (.45, .22, .48), (.65, -.08, .40), (.82, -.30, .22)],
+               swing_rel=[(0, -20), (.3, -25), (.55, -10), (.8, 6), (1, 8)], toe_follow=.8, kick=0.0, lift=0.0, twist=0.0,
+               twist2=(6.0, 10.0), lean=0.0, hips_pitch=7.0, lean_cap=(7.0, False), face=4.0, arm_swing=30, arm_bias=3.0,
+               fore=88, fore_swing=0, fore_path=[(0, 78), (.5, 96), (1, 78)], arm_out=8.0, arm_in=10.0, foot_x=.12, plant_k=1.0)
+_WALK_R4 = dict(GAIT_2004_2['walk'], frames=26, lean_cap=(2.5, False), face=0.0, bob=.026, bob_phase=0.0, duty=.52, foot_roll=(.25, .5),
+                swing_pitch=(.10, .62), front_q=0.0, twist=0.0, twist2=(3.0, 4.0), sway=.012, roll=2.0, plant_k=1.0, front_fix=.38,
+                p_on=18, p_off=-30, swing_path=[(.25, .28, .22), (.5, 0.0, .19), (.78, -.33, .155), (.92, -.41, .142)],
+                osrs=(6.0, 8.0, 8.0), arm_swing=16, fore_swing=6, arm_bias=-2.0)
+GAIT_2004_R4 = {'walk': _WALK_R4, 'run': _RUN_R4}
+STEP_R4 = {'walk': (-8, 'CONSTANT'), 'run': ([0, 3, 6, 8, 10, 13, 16, 18], 'CONSTANT'), 'idle': (12, 'CONSTANT')}
+GAIT_OPTIONS_R4 = {
+    'walk': {
+        'S': dict(label='Walk S -- v4a.2b (shipped until round 4)', fresh=True, gait=dict(GAIT_2004_2['walk']), step=(-8, 'CONSTANT'),
+                  note='The walk the game shipped before round 4: 11 deg lean, the face 19 deg down, a 5 % head bob.'),
+        'K': dict(label='Walk K -- round 4, a touch more', fresh=True, gait=dict(_WALK_R4, lean_cap=(4.0, False), twist2=(4.0, 6.0), bob=.028, arm_swing=18),
+                  step=(-8, 'CONSTANT'), note='The new walk with a little more of each: 4 deg forward, the shoulders turning 6 deg, arms +-18.'),
+    },
+    'run': {
+        'S': dict(label='Run S -- v4a.2b (shipped until round 4)', fresh=True, gait=dict(GAIT_2004_2['run']), step=(-8, 'CONSTANT'),
+                  note='The run the game shipped before round 4: the 26 deg stoop with the hips folded.'),
+        'K': dict(label='Run K -- round 4, more lean', fresh=True, step=STEP_R4['run'],
+                  gait=dict(_RUN_R4, hips_pitch=9.0, lean_cap=(10.0, False), face=6.0, front_fix=.20, arm_swing=32),
+                  note='The new run leaning 10 deg from the ankles (still straight, no fold), a little more drive in the arms (+-32).'),
+        'L': dict(label='Run L -- round 4, lighter', fresh=True, step=STEP_R4['run'],
+                  gait=dict(_RUN_R4, hips_pitch=5.0, lean_cap=(5.0, False), face=3.0, bob=.014,
+                            swing_path=[(.10, .60, .23), (.25, .48, .36), (.45, .22, .42), (.65, -.06, .36), (.82, -.28, .21)]),
+                  note='The new run lighter: 5 deg, a lower heel and knee, a softer bounce.'),
+    },
+}
+for _k in ('walk', 'run'):
+    GAIT_OPTIONS[_k].update(GAIT_OPTIONS_R4[_k])
+# BODY (owner round 4): "the top of the neck underneath the head, sticking out" -> the neck tucks into the skull (NECK_TUCK);
+# "the feet, ankles or boots stick through the legs ... not much bend out of the ankle" -> trousers and bare shins take the
+# feet's own ankle band, narrowed to 10.5-15 cm (LEG_ANKLE_Z, ANKLE_BLEND): hem and shoe collar bend together on a crisp ankle;
+# "not much of a buttocks; we need just a little" -> SEAT: the back of the pelvis and the top of the thighs a little fuller;
+# the woman's feet "disconnect from her legs when running" in the long skirt -> the hem follows the shins (SKIRT_SHIN) and
+# her shins run up under it to the knee
+SEAT_R4 = {'A': (.030, .020), 'B': (.030, .020)}   # (m at the fullest point: pelvis back, thigh back)
+
+def _seat(K, seat):
+    for bt, (sp, st) in seat.items():
+        zc = .888 if bt == 'A' else .878
+        K.PELVIS[bt][:] = [(r[0], r[1], r[2], r[3] + sp * max(0.0, 1 - abs(r[0] - zc) / .075)) + tuple(r[4:]) for r in K.PELVIS[bt]]
+        K.LEG_R[bt][:] = [(r[0], r[1], r[2], r[3] + st * max(0.0, 1 - abs(r[0] - .15) / .25)) + tuple(r[4:]) for r in K.LEG_R[bt]]
+
 TUTOR_PARTS = {'hettie': {'Makeup': 1}}
 
 # the kit's spine-lean gates, widened on purpose for the 2004 look (build_holm_characters_v2.LEAN_LIMITS): the reference
@@ -363,9 +429,12 @@ PROFILES = {
     # the torso and arms), form-fitting trousers, a fuller rounder skull, a walk with a real ankle roll and a calmer run
     'v4a2': dict(BODY_2004, label='Option A.2 -- closest 2004, smooth panels, form-fitting trousers, rounder skull, ankle-roll walk, calm run',
                  sharp=80.0, face=FACE_2004, head=HEAD_ROUND, head_p=2.55, head_wy=1.04, head_back_k=HEAD_BACK_K,
-                 trousers='fitted', gait=GAIT_2004_2, jaw_clear=(.064, .064), hair_clear=.050, idle_feet=IDLE_FEET_2004_2, sole_k=SOLE_2004, hem_max=.044, ankle_r={'A': .047, 'B': .041}, knee_k={'A': .84, 'B': .92},
+                 trousers='fitted', gait=GAIT_2004_R4, jaw_clear=(.064, .064), hair_clear=.050, idle_feet=IDLE_FEET_2004_2, sole_k=SOLE_2004, hem_max=.044, ankle_r={'A': .047, 'B': .041}, knee_k={'A': .84, 'B': .92},
                  v_body=dict(thigh_k=.70, thigh_k_b=.76),   # (slimmer thighs: the 2004 gap from the crotch down; cloth follows)
-                 step={'walk': (-8, 'CONSTANT'), 'run': (-8, 'CONSTANT'), 'idle': (12, 'CONSTANT')},
+                 step=STEP_R4,   # (round 4: the run holds its landing / mid-stance / push-off / float poses)
+                 gait_opt_base=GAIT_2004_2, gait_opt_step={'walk': (-8, 'CONSTANT'), 'run': (-8, 'CONSTANT')},
+                 neck_tuck=True, ankle_blend=(.105, .15), leg_ankle_z=True, seat=SEAT_R4, skirt_shin=1.0,   # round 4 body
+                 robe_r4=True, tutor_hold_r4=True, skill_r4=True,   # review 9: Ansel's robe and book, Durgin's pick arm, the strokes
                  step_all=(3, 'CONSTANT'), lean=LEAN_2004_2, tutor_gait=TUTOR_GAIT_2004),
     # review 5 round 2 MESH options on A.2 (the owner, side by side with 2004: "looks too polished and round"):
     # mc = the shipped mesh with creases every 36 deg (the flat panels of option A, as 2004's facets); mb = squarer torso
@@ -529,7 +598,7 @@ def apply(K, name):
         K.TROUSERS = list(TROUSERS_FITTED)
     K.HEAD_BACK_K = P.get('head_back_k', 1.0)   # (the equipment refit maps the helms onto the fuller back of the skull)
     K.GAIT.clear(); K.GAIT.update(P.get('gait', {}))
-    if P.get('gait') in (GAIT_2004, GAIT_2004_2):   # the kit-metre ground speeds of the 2004 world pace (see WORLD_SCALE)
+    if P.get('gait') in (GAIT_2004, GAIT_2004_2, GAIT_2004_R4):   # the kit-metre ground speeds of the 2004 world pace (see WORLD_SCALE)
         K.GAME_WALK_SPEED, K.GAME_RUN_SPEED = round(WALK_TPS / WORLD_SCALE, 3), round(RUN_TPS / WORLD_SCALE, 3)
         K.WORLD_SCALE = WORLD_SCALE
         K.GAIT_DROP_STEPS = 32
@@ -544,6 +613,19 @@ def apply(K, name):
             K.STANCE_ARM_AIM[k.replace('Left', 'Right')] = (-v[0], v[1], v[2])
         K._STANCE_LOCAL.clear()
     K.GAIT_OPTIONS.clear(); K.GAIT_OPTIONS.update(GAIT_OPTIONS if name == 'v4a2' else {})   # review 5: the walk / run / idle options
+    K.GAIT_OPT_BASE.clear(); K.GAIT_OPT_BASE.update(P.get('gait_opt_base', {}))   # round 4: the gait the options were authored on
+    K.GAIT_OPT_STEP.clear(); K.GAIT_OPT_STEP.update(P.get('gait_opt_step', {}))
+    # round 4 body: neck tucked into the skull, the shared ankle band, the seat, long hems following the shins
+    K.NECK_TUCK = bool(P.get('neck_tuck'))
+    if P.get('ankle_blend'):
+        K.ANKLE_BLEND = tuple(P['ankle_blend'])
+    K.LEG_ANKLE_Z = bool(P.get('leg_ankle_z'))
+    K.SKIRT_SHIN = P.get('skirt_shin', 0.0)
+    K.ROBE_R4 = bool(P.get('robe_r4'))
+    K.TUTOR_HOLD_R4 = bool(P.get('tutor_hold_r4'))
+    K.SKILL_R4 = bool(P.get('skill_r4'))
+    if P.get('seat'):
+        _seat(K, P['seat'])
     _mesh_option(K, P)   # review 5 round 2: the mesh options (squarer torso, thigh caps, tucked trousers + one-piece boots)
     for tid, parts in P.get('tutor_parts', TUTOR_PARTS).items():   # Hettie: no rouge (owner: "her face isn't quite 2004")
         K.TUTORS[tid]['parts'].update(parts)

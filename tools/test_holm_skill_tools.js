@@ -80,6 +80,13 @@ const have=id=>['fishing_net','tinderbox','hammer','raw_perch','copper_ore','tin
 ok(HST.itemToolId('net','net',null,()=>1,have)==='fishing_net','the small net');
 ok(HST.itemToolId('food','cook',null,id=>id==='raw_perch'?2:0,have)==='raw_perch','raw fish over the fire');
 ok(HST.itemToolId('ore','smelt',{bar:'bronze_bar'},id=>id==='tin_ore'?1:0,have)==='tin_ore','the ore actually carried');
+// review 9: the bucket scoop -- the bucket actually carried hangs in the hand (filled a moment ago: water or flour)
+const haveB=id=>['bucket','bucket_water','bucket_flour'].includes(id);
+ok(HST.itemToolId('bucket','scoop',null,id=>id==='bucket_flour'?1:0,haveB)==='bucket_flour','the bucket just filled with flour');
+ok(HST.itemToolId('bucket','scoop',null,id=>id==='bucket'?1:0,haveB)==='bucket','an empty bucket');
+ok(HST.SKILLS.scoop&&HST.SKILLS.scoop.tool==='bucket'&&HST.TOOLS.bucket.grip&&HST.TOOLS.bucket.grip[1]>0.3,'scoop holds the bucket by the top of its handle');
+{const src=fs.readFileSync(path.join(ROOT,'src','holm_teaching_kitchen_interactions.js'),'utf8');
+ ok(/HolmIslandPlayer\.playAs\('scoop','scoop'\)/.test(src),'filling a bucket at the flour bin / water butt plays the scoop');}
 for(const [sk,s] of Object.entries(HST.SKILLS)){
   ok(!!HST.TOOLS[s.tool],sk+' names a tool');
   ok(Math.abs(dot(norm(s.axis),norm(s.rollAim)))<0.99,sk+' axis and roll are not parallel');

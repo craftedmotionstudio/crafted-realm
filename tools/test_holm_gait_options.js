@@ -1,8 +1,10 @@
 /* test_holm_gait_options.js -- headless gate for the review-5 walk / run / idle options (owner 2026-09-28):
  *  1. the companion GLB (assets/models/holm_kit_v2_gaits.glb) carries exactly the option clips walk_A..H, run_A..H (round 1
- *     A-C, round 2 D-F, round 3 G-H), idle_A..C on the kit's 23 bones (same names as the kit), the kit's cycle lengths, and no meshes;
+ *     A-C, round 2 D-F, round 3 G-H), round 4's walk K / run K, L and walk S / run S (the v4a.2b clips round 4 replaced),
+ *     idle_A..C on the kit's 23 bones (same names as the kit), 2004-cadence cycle lengths, and no meshes;
  *  2. every option clip animates the same channels as the kit's own walk / run / idle (a drop-in swap);
- *  3. the kit GLB is untouched: its own idle / walk / run are still the shipped default (no option clips inside);
+ *  3. the kit GLB carries only its own idle / walk / run (no option clips inside); round 4: those are the new shipped walk and
+ *     run (not the v4a.2b ones, now walk_S / run_S);
  *  4. HolmGaitOptions: ?gait parsing (walkA,runB,idleC / one letter / cur / panel), nothing loads without ?gait, and the
  *     swap on a kit gmix (weight / time / time scale carried over, the shipped action restored for "cur", run marked on);
  *  5. index.html loads src/holm_gait_options.js after holm_island_player.js, and the island player drives it;
@@ -23,7 +25,7 @@ function channels(j,a){return a.channels.map(c=>j.nodes[c.target.node].name+'.'+
 const GP=path.join(ROOT,'assets','models','holm_kit_v2_gaits.glb'),KP=path.join(ROOT,'assets','models','holm_kit_v2.glb');
 ok(fs.existsSync(GP),'the companion GLB exists');
 const g=glbJson(GP),k=glbJson(KP);
-const want=['idle_A','idle_B','idle_C','run_A','run_B','run_C','run_D','run_E','run_F','run_G','run_H','walk_A','walk_B','walk_C','walk_D','walk_E','walk_F','walk_G','walk_H'];
+const want=['idle_A','idle_B','idle_C','run_A','run_B','run_C','run_D','run_E','run_F','run_G','run_H','run_K','run_L','run_S','walk_A','walk_B','walk_C','walk_D','walk_E','walk_F','walk_G','walk_H','walk_K','walk_S'];
 ok(JSON.stringify(g.animations.map(a=>a.name).sort())===JSON.stringify(want),'option clips = '+want.join(',')+' (got '+g.animations.map(a=>a.name).sort().join(',')+')');
 ok(!g.meshes||!g.meshes.length,'the companion GLB carries no meshes');
 const kitBones=k.skins[0].joints.map(i=>k.nodes[i].name).sort();
@@ -33,11 +35,18 @@ const kitClip=n=>k.animations.find(a=>a.name===n);
 for(const a of g.animations){
   const kind=a.name.split('_')[0],ref=kitClip(kind);
   ok(!!ref,'kit has '+kind);if(!ref)continue;
-  ok(Math.abs(clipLen(g,a)-clipLen(k,ref))<0.02,a.name+' lasts '+clipLen(g,a).toFixed(3)+' s like the kit '+kind+' ('+clipLen(k,ref).toFixed(3)+')');
+  // (round 4: the shipped walk runs 26 frames; the options keep their own 2004-cadence cycles)
+  const L=clipLen(g,a),span={walk:[0.8,0.95],run:[0.6,0.7],idle:[1.9,2.1]}[kind];
+  ok(L>=span[0]&&L<=span[1],a.name+' lasts '+L.toFixed(3)+' s (a '+kind+' cycle '+span.join('-')+' s)');
   ok(channels(g,a)===channels(k,ref),a.name+' animates the same bone channels as the kit '+kind);
 }
 ok(!k.animations.some(a=>/^(walk|run|idle)_[A-Z]$/.test(a.name)),'the kit GLB has no option clips (the shipped idle / walk / run stay the default)');
 for(const n of ['idle','walk','run'])ok(!!kitClip(n),'the kit still has its own '+n);
+// round 4: the kit's walk / run are the NEW ones -- walk_S / run_S (the v4a.2b clips) differ from them; slide-free cadences
+{const kw=kitClip('walk'),kr=kitClip('run');
+ ok(Math.abs(clipLen(k,kw)-26/30)<0.01,'round 4: the shipped walk is the 26-frame casual walk ('+clipLen(k,kw).toFixed(3)+' s)');
+ ok(Math.abs(clipLen(k,kr)-20/30)<0.01,'round 4: the shipped run keeps the 2004 cycle, 20 frames ('+clipLen(k,kr).toFixed(3)+' s)');
+ const ws=g.animations.find(a=>a.name==='walk_S');ok(!!ws&&Math.abs(clipLen(g,ws)-28/30)<0.01,'walk_S keeps the v4a.2b 28-frame cycle');}
 
 /* ---- 4: the runtime module ---- */
 const src=fs.readFileSync(path.join(ROOT,'src','holm_gait_options.js'),'utf8');

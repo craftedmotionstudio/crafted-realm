@@ -91,6 +91,8 @@ var HollowSquareInteractions = (()=>{
       return false;
     }
     say(services, 'You fill the bucket from the Hollow Well.');
+    // review 9: the kit adventurer dips the bucket into the well (the kit's 'scoop' clip)
+    try{ if(typeof HolmIslandPlayer!=='undefined'&&HolmIslandPlayer.active()&&HolmIslandPlayer.playAs) HolmIslandPlayer.playAs('scoop','scoop'); }catch(e){}
     return true;
   }
 
