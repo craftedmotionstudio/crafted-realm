@@ -4135,3 +4135,44 @@ length (slight medium-length read in 3/4).
 - Not done: the island bundle publish (node tools/publish_holm_island.js apply) was refused by the session's permission
   check, so assets/holm_island/data/island-props.json still has review 5's decor; until it is published, production shows
   17 decor pieces on the new lanes (the ?holmIsland=1 draft reads the docs copy and is right).
+
+
+## 2026-09-30 — Round 4: the run locked in, the walk, the body fixes and review 9's queue (branch holm-chars-run-lock)
+- Owner round 4: the run "leaning forward way too much ... like they're hunched over ... can't be folded over like a V";
+  "the ankles aren't really rotating; we don't have a nice pace; we're not getting the left and right torso twist"; "a
+  casual run". The walk: "very slightly turn their torso ... the slight head bob"; "leaning back a little bit; tilted forward
+  just slightly". Body: the top of the neck under the head sticking out; boots through the legs and little ankle bend;
+  "not much of a buttocks"; the woman's feet disconnecting from her legs in a dress when running.
+- NEW SHIPPED RUN (kit `run`): the lean comes from the ankles -- pelvis and torso tilt together 7 deg (v4a.2b: a 26 deg
+  stoop); the hip fold (torso vs stance leg) is 21 deg at the landing and -7 at mid-stance, i.e. one straight line (v4a.2b
+  47 / 21); the ankle rolls heel-to-toe and pushes off pointed (-24 .. +26 deg against the shin); the chest turns 16 deg
+  against the hips (v4a.2b 6.5); 180 steps a minute (20 frames = the 2004 0.66 s cycle), a 30 % float, a gentle bounce
+  (head 1.7 % of height, v4a.2b 4.0); slide-free at 3.33 tiles/s. Held poses on landing / mid-stance / push-off / float.
+- NEW SHIPPED WALK (kit `walk`): 2.5 deg forward (v4a.2b 11; round 3 G -1.5 back), the shoulders turning 7 deg against the
+  hips with the arms, a slight head bob (2.8 %, v4a.2b 5.0), straight legs at the heel strike and mid-stance (knee 4 deg);
+  slide-free at 1.67 tiles/s with 26 frames (0.87 s; 2004 0.92).
+- Gait Lab: "shipped" shows the new clips; S = the v4a.2b clips they replaced; round-4 variants walk K, run K (10 deg), run L
+  (5 deg); A-H identical to before (built over the gait they were authored on). New lab params ?gaits= / ?kit= preview a
+  candidate build. New report numbers: hip fold, ankle-vs-shin range, shoulder-vs-pelvis turn.
+- Body: the neck tucks into the skull (no neck top under the back of the head); trousers / bare shins take the feet's own
+  ankle band, narrowed to 10.5-15 cm (hem and boot collar bend together on a crisp ankle); a little seat (pelvis back +3 cm,
+  thigh tops +2); a long skirt's hem follows the shins and her shins run up under it (no gap at any frame).
+- Review 9: chop re-authored (the hatchet back over the shoulder, swung forward across into the trunk at waist height);
+  mine with both hands on the haft, raised over the head and swung down; the net cast / soak in a deeper squat; a new kit
+  clip `scoop` (the bucket dipped at the flour bin / water butt / the Hollow Well, the bucket hanging in the hand);
+  Foreman Durgin's pick rests on his shoulder with the arm down and open; Loremaster Ansel's robe falls straight from the
+  hips under a slim sash and his book is held in his hand against the chest; the kit player's feet stand on the ground
+  under them on slopes (src/holm_foot_ground.js lifts the rig by what the uphill sole needs, never lowers it).
+- Equipment fit (kit + every worn / held item, both bodies, three builds, idle + all held walk / run poses): the shipped
+  walk / run 0 failing everywhere (0 clipping, 0 gaps); variants (fit on their own clips): run K 0 clipping / 8 small gaps
+  (chainbody hem at the push-off), run L 0 clipping / 12 small gaps (glove cuff at the push-off). No equipment rebuild was
+  needed. (A cape over a platebody first caught long hair: fixed by the shipped gaits taking the options' head-to-chest floor
+  and the head, not the neck, turning back against the chest.)
+- Gates on the branch: units 101/101 (new test_holm_foot_ground 15; test_holm_gait_options 142; test_holm_skill_tools 103),
+  smoke PASS fg + hidden (108/108), qa_combat_pvm 41/41, qa_anim_no_stuck 92/92 (chop / mine / net / gait presets included),
+  playthrough 1/1 (18/18 lessons, 10/10 tutors, 0 page errors). In-app browser: the Gait Lab (shipped = the new clips, S /
+  K / L / A-H all play) and in game (the new walk / run at time scale 1 = slide-free, the woman running in the long skirt,
+  the scoop with the bucket in hand, the rig lifted 7-8 cm on the slope by Wenna's camp). Earlier smoke runs failed only the
+  5 s boot budget / one minimap-cache check while the machine sat at 96 % CPU; the rerun passed.
+- Private strips (2004 / before / after, never committed): C:\Users\iQwaZ\ref2004_captures\review\run_lock\final_*.png.
+- Assets: holm_kit_v2.glb (?v=16), holm_kit_v2_gaits.glb, holm_kit_v2_mesh_b / _c.glb, Bram + the nine tutors (?v=43).

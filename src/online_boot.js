@@ -18,7 +18,7 @@ var CROnline=(function(){
   var host=location.hostname||'127.0.0.1';
   return 'ws://'+host+':'+(qs.get('port')||'8200');
  }
- var SCRIPTS=['src/net_client.js?v=w2g','src/online_kit.js?v=w2g','src/online_bestiary.js?v=w2g','src/online_world.js?v=w2g','src/online_actors.js?v=w2g',
+ var SCRIPTS=['src/net_client.js?v=w2g','src/online_kit.js?v=w2g','src/online_bestiary.js?v=w2g','src/online_world.js?v=w2g','src/online_actors.js?v=w2g-r4',
   'src/online_fx.js?v=w2g','src/online_ui.js?v=h466ea93b','src/online_menu.js?v=w2g','src/online_main.js?v=h94952e9c'];
  var api={enabled:enabled,server:qs.get('server')||defaultServer(),params:qs,
   writeScripts:function(){

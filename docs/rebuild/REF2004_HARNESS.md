@@ -219,3 +219,19 @@ live through the same 2004 lens (36.13 deg vfov, 22.5 deg elevation), side view 
   ```
 
   In game the clip is then `?gait=walkP`.
+
+### Round 4: the run locked in (2026-09-30)
+
+- "shipped" in the Gait Lab is now the new walk and run (the kit's own clips in `assets/models/holm_kit_v2.glb`); **S** is the
+  v4a.2b walk / run they replaced, **K** (walk, run) and **L** (run) are round-4 variants; A-H are exactly as the owner saw them
+  (the profile builds them over the gait they were authored on: `GAIT_OPT_BASE`).
+- A candidate build can be previewed in the lab before it ships: `?gaits=<repo path of a gaits GLB>&kit=<repo path of a kit
+  GLB>` (repo-relative, this site only), e.g. `tools/gait_lab.html?gaits=.studio-workspaces/holm-gait-options-r4/candidates/gaits.glb`.
+- The builds: `blender -b --python tools/blender/build_holm_characters_v2.py -- --no-render --tag r4` (kit + Bram + tutors),
+  `... -- --gait-options --gtag holm-gait-options-r4`, `... -- --kit-only --profile v4a2_mb --tag v4mesh-b` (and `_mc` / `v4mesh-c`);
+  then copy `kit.glb` -> `assets/models/holm_kit_v2.glb`, `bram.glb` -> `holm_tutor_bram_v2.glb`, the tutors, `gaits.glb` ->
+  `holm_kit_v2_gaits.glb` and the mesh kits, and bump the URLs (`holm_kit_v2.glb?v=`, the tutors' `?v=`, the gaits / mesh hashes in
+  `src/holm_gait_options.js`).
+- The gait report now also measures the owner's round-4 words: `hip_fold_at_contact_deg` / `hip_fold_mid_stance_deg` (torso vs
+  stance leg: 0 = one straight line, + = folded into a V), `ankle_rel_deg` (the ankle's bend against the shin over the cycle),
+  `shoulder_vs_pelvis_twist_deg` (the torso's turn against the hips).

@@ -28,7 +28,8 @@ var HolmSkillTools=(function(){
   cook:    {clips:['cook'],ref:16,tool:'food',  axis:[0,-0.3,0.95],   rollAim:[0,1,0]},     // held by the tail over the fire
   cook_range:{clips:['cook_range','cook'],ref:22,tool:'food',axis:[0,-0.25,0.97],rollAim:[0,1,0]},  // slid forward into the oven (kit v4)
   smith:   {clips:['smith'],ref:7,tool:'hammer',axis:[0,-0.1,1],    rollAim:[0,-1,0]},    // head forward, face down on the anvil
-  smelt:   {clips:['smelt'],ref:14,tool:'ore', axis:[1,0,0],         rollAim:[0,1,0]}      // a lump of ore in the fist
+  smelt:   {clips:['smelt'],ref:14,tool:'ore', axis:[1,0,0],         rollAim:[0,1,0]},     // a lump of ore in the fist
+  scoop:   {clips:['scoop'],ref:0,tool:'bucket',axis:[0,1,0],         rollAim:[1,0,0]}      // review 9: hanging from its handle, upright at the side
  };
  // tool: where the model comes from and its own frame (mesh-local, glTF): grip point, long axis, roll side
  var TOOLS={
@@ -38,11 +39,12 @@ var HolmSkillTools=(function(){
   tinderbox:{from:'item',ids:['tinderbox'],  gripU:0.5, axis:[1,0,0],roll:[0,1,0]},
   food:     {from:'item',ids:['raw_perch','bread_dough','dough'],gripU:0.16,axis:[1,0,0],roll:[0,1,0]},   // tail -> snout +X, flank +Y
   hammer:   {from:'item',ids:['hammer'],     gripU:0.16,axis:[1,0,0],roll:[0,0,1]},          // handle -> head +X, striking face +Z
-  ore:      {from:'item',ids:['copper_ore','tin_ore'],gripU:0.5,axis:[1,0,0],roll:[0,1,0]}
+  ore:      {from:'item',ids:['copper_ore','tin_ore'],gripU:0.5,axis:[1,0,0],roll:[0,1,0]},
+  bucket:   {from:'item',ids:['bucket_water','bucket_flour','bucket'],grip:[0,0.345,0],axis:[0,1,0],roll:[1,0,0]}   // upright, held by the top of its handle
  };
  // the skilling kind a running clip is played for (HolmIslandPlayer tags each clip it plays: _holmKind) -> the skill whose tool it holds;
  // 'bake' = the oven reach with the dough (no Player.action: cooking_bread.js)
- var CLIP_SKILL={chop:'chop',mine:'mine',net:'net',firemake:'firemake',cook:'cook',cook_range:'cook_range',smith:'smith',smelt:'smelt',bake:'cook_range'};
+ var CLIP_SKILL={chop:'chop',mine:'mine',net:'net',firemake:'firemake',cook:'cook',cook_range:'cook_range',smith:'smith',smelt:'smelt',bake:'cook_range',scoop:'scoop'};
  var PALM=0.085;
  var st={cur:null,hidden:[],cache:{},tick:0};
 
@@ -63,7 +65,7 @@ var HolmSkillTools=(function(){
  function itemToolId(tool,skill,action,count,has){
   var ids=TOOLS[tool].ids.slice();
   if(tool==='ore'&&action&&action.bar&&typeof SMELTS!=='undefined'&&SMELTS[action.bar])ids=Object.keys(SMELTS[action.bar].needs).concat(ids);
-  for(var i=0;i<ids.length;i++)if(has(ids[i])&&(tool!=='food'&&tool!=='ore'||count(ids[i])>0))return ids[i];
+  for(var i=0;i<ids.length;i++)if(has(ids[i])&&(tool!=='food'&&tool!=='ore'&&tool!=='bucket'||count(ids[i])>0))return ids[i];
   for(var j=0;j<ids.length;j++)if(has(ids[j]))return ids[j];
   return null;
  }
@@ -91,7 +93,7 @@ var HolmSkillTools=(function(){
    var g=itemGroundMesh(id);if(!g||g.userData.holmItem!==id||!g.children[0])return null;   // only the Blender item, never a stand-in
    m=g.children[0];g.remove(m);m.position.set(0,0,0);m.rotation.set(0,0,0);m.updateMatrixWorld(true);
    var b=new THREE.Box3().setFromObject(m),c=b.getCenter(new THREE.Vector3());
-   m.userData.gripLocal=new THREE.Vector3(b.min.x+(b.max.x-b.min.x)*T.gripU,c.y,c.z);
+   m.userData.gripLocal=T.grip?V(T.grip):new THREE.Vector3(b.min.x+(b.max.x-b.min.x)*T.gripU,c.y,c.z);
   }
   if(m){m.name='holm-skill-tool-'+id;m.traverse(function(o){if(o.isMesh)o.castShadow=true})}
   return m;

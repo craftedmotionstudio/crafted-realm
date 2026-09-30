@@ -106,7 +106,7 @@ var HolmIslandTutors=(function(){
   // who is not there); a load still in flight when the island is disposed (the ferry) adds nothing
   var fetchModel=function(url){return new Promise(function(ok,no){new T.GLTFLoader().load(url,ok,undefined,no)})};
   for(var i=0;i<CAST.length;i++){var c=CAST[i],p=spot(api,c);if(!p){st.missing[c.id]='no stance';continue}
-   var gltf=null,url='assets/models/holm_tutor_'+c.id+'_v2.glb?v=42';for(var tries=0;tries<2&&!gltf;tries++){try{gltf=await fetchModel(url)}catch(e){if(tries)console.warn('[HolmIslandTutors] no model for '+c.id+'; their lessons go on without them',e&&e.message||e)}}
+   var gltf=null,url='assets/models/holm_tutor_'+c.id+'_v2.glb?v=43';for(var tries=0;tries<2&&!gltf;tries++){try{gltf=await fetchModel(url)}catch(e){if(tries)console.warn('[HolmIslandTutors] no model for '+c.id+'; their lessons go on without them',e&&e.message||e)}}
    if(gen!==st.gen)return {tutors:0,disposed:true};
    if(!gltf){st.missing[c.id]='model';continue}
    var root=gltf.scene,g=new T.Group();root.traverse(function(m){if(m.isMesh||m.isSkinnedMesh){m.castShadow=true;m.frustumCulled=false;[].concat(m.material).forEach(function(q){if(q&&'roughness' in q){q.roughness=1;q.metalness=0}})}});

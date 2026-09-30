@@ -92,6 +92,8 @@ var HolmTeachingKitchen=(function(){
         return;
       }
       Player.removeItem('bucket',1); Player.addItem(id,1); UI.refreshInv();
+      // review 9: the kit adventurer dips the bucket in (the kit's 'scoop' clip; HolmSkillTools hangs the bucket in the hand)
+      try{ if(typeof HolmIslandPlayer!=='undefined'&&HolmIslandPlayer.active()&&HolmIslandPlayer.playAs) HolmIslandPlayer.playAs('scoop','scoop'); }catch(e){}
       if(typeof Sfx!=='undefined'&&Sfx.click) Sfx.click();
       UI.chat(line,'plain');
     };
