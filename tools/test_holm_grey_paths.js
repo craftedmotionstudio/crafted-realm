@@ -19,7 +19,9 @@
 'use strict';
 const assert=require('assert'),fs=require('fs'),path=require('path');
 const ROOT=path.join(__dirname,'..'),src=f=>fs.readFileSync(path.join(ROOT,'src',f),'utf8');
-const BASE_GRAPH={nodes:10468,edges:27691,hash:'d41278dc47dbc168'};   // measured on bc65fe4b before review 5 (same hash rule)
+// measured on bc65fe4b before review 5 (same hash rule) as 10468 / 27691 / d41278dc47dbc168; the Warden's Keep overhaul
+// (owner review 2026-09-29) rebuilt the keep and its measured graph (solid curtains, the level-two ring): re-measured then
+const BASE_GRAPH={nodes:10384,edges:27343,hash:'98f185b84f967d38'};
 const REVIEW5_TILES=875,MIN_TILES=4;
 // the four kinks the layout keeps on purpose (the tile audit flags them): the village lane's one-row step past the rocks at
 // x 48, the one-tile ramp's jog up the quarry mesa, the keep ledge's diagonal step past the shrub at 84,49, and the rock

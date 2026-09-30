@@ -1,0 +1,775 @@
+{
+ "build": {
+  "flat": ".studio-workspaces/holm-keep-overhaul-v1/working/keep-flat.blend",
+  "triangles": 59003,
+  "meshes": 92,
+  "doors": 12,
+  "anchors": 13
+ },
+ "texture": {
+  "glb": {
+   "path": ".studio-workspaces/holm-keep-overhaul-v1/working/keep-textured.glb",
+   "bytes": 6139000,
+   "sha256": "0216cf6b92f2ee29a95e4550bc90d1cb967bee1bc932972b0a2cc1de7ac186b7"
+  },
+  "materials": 1,
+  "images": [
+   "beam"
+  ]
+ },
+ "zfix": {
+  "before": {
+   "fights": 565,
+   "byKind": {
+    "same-facing": 561,
+    "open-shell": 4
+   },
+   "area": 21.7062,
+   "topPairs": [
+    [
+     [
+      "Keep_Upper_Shell_Walls",
+      "Keep_Upper_Shell_Walls"
+     ],
+     112
+    ],
+    [
+     [
+      "Keep_Shell_Walls",
+      "Keep_Shell_Walls"
+     ],
+     108
+    ],
+    [
+     [
+      "Keep_Furnishing_Hall",
+      "Keep_Furnishing_Hall"
+     ],
+     82
+    ],
+    [
+     [
+      "Keep_Upper_Furnishing_Quarters",
+      "Keep_Upper_Furnishing_Quarters"
+     ],
+     56
+    ],
+    [
+     [
+      "Keep_Upper_Tower_Turret_L2_Rails",
+      "Keep_Upper_Tower_Turret_L2_Rails"
+     ],
+     13
+    ],
+    [
+     [
+      "Keep_Upper_Tower_Watch_L3_Rails",
+      "Keep_Upper_Tower_Watch_L3_Rails"
+     ],
+     13
+    ],
+    [
+     [
+      "Keep_Upper_Shell_WatchL2",
+      "Keep_Upper_Shell_WatchL2"
+     ],
+     12
+    ],
+    [
+     [
+      "Keep_Furnishing_Barracks",
+      "Keep_Furnishing_Barracks"
+     ],
+     11
+    ],
+    [
+     [
+      "Keep_Upper_Tower_Turret_L1_Rails",
+      "Keep_Upper_Tower_Turret_L1_Rails"
+     ],
+     10
+    ],
+    [
+     [
+      "Keep_Upper_Tower_Watch_L1_Rails",
+      "Keep_Upper_Tower_Watch_L1_Rails"
+     ],
+     10
+    ],
+    [
+     [
+      "Keep_Upper_Tower_Watch_L2_Rails",
+      "Keep_Upper_Tower_Watch_L2_Rails"
+     ],
+     10
+    ],
+    [
+     [
+      "Keep_Roof_Gatehouse",
+      "Keep_Upper_Shell_Walls"
+     ],
+     7
+    ]
+   ]
+  },
+  "after": {
+   "fights": 0,
+   "byKind": {},
+   "area": 0,
+   "topPairs": []
+  },
+  "passes": 7
+ },
+ "graph": {
+  "nodes": 784,
+  "undirectedEdges": 1155,
+  "reachableNodes": 741,
+  "targetsReachable": 33,
+  "targetsTotal": 33,
+  "climbs": 6,
+  "doors": 12,
+  "doorsLinked": 12,
+  "nodeRejections": {
+   "footprint-support": 61,
+   "footprint-rise": 11,
+   "capsule-obstruction": 149,
+   "inside-solid": 68
+  },
+  "edgeRejections": {
+   "footprint-rise": 4,
+   "capsule-obstruction": 52,
+   "footprint-support": 8
+  },
+  "queries": {
+   "capsuleSphereQueries": 941750,
+   "edgeSamples": 48746
+  },
+  "complete": true,
+  "invariants": [
+   "Every adjacency is symmetric and exactly one cardinal tile.",
+   "Every edge is independently sampled in both directions at 0.05 m intervals.",
+   "Every center support rise between samples is at most 0.24 m.",
+   "Every profile endpoint matches its node raw support and capsule footbase within 0.00002 m.",
+   "All exported coordinates are finite."
+  ],
+  "geometryFindings": [
+   "Connectivity is measured below; inspect current obstructions.json for any disconnected route."
+  ],
+  "limitations": [
+   "Geometry navigation candidate, not runtime player proof.",
+   "Foot support is sampled at center and 16 circumference points. Capsule body is conservatively covered by sphere BVH tests at each edge sample, but lateral sweep between edge samples is not a continuous-volume proof.",
+   "capsuleBase is highest nearby supporting tread; y remains actual center-ray support. Follower must honor capsuleBase without linearly interpolating through risers.",
+   "Door leaves are measured standing open as modelled; doors[].links are the links a shut leaf would close."
+  ]
+ },
+ "contract": {
+  "anchors": 13,
+  "doors": 12,
+  "leaves": 23,
+  "meshes": 92,
+  "wallHung": 11,
+  "fx": 9,
+  "issues": []
+ },
+ "proof": {
+  "locksModel": true,
+  "targets": [
+   {
+    "id": "gate",
+    "node": "2:7:1",
+    "reachable": true
+   },
+   {
+    "id": "court",
+    "node": "1:1:0",
+    "reachable": true
+   },
+   {
+    "id": "hall",
+    "node": "-6:0:1",
+    "reachable": true
+   },
+   {
+    "id": "upper",
+    "node": "-6:-3:0",
+    "reachable": true
+   },
+   {
+    "id": "wallwalk",
+    "node": "9:0:0",
+    "reachable": true
+   },
+   {
+    "id": "watch-lookout",
+    "node": "-7:-11:0",
+    "reachable": true
+   },
+   {
+    "id": "east-lookout",
+    "node": "10:-6:0",
+    "reachable": true
+   },
+   {
+    "id": "undercroft",
+    "node": "-9:0:1",
+    "reachable": true
+   },
+   {
+    "id": "keep-beer",
+    "node": "-5:3:1",
+    "reachable": true
+   },
+   {
+    "id": "barracks",
+    "node": "1:-8:1",
+    "reachable": true
+   },
+   {
+    "id": "chamber",
+    "node": "-7:-6:0",
+    "reachable": true
+   },
+   {
+    "id": "solar",
+    "node": "-7:4:0",
+    "reachable": true
+   },
+   {
+    "id": "dormitory",
+    "node": "1:-7:0",
+    "reachable": true
+   },
+   {
+    "id": "guardroom",
+    "node": "2:5:0",
+    "reachable": true
+   },
+   {
+    "id": "walk-south",
+    "node": "6:4:0",
+    "reachable": true
+   },
+   {
+    "id": "walk-southwest",
+    "node": "-3:4:0",
+    "reachable": true
+   },
+   {
+    "id": "watch-base",
+    "node": "-6:-11:3",
+    "reachable": true
+   },
+   {
+    "id": "watch-l1",
+    "node": "-9:-11:2",
+    "reachable": true
+   },
+   {
+    "id": "watch-l2",
+    "node": "-9:-11:1",
+    "reachable": true
+   },
+   {
+    "id": "turret-base",
+    "node": "7:-8:2",
+    "reachable": true
+   },
+   {
+    "id": "turret-l1",
+    "node": "7:-8:1",
+    "reachable": true
+   },
+   {
+    "id": "stair-hall-foot",
+    "node": "-9:4:1",
+    "reachable": true
+   },
+   {
+    "id": "stair-hall-head",
+    "node": "-9:-2:0",
+    "reachable": true
+   },
+   {
+    "id": "stair-watch-1-foot",
+    "node": "-8:-11:3",
+    "reachable": true
+   },
+   {
+    "id": "stair-watch-1-head",
+    "node": "-7:-11:2",
+    "reachable": true
+   },
+   {
+    "id": "stair-watch-2-foot",
+    "node": "-8:-11:2",
+    "reachable": true
+   },
+   {
+    "id": "stair-watch-2-head",
+    "node": "-7:-11:1",
+    "reachable": true
+   },
+   {
+    "id": "stair-watch-3-foot",
+    "node": "-8:-11:1",
+    "reachable": true
+   },
+   {
+    "id": "stair-watch-3-head",
+    "node": "-7:-11:0",
+    "reachable": true
+   },
+   {
+    "id": "stair-turret-1-foot",
+    "node": "9:-6:2",
+    "reachable": true
+   },
+   {
+    "id": "stair-turret-1-head",
+    "node": "11:-6:1",
+    "reachable": true
+   },
+   {
+    "id": "stair-turret-2-foot",
+    "node": "9:-6:1",
+    "reachable": true
+   },
+   {
+    "id": "stair-turret-2-head",
+    "node": "11:-6:0",
+    "reachable": true
+   }
+  ],
+  "unreachableNodes": [
+   "-10:-12:0@6.40:Keep_Upper_Tower_Watch_L2_Floor",
+   "-10:-12:1@0.00:Keep_Floor_Flags",
+   "-10:-9:0@0.16:Keep_Floor_Flags",
+   "-10:-8:0@0.16:Keep_Floor_Flags",
+   "-10:-7:0@0.00:Keep_Floor_Flags",
+   "-9:-9:0@0.16:Keep_Floor_Flags",
+   "-8:-15:0@9.60:Keep_Upper_Tower_Watch_L3_Floor",
+   "-8:-15:1@6.40:Keep_Upper_Tower_Watch_L2_Floor",
+   "-8:-15:2@3.20:Keep_Upper_Tower_Watch_L1_Floor",
+   "-8:-15:3@0.00:Keep_Floor_Flags",
+   "-7:-15:0@9.60:Keep_Upper_Tower_Watch_L3_Floor",
+   "-7:-15:1@6.40:Keep_Upper_Tower_Watch_L2_Floor",
+   "-7:-15:2@3.20:Keep_Upper_Tower_Watch_L1_Floor",
+   "-7:-15:3@0.00:Keep_Floor_Flags",
+   "-5:-13:0@9.60:Keep_Upper_Tower_Watch_L3_Floor",
+   "-5:-13:1@6.40:Keep_Upper_Tower_Watch_L2_Floor",
+   "-5:-13:2@3.20:Keep_Upper_Tower_Watch_L1_Floor",
+   "-5:-12:0@9.60:Keep_Upper_Tower_Watch_L3_Floor",
+   "-5:-12:1@6.40:Keep_Upper_Tower_Watch_L2_Floor",
+   "-5:-9:0@0.16:Keep_Floor_Flags",
+   "-4:-9:0@0.16:Keep_Floor_Flags",
+   "-4:-8:1@0.16:Keep_Floor_Flags",
+   "-4:-7:1@0.00:Keep_Floor_Flags",
+   "-3:-9:0@3.20:Keep_Upper_Floor_Boards",
+   "-3:-9:1@0.00:Keep_Floor_Flags",
+   "-3:-8:1@0.00:Keep_Floor_Flags",
+   "-3:-7:1@0.00:Keep_Floor_Flags",
+   "-3:-6:0@0.00:Keep_Floor_Flags",
+   "-1:8:0@3.20:Keep_Upper_Floor_Boards",
+   "4:8:0@3.20:Keep_Upper_Floor_Boards",
+   "7:-8:0@6.40:Keep_Upper_Tower_Turret_L2_Floor",
+   "7:-7:0@6.40:Keep_Upper_Tower_Turret_L2_Floor",
+   "8:-9:0@6.40:Keep_Upper_Tower_Turret_L2_Floor",
+   "8:-8:0@6.40:Keep_Upper_Tower_Turret_L2_Floor",
+   "8:-7:0@6.40:Keep_Upper_Tower_Turret_L2_Floor",
+   "9:-10:0@6.40:Keep_Upper_Tower_Turret_L2_Floor",
+   "9:-10:1@3.20:Keep_Upper_Tower_Turret_L1_Floor",
+   "9:-10:2@0.00:Keep_Floor_Flags",
+   "10:-10:0@6.40:Keep_Upper_Tower_Turret_L2_Floor",
+   "10:-10:1@3.20:Keep_Upper_Tower_Turret_L1_Floor",
+   "10:-10:2@0.00:Keep_Floor_Flags",
+   "12:-8:0@6.40:Keep_Upper_Tower_Turret_L2_Floor",
+   "12:-7:0@6.40:Keep_Upper_Tower_Turret_L2_Floor"
+  ],
+  "kept": [
+   {
+    "id": "gate",
+    "present": true
+   },
+   {
+    "id": "court",
+    "present": true
+   },
+   {
+    "id": "hall",
+    "present": true
+   },
+   {
+    "id": "upper",
+    "present": true
+   },
+   {
+    "id": "wallwalk",
+    "present": true
+   },
+   {
+    "id": "watch-lookout",
+    "present": true
+   },
+   {
+    "id": "east-lookout",
+    "present": true
+   },
+   {
+    "id": "undercroft",
+    "present": true
+   }
+  ],
+  "lessonStances": [
+   {
+    "id": "gate",
+    "before": [
+     2.5,
+     0,
+     7.5
+    ],
+    "after": [
+     2.5,
+     0,
+     7.5
+    ],
+    "same": true
+   },
+   {
+    "id": "court",
+    "before": [
+     1.5,
+     -0.025,
+     1.5
+    ],
+    "after": [
+     1.5,
+     -0.025,
+     1.5
+    ],
+    "same": true
+   },
+   {
+    "id": "hall",
+    "before": [
+     -5.5,
+     0,
+     0.5
+    ],
+    "after": [
+     -5.5,
+     0,
+     0.5
+    ],
+    "same": true
+   },
+   {
+    "id": "undercroft",
+    "before": [
+     -8.5,
+     0,
+     0.5
+    ],
+    "after": [
+     -8.5,
+     0,
+     0.5
+    ],
+    "same": true
+   }
+  ],
+  "ring": {
+   "rooms": [
+    "chamber",
+    "dormitory",
+    "turret-l1",
+    "wallwalk",
+    "walk-south",
+    "guardroom",
+    "walk-southwest",
+    "solar",
+    "upper"
+   ],
+   "connected": true,
+   "doors": [
+    {
+     "id": "keep-gate",
+     "links": 4,
+     "onCycle": null
+    },
+    {
+     "id": "keep-door-hall",
+     "links": 2,
+     "onCycle": null
+    },
+    {
+     "id": "keep-door-barracks",
+     "links": 2,
+     "onCycle": null
+    },
+    {
+     "id": "keep-door-turret",
+     "links": 2,
+     "onCycle": null
+    },
+    {
+     "id": "keep-door-watch",
+     "links": 1,
+     "onCycle": true
+    },
+    {
+     "id": "keep-door-dormitory",
+     "links": 2,
+     "onCycle": true
+    },
+    {
+     "id": "keep-door-turret-l1",
+     "links": 2,
+     "onCycle": true
+    },
+    {
+     "id": "keep-door-eastwalk",
+     "links": 2,
+     "onCycle": true
+    },
+    {
+     "id": "keep-door-gatehouse-e",
+     "links": 2,
+     "onCycle": true
+    },
+    {
+     "id": "keep-door-gatehouse-w",
+     "links": 1,
+     "onCycle": true
+    },
+    {
+     "id": "keep-door-solar",
+     "links": 1,
+     "onCycle": true
+    },
+    {
+     "id": "keep-door-chamber",
+     "links": 1,
+     "onCycle": true
+    }
+   ]
+  },
+  "instantStairs": {
+   "climbs": 6,
+   "targets": [
+    {
+     "id": "gate",
+     "reachable": true
+    },
+    {
+     "id": "court",
+     "reachable": true
+    },
+    {
+     "id": "hall",
+     "reachable": true
+    },
+    {
+     "id": "upper",
+     "reachable": true
+    },
+    {
+     "id": "wallwalk",
+     "reachable": true
+    },
+    {
+     "id": "watch-lookout",
+     "reachable": true
+    },
+    {
+     "id": "east-lookout",
+     "reachable": true
+    },
+    {
+     "id": "undercroft",
+     "reachable": true
+    },
+    {
+     "id": "keep-beer",
+     "reachable": true
+    },
+    {
+     "id": "barracks",
+     "reachable": true
+    },
+    {
+     "id": "chamber",
+     "reachable": true
+    },
+    {
+     "id": "solar",
+     "reachable": true
+    },
+    {
+     "id": "dormitory",
+     "reachable": true
+    },
+    {
+     "id": "guardroom",
+     "reachable": true
+    },
+    {
+     "id": "walk-south",
+     "reachable": true
+    },
+    {
+     "id": "walk-southwest",
+     "reachable": true
+    },
+    {
+     "id": "watch-base",
+     "reachable": true
+    },
+    {
+     "id": "watch-l1",
+     "reachable": true
+    },
+    {
+     "id": "watch-l2",
+     "reachable": true
+    },
+    {
+     "id": "turret-base",
+     "reachable": true
+    },
+    {
+     "id": "turret-l1",
+     "reachable": true
+    },
+    {
+     "id": "stair-hall-foot",
+     "reachable": true
+    },
+    {
+     "id": "stair-hall-head",
+     "reachable": true
+    },
+    {
+     "id": "stair-watch-1-foot",
+     "reachable": true
+    },
+    {
+     "id": "stair-watch-1-head",
+     "reachable": true
+    },
+    {
+     "id": "stair-watch-2-foot",
+     "reachable": true
+    },
+    {
+     "id": "stair-watch-2-head",
+     "reachable": true
+    },
+    {
+     "id": "stair-watch-3-foot",
+     "reachable": true
+    },
+    {
+     "id": "stair-watch-3-head",
+     "reachable": true
+    },
+    {
+     "id": "stair-turret-1-foot",
+     "reachable": true
+    },
+    {
+     "id": "stair-turret-1-head",
+     "reachable": true
+    },
+    {
+     "id": "stair-turret-2-foot",
+     "reachable": true
+    },
+    {
+     "id": "stair-turret-2-head",
+     "reachable": true
+    }
+   ]
+  },
+  "courtRats": {
+   "candidates": 48,
+   "offCourt": [],
+   "sample": [
+    {
+     "node": "-3:-1:0",
+     "at": [
+      -2.5,
+      -0.025,
+      -0.5
+     ]
+    },
+    {
+     "node": "-1:1:0",
+     "at": [
+      -0.5,
+      -0.025,
+      1.5
+     ]
+    },
+    {
+     "node": "0:-3:0",
+     "at": [
+      0.5,
+      -0.025,
+      -2.5
+     ]
+    }
+   ]
+  },
+  "gateCourt": {
+   "before": 51,
+   "after": 51,
+   "same": true
+  },
+  "undercroft": {
+   "hatchLocal": [
+    -9.5,
+    0.5
+   ],
+   "hatchTileFloor": true,
+   "stance": "-9:0:1"
+  },
+  "dressing": {
+   "checked": 28,
+   "problems": []
+  },
+  "ok": true,
+  "issues": []
+ },
+ "cutaway": {
+  "pieces": 321,
+  "keep": 318,
+  "cut": 3,
+  "clipped": 0,
+  "sample": []
+ },
+ "coplanar": {
+  "before": {
+   "fights": 0,
+   "byKind": {},
+   "area": 0,
+   "topPairs": []
+  },
+  "after": {
+   "fights": 0,
+   "byKind": {},
+   "area": 0,
+   "topPairs": []
+  },
+  "afterPairs": {}
+ },
+ "registry": {
+  "was": {
+   "graph": "holm-keep-props-navigation-v1",
+   "model": ".studio-workspaces/holm-keep-props-v1/candidates/keep.glb"
+  },
+  "now": {
+   "graph": "holm-keep-overhaul-navigation-v1",
+   "model": ".studio-workspaces/holm-keep-overhaul-v1/candidates/keep.glb"
+  }
+ }
+}

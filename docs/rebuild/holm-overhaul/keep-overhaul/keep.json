@@ -1,0 +1,16 @@
+{
+ "id": "keep",
+ "note": "Warden's Keep overhaul (owner review 2026-09-29): the keep rebuilt in Blender as our own design (tools/blender/build_holm_keep_overhaul.py with holm_keep_overhaul_arch.py / holm_keep_overhaul_props.py), textured old-school (the keep's own fieldstone, dressed stone, oak and shingles; new props through the props recipe), measured again with the keep extractor v7 (tools/blender/extract_holm_keep_navigation_v7.py). Orchestrated by tools/rebuild_holm_keep_overhaul.js.",
+ "blender": "4.5",
+ "materials": ".studio-workspaces/holm-keep-props-v1/candidates/keep.blend",
+ "reference": ".studio-workspaces/holm-keep-props-v1/candidates/keep.glb",
+ "referenceGraph": "holm-keep-props-navigation-v1",
+ "script": "tools/blender/build_holm_keep_overhaul.py",
+ "flat": ".studio-workspaces/holm-keep-overhaul-v1/working/keep-flat.blend",
+ "buildReport": ".studio-workspaces/holm-keep-overhaul-v1/candidates/keep.build.json",
+ "outBlend": ".studio-workspaces/holm-keep-overhaul-v1/candidates/keep.blend",
+ "outGlb": ".studio-workspaces/holm-keep-overhaul-v1/candidates/keep.glb",
+ "texReport": ".studio-workspaces/holm-keep-overhaul-v1/candidates/textures.report.json",
+ "graph": "holm-keep-overhaul-navigation-v1",
+ "extractor": "tools/blender/extract_holm_keep_navigation_v7.py"
+}

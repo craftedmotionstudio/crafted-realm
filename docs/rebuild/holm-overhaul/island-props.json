@@ -1217,10 +1217,11 @@
     {
      "pack": "clutter",
      "prop": "woodpile",
-     "x": 96.62,
-     "z": 40.5,
+     "x": 98.6,
+     "z": 36,
      "yaw": 1.5708,
-     "yard": "keep"
+     "yard": "keep",
+     "note": "Warden's Keep overhaul (2026-09-29): moved off the new south-east wall walk onto the new east curtain's outer face"
     },
     {
      "pack": "clutter",
@@ -1233,10 +1234,11 @@
     {
      "pack": "clutter",
      "prop": "crate",
-     "x": 76.5,
-     "z": 29.5,
+     "x": 76.45,
+     "z": 28.4,
      "yaw": 1.4688,
-     "yard": "keep"
+     "yard": "keep",
+     "note": "Warden's Keep overhaul (2026-09-29): moved clear of the hall's new chimney stack"
     },
     {
      "pack": "clutter",

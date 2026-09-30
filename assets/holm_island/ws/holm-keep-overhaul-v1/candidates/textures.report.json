@@ -1,0 +1,147 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "4.5.10 LTS",
+ "source": ".studio-workspaces/holm-keep-overhaul-v1/working/keep-flat.blend",
+ "materials": {
+  "Holm props colour - beam": {
+   "texture": "beam",
+   "vertexColour": true
+  }
+ },
+ "vertexColourFaces": {
+  "Keep_Door_keep-door-barracks-e": {
+   "beam": 54
+  },
+  "Keep_Door_keep-door-barracks-w": {
+   "beam": 54
+  },
+  "Keep_Door_keep-door-hall-n": {
+   "beam": 54
+  },
+  "Keep_Door_keep-door-hall-s": {
+   "beam": 54
+  },
+  "Keep_Door_keep-door-turret-n": {
+   "beam": 54
+  },
+  "Keep_Door_keep-door-turret-s": {
+   "beam": 54
+  },
+  "Keep_Door_keep-gate-e": {
+   "beam": 90
+  },
+  "Keep_Door_keep-gate-w": {
+   "beam": 90
+  },
+  "Keep_Furnishing_Barracks": {
+   "beam": 905
+  },
+  "Keep_Furnishing_Hall": {
+   "beam": 1151
+  },
+  "Keep_Furnishing_HearthFire": {
+   "beam": 24
+  },
+  "Keep_Furnishing_TowerBases": {
+   "beam": 331
+  },
+  "Keep_Shell_Hung": {
+   "beam": 336
+  },
+  "Keep_Shell_Portcullis": {
+   "beam": 96
+  },
+  "Keep_Upper_Door_keep-door-chamber-e": {
+   "beam": 54
+  },
+  "Keep_Upper_Door_keep-door-chamber-w": {
+   "beam": 54
+  },
+  "Keep_Upper_Door_keep-door-dormitory-n": {
+   "beam": 54
+  },
+  "Keep_Upper_Door_keep-door-dormitory-s": {
+   "beam": 54
+  },
+  "Keep_Upper_Door_keep-door-eastwalk-e": {
+   "beam": 54
+  },
+  "Keep_Upper_Door_keep-door-eastwalk-w": {
+   "beam": 54
+  },
+  "Keep_Upper_Door_keep-door-gatehouse-e-n": {
+   "beam": 54
+  },
+  "Keep_Upper_Door_keep-door-gatehouse-e-s": {
+   "beam": 54
+  },
+  "Keep_Upper_Door_keep-door-gatehouse-w-n": {
+   "beam": 54
+  },
+  "Keep_Upper_Door_keep-door-gatehouse-w-s": {
+   "beam": 54
+  },
+  "Keep_Upper_Door_keep-door-solar-n": {
+   "beam": 54
+  },
+  "Keep_Upper_Door_keep-door-solar-s": {
+   "beam": 54
+  },
+  "Keep_Upper_Door_keep-door-turret-l1-n": {
+   "beam": 54
+  },
+  "Keep_Upper_Door_keep-door-turret-l1-s": {
+   "beam": 54
+  },
+  "Keep_Upper_Door_keep-door-watch-w": {
+   "beam": 66
+  },
+  "Keep_Upper_Furnishing_Dormitory": {
+   "beam": 542
+  },
+  "Keep_Upper_Furnishing_Guardroom": {
+   "beam": 373
+  },
+  "Keep_Upper_Furnishing_HearthFire": {
+   "beam": 24
+  },
+  "Keep_Upper_Furnishing_Quarters": {
+   "beam": 1574
+  },
+  "Keep_Upper_Furnishing_TowersL1": {
+   "beam": 191
+  },
+  "Keep_Upper_Furnishing_Walks": {
+   "beam": 264
+  },
+  "Keep_Upper_Shell_Hung": {
+   "beam": 143
+  },
+  "Keep_Upper_Tower_TurretTopGun": {
+   "beam": 64
+  },
+  "Keep_Upper_Tower_WatchL2Furnishing": {
+   "beam": 51
+  },
+  "Keep_Upper_Tower_WatchTopGun": {
+   "beam": 64
+  }
+ },
+ "keptImages": [
+  "Keep aged oak",
+  "Keep gray fieldstone",
+  "Keep pale dressed stone",
+  "Keep stair oak",
+  "Keep warm shingles"
+ ],
+ "meshes": 92,
+ "glb": {
+  "path": ".studio-workspaces/holm-keep-overhaul-v1/working/keep-textured.glb",
+  "bytes": 6139000,
+  "sha256": "0216cf6b92f2ee29a95e4550bc90d1cb967bee1bc932972b0a2cc1de7ac186b7"
+ },
+ "images": [
+  "beam"
+ ]
+}

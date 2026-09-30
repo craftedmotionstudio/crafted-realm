@@ -1,0 +1,2923 @@
+{
+  "nodes": [
+    {
+      "reason": "footprint-support",
+      "x": -11.26,
+      "z": -15.5,
+      "y": -2.3122482299804688
+    },
+    {
+      "reason": "footprint-support",
+      "x": -11.26,
+      "z": -14.5,
+      "y": -2.032896041870117
+    },
+    {
+      "reason": "footprint-support",
+      "x": -11.26,
+      "z": -13.5,
+      "y": -1.644927978515625
+    },
+    {
+      "reason": "footprint-support",
+      "x": -11.26,
+      "z": -12.5,
+      "y": -1.2836875915527344
+    },
+    {
+      "reason": "footprint-support",
+      "x": -11.72173108780271,
+      "z": -11.40815597623238,
+      "y": -1.044454574584961
+    },
+    {
+      "reason": "footprint-rise",
+      "x": -11.5,
+      "z": -10.5,
+      "y": -0.8820247650146484
+    },
+    {
+      "reason": "footprint-rise",
+      "x": -11.5,
+      "z": -6.5,
+      "y": -0.9602947235107422
+    },
+    {
+      "reason": "footprint-support",
+      "x": -11.26,
+      "z": -5.5,
+      "y": -1.3749160766601562
+    },
+    {
+      "reason": "footprint-support",
+      "x": -11.72173108780271,
+      "z": -4.408155976232378,
+      "y": -0.9210453033447266
+    },
+    {
+      "reason": "footprint-support",
+      "x": -11.72173108780271,
+      "z": -3.5918440237676217,
+      "y": -0.0710601806640625
+    },
+    {
+      "reason": "footprint-support",
+      "x": -11.26,
+      "z": 6.5,
+      "y": -1.077850341796875
+    },
+    {
+      "reason": "footprint-support",
+      "x": -11.26,
+      "z": 7.5,
+      "y": -1.3776721954345703
+    },
+    {
+      "reason": "footprint-support",
+      "x": -11.26,
+      "z": 8.5,
+      "y": -1.4145164489746094
+    },
+    {
+      "reason": "footprint-support",
+      "x": -11.26,
+      "z": 9.5,
+      "y": -1.4542312622070312
+    },
+    {
+      "reason": "footprint-support",
+      "x": -11.26,
+      "z": 10.5,
+      "y": -1.5150108337402344
+    },
+    {
+      "reason": "footprint-support",
+      "x": -11.40815597623238,
+      "z": 11.72173108780271,
+      "y": -2.55548095703125
+    },
+    {
+      "reason": "footprint-support",
+      "x": -11.27826891219729,
+      "z": 12.59184402376762,
+      "y": -5.261079788208008
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -10.5,
+      "z": -8.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_Walls",
+      "distance": 1.6391277313232422e-07
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -10.5,
+      "z": -5.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.09999990463256836
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -10.5,
+      "z": -4.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.09999990463256836
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -10.5,
+      "z": -1.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.20000004768371582
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -10.5,
+      "z": -0.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.19999998807907104
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -10.5,
+      "z": 3.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_Walls",
+      "distance": 1.6391277313232422e-07
+    },
+    {
+      "reason": "footprint-support",
+      "x": -10.330294372515228,
+      "z": 11.669705627484772,
+      "y": -1.7332687377929688
+    },
+    {
+      "reason": "footprint-support",
+      "x": -10.27826891219729,
+      "z": 12.59184402376762,
+      "y": -5.656070709228516
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -13.5,
+      "y": 9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.02157244272530079
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -12.5,
+      "y": 9.600000381469727,
+      "capsuleBase": 9.600000381469727,
+      "object": "Keep_Upper_Tower_WatchTopGun",
+      "distance": 0.15182740986347198
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -12.5,
+      "y": 6.40000057220459,
+      "capsuleBase": 6.40000057220459,
+      "object": "Keep_Upper_Tower_WatchL2Furnishing",
+      "distance": 0.11430532485246658
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -12.5,
+      "y": 3.200000047683716,
+      "capsuleBase": 3.200000524520874,
+      "object": "Keep_Upper_Furnishing_TowersL1",
+      "distance": 0.06999969482421875
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -12.5,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Keep_Furnishing_TowerBases",
+      "distance": 0.0004039838968310505
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -11.5,
+      "y": 9.600000381469727,
+      "capsuleBase": 9.600000381469727,
+      "object": "Keep_Upper_Tower_WatchTopGun",
+      "distance": 0.15182740986347198
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -11.5,
+      "y": 3.200000047683716,
+      "capsuleBase": 3.200000047683716,
+      "object": "Keep_Upper_Furnishing_TowersL1",
+      "distance": 0.020000457763671875
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -10.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.02157244272530079
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -8.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Quarters",
+      "distance": 0.035999298095703125
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -7.5,
+      "y": 3.1999988555908203,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Quarters",
+      "distance": 0.035999298095703125
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -6.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Quarters",
+      "distance": 0.014000654220581055
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -5.5,
+      "y": 3.2300004959106445,
+      "capsuleBase": 3.2300004959106445,
+      "object": "Keep_Upper_Shell_Hearth",
+      "distance": 0.019999980926513672
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -5.5,
+      "y": 0.029999732971191406,
+      "capsuleBase": 0.03000020980834961,
+      "object": "Keep_Shell_Hearth",
+      "distance": 0.07999992370605469
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -4.5,
+      "y": 3.2299985885620117,
+      "capsuleBase": 3.2300004959106445,
+      "object": "Keep_Upper_Shell_Hearth",
+      "distance": 0.019999980926513672
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -4.5,
+      "y": 0.029999732971191406,
+      "capsuleBase": 0.029999971389770508,
+      "object": "Keep_Shell_Hearth",
+      "distance": 0.07999992370605469
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -3.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Quarters",
+      "distance": 0.14360719919204712
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -3.5,
+      "y": 0.0,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.06499958038330078
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": 1.5,
+      "y": -1.1920928955078125e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Stair_Hall",
+      "distance": 0.2120434045791626
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": 2.5,
+      "y": -1.1920928955078125e-07,
+      "capsuleBase": 1.1920928955078125e-07,
+      "object": "Keep_Stair_Hall",
+      "distance": 0.20630110800266266
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": 4.5,
+      "y": 3.1999988555908203,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Quarters",
+      "distance": 0.14599919319152832
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": 4.5,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.20158998668193817
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": 5.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Quarters",
+      "distance": 0.14434759318828583
+    },
+    {
+      "reason": "inside-solid",
+      "x": -9.5,
+      "z": 5.5,
+      "y": 0.0,
+      "object": "Keep_Furnishing_Hall"
+    },
+    {
+      "reason": "footprint-support",
+      "x": -9.330294372515228,
+      "z": 11.669705627484772,
+      "y": -1.7674064636230469
+    },
+    {
+      "reason": "footprint-support",
+      "x": -9.330294372515228,
+      "z": 12.669705627484772,
+      "y": -5.789520263671875
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -8.5,
+      "z": -14.5,
+      "y": 9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.02157244272530079
+    },
+    {
+      "reason": "footprint-support",
+      "x": -8.26,
+      "z": -13.5,
+      "y": 9.600000381469727
+    },
+    {
+      "reason": "footprint-support",
+      "x": -8.26,
+      "z": -13.5,
+      "y": 6.400000095367432
+    },
+    {
+      "reason": "footprint-support",
+      "x": -8.26,
+      "z": -13.5,
+      "y": 3.1999998092651367
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -8.5,
+      "z": -13.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Tower_Watch_Stair1",
+      "distance": 0.21893349289894104
+    },
+    {
+      "reason": "footprint-support",
+      "x": -8.26,
+      "z": -12.5,
+      "y": 9.600000381469727
+    },
+    {
+      "reason": "footprint-support",
+      "x": -8.26,
+      "z": -12.5,
+      "y": 6.400000095367432
+    },
+    {
+      "reason": "footprint-support",
+      "x": -8.26,
+      "z": -12.5,
+      "y": 3.1999998092651367
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -8.5,
+      "z": -12.5,
+      "y": 0.0,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_Tower_Watch_TreadFrame1",
+      "distance": 0.20558977127075195
+    },
+    {
+      "reason": "footprint-support",
+      "x": -8.26,
+      "z": -11.5,
+      "y": 9.600000381469727
+    },
+    {
+      "reason": "footprint-support",
+      "x": -8.330294372515228,
+      "z": -11.330294372515228,
+      "y": 6.400000095367432
+    },
+    {
+      "reason": "footprint-support",
+      "x": -8.330294372515228,
+      "z": -11.330294372515228,
+      "y": 3.1999998092651367
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -8.5,
+      "z": -11.5,
+      "y": 0.0,
+      "capsuleBase": 0.40000009536743164,
+      "object": "Keep_Tower_Watch_Stair1",
+      "distance": 0.18724608421325684
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -8.5,
+      "z": -9.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.02157244272530079
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -8.5,
+      "z": -8.5,
+      "y": 3.1999988555908203,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Quarters",
+      "distance": 0.035999298095703125
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -8.5,
+      "z": -7.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Quarters",
+      "distance": 0.035999298095703125
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -8.5,
+      "z": -7.5,
+      "y": 0.15999984741210938,
+      "capsuleBase": 0.16000032424926758,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.11499977111816406
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -8.5,
+      "z": -6.5,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 0.17200016975402832,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.20187868177890778
+    },
+    {
+      "reason": "inside-solid",
+      "x": -8.5,
+      "z": -5.5,
+      "y": 3.21199893951416,
+      "object": "Keep_Upper_Furnishing_Quarters"
+    },
+    {
+      "reason": "inside-solid",
+      "x": -8.5,
+      "z": -4.5,
+      "y": 3.21199893951416,
+      "object": "Keep_Upper_Furnishing_Quarters"
+    },
+    {
+      "reason": "inside-solid",
+      "x": -8.5,
+      "z": -3.5,
+      "y": 3.1999998092651367,
+      "object": "Keep_Upper_Furnishing_Quarters"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -8.5,
+      "z": 1.5,
+      "y": 0.0,
+      "capsuleBase": 1.1920928955078125e-07,
+      "object": "Keep_Stair_Hall",
+      "distance": 0.21204344928264618
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -8.5,
+      "z": 2.5,
+      "y": 5.960464477539063e-08,
+      "capsuleBase": 1.1920928955078125e-07,
+      "object": "Keep_Stair_Hall",
+      "distance": 0.20630110800266266
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -8.5,
+      "z": 5.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Shell_Hung",
+      "distance": 0.22862093150615692
+    },
+    {
+      "reason": "footprint-support",
+      "x": -8.40815597623238,
+      "z": 11.72173108780271,
+      "y": -1.6883201599121094
+    },
+    {
+      "reason": "footprint-support",
+      "x": -8.330294372515228,
+      "z": 12.669705627484772,
+      "y": -5.606367111206055
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -7.5,
+      "z": -13.5,
+      "y": 1.1920928955078125e-07,
+      "capsuleBase": 1.1920928955078125e-07,
+      "object": "Keep_Tower_Watch_Stair1",
+      "distance": 0.21044433116912842
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -7.5,
+      "z": -12.5,
+      "y": 0.0,
+      "capsuleBase": 1.1920928955078125e-07,
+      "object": "Keep_Tower_Watch_Stair1",
+      "distance": 0.21090151369571686
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -7.5,
+      "z": -8.5,
+      "y": 3.1999988555908203,
+      "capsuleBase": 3.2000017166137695,
+      "object": "Keep_Upper_Furnishing_Quarters",
+      "distance": 0.14634153246879578
+    },
+    {
+      "reason": "inside-solid",
+      "x": -7.5,
+      "z": -8.5,
+      "y": 0.16000032424926758,
+      "object": "Keep_Furnishing_Hall"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -7.5,
+      "z": -7.5,
+      "y": 3.199997901916504,
+      "capsuleBase": 3.2000017166137695,
+      "object": "Keep_Upper_Furnishing_Quarters",
+      "distance": 0.09000015258789062
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -7.5,
+      "z": -7.5,
+      "y": 0.16000032424926758,
+      "capsuleBase": 0.16000032424926758,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.17560197412967682
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -7.5,
+      "z": -4.5,
+      "y": 0.01199960708618164,
+      "capsuleBase": 0.012000322341918945,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.17799125611782074
+    },
+    {
+      "reason": "inside-solid",
+      "x": -7.5,
+      "z": -3.5,
+      "y": 3.1999988555908203,
+      "object": "Keep_Upper_Furnishing_Quarters"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -7.5,
+      "z": -3.5,
+      "y": 0.012000322341918945,
+      "capsuleBase": 0.012000322341918945,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.17799125611782074
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -7.5,
+      "z": -2.5,
+      "y": 0.012000083923339844,
+      "capsuleBase": 0.012000560760498047,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.17799104750156403
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -7.5,
+      "z": -1.5,
+      "y": 0.012000083923339844,
+      "capsuleBase": 0.012000560760498047,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.12499995529651642
+    },
+    {
+      "reason": "footprint-support",
+      "x": -7.669705627484771,
+      "z": -0.3302943725152286,
+      "y": 3.200000762939453
+    },
+    {
+      "reason": "footprint-support",
+      "x": -7.669705627484771,
+      "z": 0.6697056274847715,
+      "y": 3.1999998092651367
+    },
+    {
+      "reason": "footprint-support",
+      "x": -7.669705627484771,
+      "z": 1.6697056274847715,
+      "y": 3.1999988555908203
+    },
+    {
+      "reason": "footprint-support",
+      "x": -7.669705627484771,
+      "z": 2.6697056274847712,
+      "y": 3.2000017166137695
+    },
+    {
+      "reason": "footprint-support",
+      "x": -7.669705627484771,
+      "z": 3.6697056274847712,
+      "y": 3.199997901916504
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -7.5,
+      "z": 5.5,
+      "y": -4.76837158203125e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.22468581795692444
+    },
+    {
+      "reason": "footprint-support",
+      "x": -7.408155976232378,
+      "z": 11.72173108780271,
+      "y": -1.5156116485595703
+    },
+    {
+      "reason": "footprint-support",
+      "x": -7.330294372515229,
+      "z": 12.669705627484772,
+      "y": -5.181253433227539
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.5,
+      "z": -13.5,
+      "y": 1.1920928955078125e-07,
+      "capsuleBase": 1.1920928955078125e-07,
+      "object": "Keep_Tower_Watch_Stair1",
+      "distance": 0.21044433116912842
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.5,
+      "z": -12.5,
+      "y": 1.1920928955078125e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Tower_Watch_Stair1",
+      "distance": 0.19907011091709137
+    },
+    {
+      "reason": "inside-solid",
+      "x": -6.5,
+      "z": -8.5,
+      "y": 0.16000032424926758,
+      "object": "Keep_Furnishing_Hall"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.5,
+      "z": -7.5,
+      "y": 0.16000032424926758,
+      "capsuleBase": 0.16000032424926758,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.17560197412967682
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.5,
+      "z": -5.5,
+      "y": 0.012000083923339844,
+      "capsuleBase": 0.012000322341918945,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.22340808808803558
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.5,
+      "z": -4.5,
+      "y": 0.012000083923339844,
+      "capsuleBase": 0.012000322341918945,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.023999691009521484
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.5,
+      "z": -3.5,
+      "y": 0.012000083923339844,
+      "capsuleBase": 0.012000083923339844,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.023999929428100586
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.5,
+      "z": -2.5,
+      "y": 0.012000083923339844,
+      "capsuleBase": 0.012000083923339844,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.023999938741326332
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.5,
+      "z": -1.5,
+      "y": 0.012000322341918945,
+      "capsuleBase": 0.012000322341918945,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.023999692872166634
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.5,
+      "z": 1.5,
+      "y": 3.21199893951416,
+      "capsuleBase": 3.2119998931884766,
+      "object": "Keep_Upper_Furnishing_Quarters",
+      "distance": 0.22755499184131622
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.5,
+      "z": 2.5,
+      "y": 3.2119998931884766,
+      "capsuleBase": 3.212000846862793,
+      "object": "Keep_Upper_Furnishing_Quarters",
+      "distance": 0.17844367027282715
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.5,
+      "z": 3.5,
+      "y": 3.200000762939453,
+      "capsuleBase": 3.2040014266967773,
+      "object": "Keep_Upper_Furnishing_Quarters",
+      "distance": 0.22755499184131622
+    },
+    {
+      "reason": "footprint-support",
+      "x": -6.408155976232378,
+      "z": 11.72173108780271,
+      "y": -1.3199939727783203
+    },
+    {
+      "reason": "footprint-support",
+      "x": -6.330294372515229,
+      "z": 12.669705627484772,
+      "y": -4.7117767333984375
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.5,
+      "z": -14.5,
+      "y": 0.0,
+      "capsuleBase": 0.0,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.02157244272530079
+    },
+    {
+      "reason": "footprint-support",
+      "x": -5.669705627484771,
+      "z": -13.330294372515228,
+      "y": 9.600000381469727
+    },
+    {
+      "reason": "footprint-support",
+      "x": -5.669705627484771,
+      "z": -13.330294372515228,
+      "y": 6.400000095367432
+    },
+    {
+      "reason": "footprint-support",
+      "x": -5.669705627484771,
+      "z": -13.330294372515228,
+      "y": 3.200000286102295
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.5,
+      "z": -13.5,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Tower_Watch_Stair1",
+      "distance": 0.21893349289894104
+    },
+    {
+      "reason": "footprint-support",
+      "x": -5.669705627484771,
+      "z": -12.330294372515228,
+      "y": 9.600000381469727
+    },
+    {
+      "reason": "footprint-support",
+      "x": -5.669705627484771,
+      "z": -12.330294372515228,
+      "y": 6.400000095367432
+    },
+    {
+      "reason": "footprint-support",
+      "x": -5.669705627484771,
+      "z": -12.330294372515228,
+      "y": 3.200000286102295
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.5,
+      "z": -12.5,
+      "y": 0.0,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Keep_Tower_Watch_TreadFrame1",
+      "distance": 0.21415112912654877
+    },
+    {
+      "reason": "footprint-support",
+      "x": -5.669705627484771,
+      "z": -11.330294372515228,
+      "y": 9.600000381469727
+    },
+    {
+      "reason": "footprint-support",
+      "x": -5.669705627484771,
+      "z": -11.330294372515228,
+      "y": 6.400000095367432
+    },
+    {
+      "reason": "footprint-support",
+      "x": -5.669705627484771,
+      "z": -11.330294372515228,
+      "y": 3.200000047683716
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.5,
+      "z": -9.5,
+      "y": 0.0,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.02157244272530079
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.5,
+      "z": -8.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Quarters",
+      "distance": 0.14098261296749115
+    },
+    {
+      "reason": "inside-solid",
+      "x": -5.5,
+      "z": -8.5,
+      "y": 0.15999984741210938,
+      "object": "Keep_Furnishing_Hall"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.5,
+      "z": -7.5,
+      "y": 0.16000008583068848,
+      "capsuleBase": 0.16000032424926758,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.17560197412967682
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.5,
+      "z": -4.5,
+      "y": 0.01199960708618164,
+      "capsuleBase": 0.012000083923339844,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.17799146473407745
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.5,
+      "z": -3.5,
+      "y": 0.012000083923339844,
+      "capsuleBase": 0.012000560760498047,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.17799104750156403
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.5,
+      "z": -2.5,
+      "y": 0.012000083923339844,
+      "capsuleBase": 0.012000560760498047,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.17799104750156403
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.5,
+      "z": -1.5,
+      "y": 0.012000322341918945,
+      "capsuleBase": 0.012000560760498047,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.12499995529651642
+    },
+    {
+      "reason": "footprint-support",
+      "x": -5.5,
+      "z": 11.74,
+      "y": -1.1770401000976562
+    },
+    {
+      "reason": "footprint-support",
+      "x": -5.330294372515229,
+      "z": 12.669705627484772,
+      "y": -4.3278350830078125
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -13.5,
+      "y": 0.0,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.02157244272530079
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -12.5,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Keep_Furnishing_TowerBases",
+      "distance": 0.12649701535701752
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -11.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000047683716,
+      "object": "Keep_Upper_Shell_Hung",
+      "distance": 0.2431751936674118
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -11.5,
+      "y": 0.0,
+      "capsuleBase": 0.0,
+      "object": "Keep_Furnishing_TowerBases",
+      "distance": 0.17061713337898254
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -10.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.02157244272530079
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -8.5,
+      "y": 3.200000762939453,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Quarters",
+      "distance": 0.14400076866149902
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -7.5,
+      "y": 0.16000032424926758,
+      "capsuleBase": 0.16000056266784668,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.11499977111816406
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -6.5,
+      "y": 0.0,
+      "capsuleBase": 0.17199969291687012,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.20433275401592255
+    },
+    {
+      "reason": "inside-solid",
+      "x": -4.5,
+      "z": -2.5,
+      "y": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Quarters"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -1.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Quarters",
+      "distance": 0.019999980926513672
+    },
+    {
+      "reason": "inside-solid",
+      "x": -4.5,
+      "z": 0.5,
+      "y": 3.1999998092651367,
+      "object": "Keep_Upper_Furnishing_Quarters"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": 5.5,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.2339220643043518
+    },
+    {
+      "reason": "footprint-support",
+      "x": -4.5,
+      "z": 11.74,
+      "y": -1.0619678497314453
+    },
+    {
+      "reason": "footprint-support",
+      "x": -4.5,
+      "z": 12.74,
+      "y": -4.011985778808594
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": -8.5,
+      "y": 3.200000762939453,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Quarters",
+      "distance": 0.14400076866149902
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": -2.5,
+      "y": 3.1999988555908203,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Quarters",
+      "distance": 0.019999980926513672
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": -2.5,
+      "y": 0.0,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.14274467527866364
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": -1.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Quarters",
+      "distance": 0.019999980926513672
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": -0.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.2000017166137695,
+      "object": "Keep_Upper_Furnishing_Quarters",
+      "distance": 0.10751840472221375
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": 0.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Quarters",
+      "distance": 0.07599925994873047
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": 0.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.14274458587169647
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": 1.5,
+      "y": 3.200000762939453,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Quarters",
+      "distance": 0.039999961853027344
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": 3.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.1109999418258667
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": 4.5,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.20025089383125305
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": 5.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.2318984717130661
+    },
+    {
+      "reason": "footprint-support",
+      "x": -3.5,
+      "z": 11.26,
+      "y": -0.9880256652832031
+    },
+    {
+      "reason": "footprint-support",
+      "x": -3.5918440237676217,
+      "z": 12.27826891219729,
+      "y": -3.1955795288085938
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -2.5,
+      "z": -5.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Shell_Hung",
+      "distance": 0.2425561100244522
+    },
+    {
+      "reason": "inside-solid",
+      "x": -2.5,
+      "z": 4.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -2.5,
+      "z": 5.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.1999998092651367,
+      "object": "Keep_Upper_Furnishing_Walks",
+      "distance": 0.1518276184797287
+    },
+    {
+      "reason": "inside-solid",
+      "x": -2.5,
+      "z": 5.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "footprint-rise",
+      "x": -2.5,
+      "z": 11.5,
+      "y": -0.9536170959472656
+    },
+    {
+      "reason": "inside-solid",
+      "x": -1.5,
+      "z": -8.5,
+      "y": 3.1999998092651367,
+      "object": "Keep_Upper_Furnishing_Dormitory"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -1.5,
+      "z": -8.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Furnishing_Barracks",
+      "distance": 0.015000343322753906
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -1.5,
+      "z": -5.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Shell_Hung",
+      "distance": 0.21330760419368744
+    },
+    {
+      "reason": "inside-solid",
+      "x": -1.5,
+      "z": -5.5,
+      "y": 0.0,
+      "object": "Keep_Furnishing_Barracks"
+    },
+    {
+      "reason": "inside-solid",
+      "x": -1.5,
+      "z": 4.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -1.5,
+      "z": 5.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Walks",
+      "distance": 0.1518276333808899
+    },
+    {
+      "reason": "inside-solid",
+      "x": -1.5,
+      "z": 5.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": -0.5,
+      "z": -8.5,
+      "y": 3.1999998092651367,
+      "object": "Keep_Upper_Furnishing_Dormitory"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -0.5,
+      "z": -5.5,
+      "y": 3.200000762939453,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Shell_Hung",
+      "distance": 0.2243310809135437
+    },
+    {
+      "reason": "inside-solid",
+      "x": -0.5,
+      "z": 4.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": -0.5,
+      "z": 5.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": -0.5,
+      "z": 6.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -0.5,
+      "z": 7.5,
+      "y": 3.200000762939453,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Guardroom",
+      "distance": 0.2150000035762787
+    },
+    {
+      "reason": "inside-solid",
+      "x": -0.5,
+      "z": 7.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": -0.5,
+      "z": 8.5,
+      "y": -0.02332925796508789,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": -0.5,
+      "z": 9.5,
+      "y": -0.0160675048828125,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 0.5,
+      "z": -9.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.10000002384185791
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 0.5,
+      "z": -8.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Dormitory",
+      "distance": 0.07599925994873047
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 0.5,
+      "z": -5.5,
+      "y": 3.1999988555908203,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Shell_Hung",
+      "distance": 0.20355723798274994
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 0.5,
+      "z": 8.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Guardroom",
+      "distance": 0.1714533418416977
+    },
+    {
+      "reason": "inside-solid",
+      "x": 1.5,
+      "z": -8.5,
+      "y": 3.1999988555908203,
+      "object": "Keep_Upper_Furnishing_Dormitory"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 1.5,
+      "z": -5.5,
+      "y": 3.1999988555908203,
+      "capsuleBase": 3.2000017166137695,
+      "object": "Keep_Upper_Furnishing_Dormitory",
+      "distance": 0.03599834442138672
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 1.5,
+      "z": 6.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.2000017166137695,
+      "object": "Keep_Upper_Furnishing_Guardroom",
+      "distance": 0.05499982833862305
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 1.5,
+      "z": 8.5,
+      "y": 3.1999988555908203,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Guardroom",
+      "distance": 0.18349815905094147
+    },
+    {
+      "reason": "footprint-rise",
+      "x": 2.5,
+      "z": -15.5,
+      "y": -3.5611000061035156
+    },
+    {
+      "reason": "inside-solid",
+      "x": 2.5,
+      "z": -8.5,
+      "y": 3.1999988555908203,
+      "object": "Keep_Upper_Furnishing_Dormitory"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 2.5,
+      "z": -8.5,
+      "y": 2.384185791015625e-07,
+      "object": "Keep_Furnishing_Barracks"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 2.5,
+      "z": -5.5,
+      "y": 3.200000762939453,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Dormitory",
+      "distance": 0.035999298095703125
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 2.5,
+      "z": -5.5,
+      "y": 0.012000083923339844,
+      "capsuleBase": 0.012000560760498047,
+      "object": "Keep_Furnishing_Barracks",
+      "distance": 0.22320885956287384
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 2.5,
+      "z": 6.5,
+      "y": 3.200000762939453,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Guardroom",
+      "distance": 0.14782850444316864
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 2.5,
+      "z": 8.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Guardroom",
+      "distance": 0.18349815905094147
+    },
+    {
+      "reason": "footprint-rise",
+      "x": 3.5,
+      "z": -15.5,
+      "y": -3.9773998260498047
+    },
+    {
+      "reason": "inside-solid",
+      "x": 3.5,
+      "z": -9.5,
+      "y": -0.024999618530273438,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 3.5,
+      "z": -8.5,
+      "y": 3.1999998092651367,
+      "object": "Keep_Upper_Furnishing_Dormitory"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 3.5,
+      "z": -8.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Furnishing_Barracks",
+      "distance": 0.21308022737503052
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 3.5,
+      "z": -6.5,
+      "y": 0.012000083923339844,
+      "capsuleBase": 0.012000560760498047,
+      "object": "Keep_Furnishing_Barracks",
+      "distance": 0.20426411926746368
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 3.5,
+      "z": -5.5,
+      "y": 3.1999988555908203,
+      "capsuleBase": 3.2000017166137695,
+      "object": "Keep_Upper_Furnishing_Dormitory",
+      "distance": 0.19761258363723755
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 3.5,
+      "z": -5.5,
+      "y": 0.012000083923339844,
+      "capsuleBase": 0.012000322341918945,
+      "object": "Keep_Furnishing_Barracks",
+      "distance": 0.2213049829006195
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 3.5,
+      "z": 8.5,
+      "y": 3.199997901916504,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Guardroom",
+      "distance": 0.1714533269405365
+    },
+    {
+      "reason": "footprint-rise",
+      "x": 4.5,
+      "z": -15.5,
+      "y": -3.949249267578125
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 4.5,
+      "z": -8.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Dormitory",
+      "distance": 0.07599925994873047
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 4.5,
+      "z": -8.5,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 0.0,
+      "object": "Keep_Furnishing_Barracks",
+      "distance": 0.15000009536743164
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 4.5,
+      "z": -5.5,
+      "y": 3.1999988555908203,
+      "capsuleBase": 3.2000017166137695,
+      "object": "Keep_Upper_Shell_Hung",
+      "distance": 0.23707875609397888
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 4.5,
+      "z": -5.5,
+      "y": 0.012000322341918945,
+      "capsuleBase": 0.012000322341918945,
+      "object": "Keep_Furnishing_Barracks",
+      "distance": 0.2213049829006195
+    },
+    {
+      "reason": "inside-solid",
+      "x": 4.5,
+      "z": 4.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 4.5,
+      "z": 5.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 4.5,
+      "z": 6.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 4.5,
+      "z": 7.5,
+      "y": 3.200000762939453,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Guardroom",
+      "distance": 0.23586708307266235
+    },
+    {
+      "reason": "inside-solid",
+      "x": 4.5,
+      "z": 7.5,
+      "y": -0.024164676666259766,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 4.5,
+      "z": 8.5,
+      "y": -0.01933765411376953,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 4.5,
+      "z": 9.5,
+      "y": -0.014278411865234375,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 5.5,
+      "z": -8.5,
+      "y": 3.1999998092651367,
+      "object": "Keep_Upper_Furnishing_Dormitory"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 5.5,
+      "z": -8.5,
+      "y": -2.384185791015625e-07,
+      "object": "Keep_Furnishing_Barracks"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 5.5,
+      "z": -5.5,
+      "y": 3.200000762939453,
+      "capsuleBase": 3.2000017166137695,
+      "object": "Keep_Upper_Shell_Hung",
+      "distance": 0.23707875609397888
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 5.5,
+      "z": -5.5,
+      "y": 0.012000083923339844,
+      "capsuleBase": 0.012000322341918945,
+      "object": "Keep_Furnishing_Barracks",
+      "distance": 0.22320908308029175
+    },
+    {
+      "reason": "inside-solid",
+      "x": 5.5,
+      "z": 4.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 5.5,
+      "z": 5.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 6.5,
+      "z": -8.5,
+      "y": 3.200000762939453,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Dormitory",
+      "distance": 0.14866062998771667
+    },
+    {
+      "reason": "inside-solid",
+      "x": 6.5,
+      "z": -8.5,
+      "y": 0.0,
+      "object": "Keep_Furnishing_Barracks"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 6.5,
+      "z": -5.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Shell_Hung",
+      "distance": 0.17963534593582153
+    },
+    {
+      "reason": "inside-solid",
+      "x": 6.5,
+      "z": -5.5,
+      "y": 0.0,
+      "object": "Keep_Furnishing_Barracks"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 6.5,
+      "z": 4.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 6.5,
+      "z": 5.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 7.5,
+      "z": -8.5,
+      "y": 9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.02157244272530079
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 7.5,
+      "z": -5.5,
+      "y": 0.0,
+      "capsuleBase": 0.0,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.02157244272530079
+    },
+    {
+      "reason": "inside-solid",
+      "x": 7.5,
+      "z": 4.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 7.5,
+      "z": 5.5,
+      "y": 3.1999988555908203,
+      "object": "Keep_Upper_Furnishing_Walks"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 7.5,
+      "z": 5.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 8.5,
+      "z": -9.5,
+      "y": 0.0,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.02157244272530079
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 8.5,
+      "z": -8.5,
+      "y": -4.76837158203125e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Furnishing_TowerBases",
+      "distance": 0.24175162613391876
+    },
+    {
+      "reason": "inside-solid",
+      "x": 8.5,
+      "z": -5.5,
+      "y": 6.399998664855957,
+      "object": "Keep_Upper_Tower_TurretTopGun"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 8.5,
+      "z": -4.5,
+      "y": 9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.02157244272530079
+    },
+    {
+      "reason": "inside-solid",
+      "x": 8.5,
+      "z": 4.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 8.5,
+      "z": 5.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Walks",
+      "distance": 0.0664316862821579
+    },
+    {
+      "reason": "inside-solid",
+      "x": 8.5,
+      "z": 5.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 9.5,
+      "z": -8.5,
+      "y": -1.1920928955078125e-07,
+      "capsuleBase": 1.1920928955078125e-07,
+      "object": "Keep_Tower_Turret_Stair1",
+      "distance": 0.21044433116912842
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 9.5,
+      "z": -7.5,
+      "y": -1.1920928955078125e-07,
+      "capsuleBase": 1.1920928955078125e-07,
+      "object": "Keep_Tower_Turret_Stair1",
+      "distance": 0.21090151369571686
+    },
+    {
+      "reason": "inside-solid",
+      "x": 9.5,
+      "z": -3.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 9.5,
+      "z": -2.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 9.5,
+      "z": -1.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 9.5,
+      "z": -0.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 9.5,
+      "z": 0.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 9.5,
+      "z": 1.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 9.5,
+      "z": 2.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 9.5,
+      "z": 3.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 9.5,
+      "z": 4.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 9.5,
+      "z": 5.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "footprint-rise",
+      "x": 10.5,
+      "z": -12.5,
+      "y": -1.2763500213623047
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 10.5,
+      "z": -8.5,
+      "y": 1.1920928955078125e-07,
+      "capsuleBase": 1.1920928955078125e-07,
+      "object": "Keep_Tower_Turret_Stair1",
+      "distance": 0.21044433116912842
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 10.5,
+      "z": -7.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Tower_Turret_TreadFrame1",
+      "distance": 0.06999969482421875
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 10.5,
+      "z": -6.5,
+      "y": 0.0,
+      "capsuleBase": 0.40000009536743164,
+      "object": "Keep_Tower_Turret_TreadFrame1",
+      "distance": 0.06999969482421875
+    },
+    {
+      "reason": "inside-solid",
+      "x": 10.5,
+      "z": -3.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 10.5,
+      "z": -2.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 10.5,
+      "z": -1.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 10.5,
+      "z": -0.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.1999998092651367,
+      "object": "Keep_Upper_Furnishing_Walks",
+      "distance": 0.07972966879606247
+    },
+    {
+      "reason": "inside-solid",
+      "x": 10.5,
+      "z": -0.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 10.5,
+      "z": 0.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 10.5,
+      "z": 1.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Walks",
+      "distance": 0.20486252009868622
+    },
+    {
+      "reason": "inside-solid",
+      "x": 10.5,
+      "z": 1.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 10.5,
+      "z": 2.5,
+      "y": 3.1999988555908203,
+      "capsuleBase": 3.2000017166137695,
+      "object": "Keep_Upper_Furnishing_Walks",
+      "distance": 0.022452354431152344
+    },
+    {
+      "reason": "inside-solid",
+      "x": 10.5,
+      "z": 2.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 10.5,
+      "z": 3.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "inside-solid",
+      "x": 10.5,
+      "z": 4.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 10.5,
+      "z": 5.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_Walks",
+      "distance": 0.024999618530273438
+    },
+    {
+      "reason": "inside-solid",
+      "x": 10.5,
+      "z": 5.5,
+      "y": -0.02500009536743164,
+      "object": "Keep_Shell_Walls"
+    },
+    {
+      "reason": "footprint-support",
+      "x": 10.59184402376762,
+      "z": 11.72173108780271,
+      "y": -0.8876800537109375
+    },
+    {
+      "reason": "footprint-rise",
+      "x": 11.5,
+      "z": -13.5,
+      "y": -2.9349002838134766
+    },
+    {
+      "reason": "footprint-rise",
+      "x": 11.5,
+      "z": -12.5,
+      "y": -1.3821487426757812
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 11.5,
+      "z": -9.5,
+      "y": 0.0,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.02157244272530079
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 11.5,
+      "z": -8.5,
+      "y": 0.0,
+      "capsuleBase": 1.1920928955078125e-07,
+      "object": "Keep_Tower_Turret_Stair1",
+      "distance": 0.21044433116912842
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 11.5,
+      "z": -7.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Tower_Turret_Stair1",
+      "distance": 0.19907011091709137
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 11.5,
+      "z": -4.5,
+      "y": 9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.02157244272530079
+    },
+    {
+      "reason": "footprint-support",
+      "x": 11.669705627484772,
+      "z": 11.669705627484772,
+      "y": -1.2840805053710938
+    },
+    {
+      "reason": "footprint-support",
+      "x": 11.72173108780271,
+      "z": 12.59184402376762,
+      "y": -3.1762752532958984
+    },
+    {
+      "reason": "footprint-rise",
+      "x": 12.5,
+      "z": -12.5,
+      "y": -1.587900161743164
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 12.5,
+      "z": -8.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.02157244272530079
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 12.5,
+      "z": -7.5,
+      "y": 3.200000047683716,
+      "capsuleBase": 3.200000286102295,
+      "object": "Keep_Upper_Furnishing_TowersL1",
+      "distance": 0.17573007941246033
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 12.5,
+      "z": -7.5,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Furnishing_TowerBases",
+      "distance": 0.164806067943573
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 12.5,
+      "z": -6.5,
+      "y": 3.200000286102295,
+      "capsuleBase": 3.200000524520874,
+      "object": "Keep_Upper_Furnishing_TowersL1",
+      "distance": 0.17573004961013794
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 12.5,
+      "z": -6.5,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Furnishing_TowerBases",
+      "distance": 0.04904339462518692
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 12.5,
+      "z": -5.5,
+      "y": 0.0,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.02157244272530079
+    },
+    {
+      "reason": "footprint-support",
+      "x": 12.72173108780271,
+      "z": 11.59184402376762,
+      "y": -1.9233818054199219
+    },
+    {
+      "reason": "footprint-support",
+      "x": 12.72173108780271,
+      "z": 12.59184402376762,
+      "y": -4.529327392578125
+    },
+    {
+      "reason": "footprint-rise",
+      "x": 13.5,
+      "z": -12.5,
+      "y": -1.851348876953125
+    },
+    {
+      "reason": "footprint-support",
+      "x": 13.72173108780271,
+      "z": 11.59184402376762,
+      "y": -2.6840438842773438
+    },
+    {
+      "reason": "footprint-support",
+      "x": 13.72173108780271,
+      "z": 12.59184402376762,
+      "y": -5.834766387939453
+    }
+  ],
+  "edges": [
+    {
+      "reason": "footprint-rise",
+      "x": -11.25,
+      "z": 5.5,
+      "y": -0.4004993438720703,
+      "from": "-12:5:0",
+      "to": "-11:5:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -10.35,
+      "z": -11.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024997711181640625,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.20000076293945312,
+      "from": "-11:-12:0",
+      "to": "-10:-12:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -10.45,
+      "z": -7.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.23999977111816406,
+      "from": "-11:-8:0",
+      "to": "-10:-8:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -10.45,
+      "z": -6.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.23999977111816406,
+      "from": "-11:-7:0",
+      "to": "-10:-7:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -10.45,
+      "z": -2.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.23999977111816406,
+      "from": "-11:-3:0",
+      "to": "-10:-3:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -10.45,
+      "z": 0.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.23999980092048645,
+      "from": "-11:0:0",
+      "to": "-10:0:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -10.45,
+      "z": 2.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.23999977111816406,
+      "from": "-11:2:0",
+      "to": "-10:2:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -9.45,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.23999977111816406,
+      "from": "-10:-10:0",
+      "to": "-10:-9:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -7.45,
+      "y": 0.16000032424926758,
+      "capsuleBase": 0.16000032424926758,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.2297302633523941,
+      "from": "-10:-8:0",
+      "to": "-10:-7:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -0.04999999999999999,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Shell_Hung",
+      "distance": 0.22955673933029175,
+      "from": "-10:-1:1",
+      "to": "-10:0:1"
+    },
+    {
+      "reason": "footprint-support",
+      "x": -7.859999999999999,
+      "z": 2.5,
+      "y": 1.0,
+      "from": "-9:2:0",
+      "to": "-8:2:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -8.1,
+      "z": 3.5,
+      "y": 0.40000057220458984,
+      "capsuleBase": 0.40000057220458984,
+      "object": "Keep_TreadFrame_Hall",
+      "distance": 0.22733184695243835,
+      "from": "-9:3:0",
+      "to": "-8:3:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -7.5,
+      "z": -15.35,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024997711181640625,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.20000076293945312,
+      "from": "-8:-16:0",
+      "to": "-8:-15:3"
+    },
+    {
+      "reason": "footprint-support",
+      "x": -7.06,
+      "z": -12.5,
+      "y": 7.800000190734863,
+      "from": "-8:-13:0",
+      "to": "-7:-13:0"
+    },
+    {
+      "reason": "footprint-support",
+      "x": -7.06,
+      "z": -12.5,
+      "y": 4.59999942779541,
+      "from": "-8:-13:1",
+      "to": "-7:-13:1"
+    },
+    {
+      "reason": "footprint-support",
+      "x": -7.06,
+      "z": -12.5,
+      "y": 1.4000000953674316,
+      "from": "-8:-13:2",
+      "to": "-7:-13:2"
+    },
+    {
+      "reason": "footprint-support",
+      "x": -7.06,
+      "z": -11.5,
+      "y": 6.800000190734863,
+      "from": "-8:-12:0",
+      "to": "-7:-12:1"
+    },
+    {
+      "reason": "footprint-support",
+      "x": -7.06,
+      "z": -11.5,
+      "y": 3.5999999046325684,
+      "from": "-8:-12:1",
+      "to": "-7:-12:2"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -7.3,
+      "z": -11.5,
+      "y": 0.40000009536743164,
+      "capsuleBase": 0.5999999046325684,
+      "object": "Keep_Tower_Watch_TreadFrame1",
+      "distance": 0.23000001907348633,
+      "from": "-8:-12:2",
+      "to": "-7:-12:3"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.5,
+      "z": -15.35,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024997711181640625,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.20000076293945312,
+      "from": "-7:-16:0",
+      "to": "-7:-15:3"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.2,
+      "z": -3.5,
+      "y": 3.1999988555908203,
+      "capsuleBase": 3.212000846862793,
+      "object": "Keep_Upper_Door_keep-door-chamber-w",
+      "distance": 0.19499969482421875,
+      "from": "-7:-4:0",
+      "to": "-6:-4:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.5,
+      "z": -3.35,
+      "y": 3.200000762939453,
+      "capsuleBase": 3.2000017166137695,
+      "object": "Keep_Upper_Shell_Walls",
+      "distance": 0.19999980926513672,
+      "from": "-7:-4:0",
+      "to": "-7:-3:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.5,
+      "z": 5.6,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.21000003814697266,
+      "from": "-7:5:1",
+      "to": "-7:6:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.5,
+      "z": 5.6,
+      "y": 0.0,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.21000003814697266,
+      "from": "-6:5:1",
+      "to": "-6:6:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -12.45,
+      "y": 6.399999618530273,
+      "capsuleBase": 6.40000057220459,
+      "object": "Keep_Upper_Tower_WatchL2Furnishing",
+      "distance": 0.24114400148391724,
+      "from": "-5:-13:1",
+      "to": "-5:-12:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -9.4,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.21000003814697266,
+      "from": "-5:-10:0",
+      "to": "-5:-9:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.3,
+      "z": -3.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.2119998931884766,
+      "object": "Keep_Upper_Door_keep-door-chamber-e",
+      "distance": 0.20000028610229492,
+      "from": "-5:-4:0",
+      "to": "-4:-4:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": -9.4,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.21000003814697266,
+      "from": "-4:-10:0",
+      "to": "-4:-9:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.4,
+      "z": -8.5,
+      "y": 0.15999984741210938,
+      "capsuleBase": 0.16000032424926758,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.21000003814697266,
+      "from": "-4:-9:0",
+      "to": "-3:-9:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.4,
+      "z": -7.5,
+      "y": 0.15999984741210938,
+      "capsuleBase": 0.16000032424926758,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.21000003814697266,
+      "from": "-4:-8:1",
+      "to": "-3:-8:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": -7.45,
+      "y": 0.16000008583068848,
+      "capsuleBase": 0.16000008583068848,
+      "object": "Keep_Furnishing_Hall",
+      "distance": 0.22973008453845978,
+      "from": "-4:-8:1",
+      "to": "-4:-7:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.4,
+      "z": -6.5,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 0.16000008583068848,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.21000003814697266,
+      "from": "-4:-7:1",
+      "to": "-3:-7:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": -5.7,
+      "y": 0.0,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Keep_Shell_Hung",
+      "distance": 0.2411571741104126,
+      "from": "-4:-7:1",
+      "to": "-4:-6:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.45,
+      "z": -5.5,
+      "y": 0.0,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Keep_Shell_Hung",
+      "distance": 0.20815664529800415,
+      "from": "-4:-6:1",
+      "to": "-3:-6:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": -5.45,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Shell_Hung",
+      "distance": 0.2315555065870285,
+      "from": "-4:-6:0",
+      "to": "-4:-5:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.45,
+      "z": -4.5,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Keep_Shell_Hung",
+      "distance": 0.23390012979507446,
+      "from": "-4:-5:1",
+      "to": "-3:-5:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.4,
+      "z": -3.5,
+      "y": 0.0,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.21000003814697266,
+      "from": "-4:-4:1",
+      "to": "-3:-4:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.4,
+      "z": 1.5,
+      "y": 0.0,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.21000003814697266,
+      "from": "-4:1:0",
+      "to": "-3:1:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.4,
+      "z": 2.5,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.21000003814697266,
+      "from": "-4:2:1",
+      "to": "-3:2:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": 3.15,
+      "y": 3.1999988555908203,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Shell_Hung",
+      "distance": 0.23155565559864044,
+      "from": "-4:2:0",
+      "to": "-4:3:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": 3.9,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Door_keep-door-solar-n",
+      "distance": 0.19499969482421875,
+      "from": "-4:3:0",
+      "to": "-4:4:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -2.5,
+      "z": -9.45,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.23999977111816406,
+      "from": "-3:-10:0",
+      "to": "-3:-9:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -2.5,
+      "z": -8.2,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Door_keep-door-dormitory-n",
+      "distance": 0.19499969482421875,
+      "from": "-3:-9:0",
+      "to": "-3:-8:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -2.45,
+      "z": -7.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Furnishing_Barracks",
+      "distance": 0.23928873240947723,
+      "from": "-3:-8:1",
+      "to": "-2:-8:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -2.5,
+      "z": -7.45,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Furnishing_Barracks",
+      "distance": 0.23207181692123413,
+      "from": "-3:-8:1",
+      "to": "-3:-7:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -2.45,
+      "z": -6.5,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Furnishing_Barracks",
+      "distance": 0.2398485541343689,
+      "from": "-3:-7:1",
+      "to": "-2:-7:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -2.5,
+      "z": -5.4,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.21000003814697266,
+      "from": "-3:-6:0",
+      "to": "-3:-5:0"
+    },
+    {
+      "reason": "footprint-rise",
+      "x": -1.5,
+      "z": 11.25,
+      "y": -0.4152851104736328,
+      "from": "-2:10:0",
+      "to": "-2:11:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -0.5,
+      "z": -9.45,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024997711181640625,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.23999977111816406,
+      "from": "-1:-10:0",
+      "to": "-1:-9:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -0.2,
+      "z": -5.5,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Door_keep-door-barracks-w",
+      "distance": 0.19499999284744263,
+      "from": "-1:-6:0",
+      "to": "0:-6:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -0.5,
+      "z": -5.4,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.21000003814697266,
+      "from": "-1:-6:0",
+      "to": "-1:-5:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -0.5,
+      "z": 5.6,
+      "y": 3.200000762939453,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Door_keep-door-gatehouse-w-s",
+      "distance": 0.20000028610229492,
+      "from": "-1:5:0",
+      "to": "-1:6:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 1.5,
+      "z": -9.45,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.23999977111816406,
+      "from": "1:-10:0",
+      "to": "1:-9:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 4.55,
+      "z": -6.5,
+      "y": 0.011999845504760742,
+      "capsuleBase": 0.012000560760498047,
+      "object": "Keep_Furnishing_Barracks",
+      "distance": 0.226951003074646,
+      "from": "4:-7:1",
+      "to": "5:-7:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 4.5,
+      "z": 5.6,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Door_keep-door-gatehouse-e-s",
+      "distance": 0.20000028610229492,
+      "from": "4:5:0",
+      "to": "4:6:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 7.8,
+      "z": -6.5,
+      "y": 6.399999618530273,
+      "capsuleBase": 6.40000057220459,
+      "object": "Keep_Upper_Tower_TurretTopGun",
+      "distance": 0.22863635420799255,
+      "from": "7:-7:0",
+      "to": "8:-7:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 8.8,
+      "z": -6.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000524520874,
+      "object": "Keep_Upper_Tower_Turret_L1_Rails",
+      "distance": 0.2352774739265442,
+      "from": "8:-7:1",
+      "to": "9:-7:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 8.85,
+      "z": -6.5,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Tower_Turret_TreadFrame1",
+      "distance": 0.23750156164169312,
+      "from": "8:-7:2",
+      "to": "9:-7:1"
+    },
+    {
+      "reason": "footprint-rise",
+      "x": 9.5,
+      "z": -12.25,
+      "y": -0.8246994018554688,
+      "from": "9:-13:0",
+      "to": "9:-12:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 9.5,
+      "z": -10.35,
+      "y": -0.027204513549804688,
+      "capsuleBase": -0.025691986083984375,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.20000076293945312,
+      "from": "9:-11:0",
+      "to": "9:-10:2"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 10.5,
+      "z": -10.35,
+      "y": -0.027379989624023438,
+      "capsuleBase": -0.025747299194335938,
+      "object": "Keep_Shell_Walls",
+      "distance": 0.20000076293945312,
+      "from": "10:-11:0",
+      "to": "10:-10:2"
+    },
+    {
+      "reason": "footprint-support",
+      "x": 11.84,
+      "z": -7.5,
+      "y": 5.199999809265137,
+      "from": "11:-8:0",
+      "to": "12:-8:0"
+    },
+    {
+      "reason": "footprint-support",
+      "x": 11.84,
+      "z": -6.5,
+      "y": 6.199999809265137,
+      "from": "11:-7:0",
+      "to": "12:-7:0"
+    },
+    {
+      "reason": "footprint-rise",
+      "x": 12.5,
+      "z": -13.75,
+      "y": -3.4735488891601562,
+      "from": "12:-15:0",
+      "to": "12:-14:0"
+    }
+  ]
+}

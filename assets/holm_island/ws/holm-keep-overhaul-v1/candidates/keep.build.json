@@ -1,0 +1,835 @@
+{
+ "parts": {
+  "Keep_Shell_Walls": 3812,
+  "Keep_Upper_Shell_Walls": 3384,
+  "Keep_Upper_Shell_WatchL2": 564,
+  "Keep_Upper_Parapet_Walks": 444,
+  "Keep_Upper_Tower_WatchTop": 516,
+  "Keep_Upper_Tower_TurretTop": 516,
+  "Keep_Roof_Main": 160,
+  "Keep_Roof_Chimney": 36,
+  "Keep_Roof_Gatehouse": 336,
+  "Keep_Floor_Slabs": 24,
+  "Keep_Upper_Floor_Slabs": 144,
+  "Keep_Shell_Hearth": 72,
+  "Keep_Upper_Shell_Hearth": 72,
+  "Keep_Shell_GlazingLead": 456,
+  "Keep_Upper_Shell_GlazingLead": 848,
+  "Keep_Floor_Flags": 3858,
+  "Keep_Upper_Floor_Boards": 1716,
+  "Keep_Upper_Floor_Walks": 696,
+  "Keep_Floor_Rugs": 208,
+  "Keep_Upper_Floor_Rugs": 186,
+  "Keep_Shell_Hung": 3502,
+  "Keep_Upper_Shell_Hung": 1368,
+  "Keep_Shell_TorchFlames": 64,
+  "Keep_Upper_Shell_TorchFlames": 18,
+  "Keep_Furnishing_Hall": 9374,
+  "Keep_Furnishing_HallCandles": 40,
+  "Keep_Furnishing_HearthFire": 144,
+  "Keep_Upper_Furnishing_HearthFire": 144,
+  "Keep_Furnishing_Barracks": 4626,
+  "Keep_Furnishing_TowerBases": 1830,
+  "Keep_Shell_Portcullis": 292,
+  "Keep_Upper_Furnishing_Quarters": 6973,
+  "Keep_Upper_Furnishing_QuartersCandles": 18,
+  "Keep_Upper_Furnishing_Dormitory": 1462,
+  "Keep_Upper_Furnishing_Guardroom": 1728,
+  "Keep_Upper_Furnishing_GuardroomFire": 10,
+  "Keep_Upper_Furnishing_Walks": 2334,
+  "Keep_Upper_Furnishing_WalksFire": 10,
+  "Keep_Upper_Furnishing_TowersL1": 684,
+  "Keep_Upper_Tower_WatchL2Furnishing": 220,
+  "Keep_Upper_Tower_WatchL2Fire": 10,
+  "Keep_Upper_Tower_WatchTopGun": 542,
+  "Keep_Upper_Tower_TurretTopGun": 542,
+  "Keep_Tower_Watch_Stair1": 204,
+  "Keep_Tower_Watch_TreadFrame1": 180,
+  "Keep_Tower_Watch_Stair2": 204,
+  "Keep_Tower_Watch_TreadFrame2": 180,
+  "Keep_Tower_Watch_Stair3": 204,
+  "Keep_Tower_Watch_TreadFrame3": 180,
+  "Keep_Tower_Turret_Stair1": 204,
+  "Keep_Tower_Turret_TreadFrame1": 180,
+  "Keep_Tower_Turret_Stair2": 204,
+  "Keep_Tower_Turret_TreadFrame2": 180,
+  "Keep_Upper_Tower_Watch_L1_Floor": 64,
+  "Keep_Upper_Tower_Watch_L1_Rails": 108,
+  "Keep_Upper_Tower_Watch_L2_Floor": 64,
+  "Keep_Upper_Tower_Watch_L2_Rails": 108,
+  "Keep_Upper_Tower_Watch_L3_Floor": 64,
+  "Keep_Upper_Tower_Watch_L3_Rails": 144,
+  "Keep_Upper_Tower_Turret_L1_Floor": 60,
+  "Keep_Upper_Tower_Turret_L1_Rails": 108,
+  "Keep_Upper_Tower_Turret_L2_Floor": 60,
+  "Keep_Upper_Tower_Turret_L2_Rails": 144,
+  "Keep_Stair_Hall": 384,
+  "Keep_TreadFrame_Hall": 356,
+  "Keep_Upper_TreadRail_Well": 408,
+  "Keep_ServiceBeer_Tankard": 114,
+  "Keep_Shell_StainedGlass": 324,
+  "Keep_Upper_Shell_StainedGlass": 590
+ },
+ "doors": [
+  {
+   "id": "keep-gate",
+   "storey": 0,
+   "floorY": 0.0,
+   "height": 2.35,
+   "opensInto": [
+    0,
+    -1
+   ],
+   "leaves": [
+    {
+     "leaf": "keep-gate-w",
+     "pivot": "Keep_DoorPivot_keep-gate-w",
+     "mesh": "Keep_Door_keep-gate-w",
+     "hinge": [
+      0.0,
+      0.0,
+      9.4
+     ],
+     "closedYaw": -0.0,
+     "openYaw": 1.570796,
+     "width": 1.985
+    },
+    {
+     "leaf": "keep-gate-e",
+     "pivot": "Keep_DoorPivot_keep-gate-e",
+     "mesh": "Keep_Door_keep-gate-e",
+     "hinge": [
+      4.0,
+      0.0,
+      9.4
+     ],
+     "closedYaw": -3.141593,
+     "openYaw": 1.570796,
+     "width": 1.985
+    }
+   ],
+   "section": "gate passage (the one way in)",
+   "startOpen": true,
+   "lessonRoute": true
+  },
+  {
+   "id": "keep-door-hall",
+   "storey": 0,
+   "floorY": 0.0,
+   "height": 2.55,
+   "opensInto": [
+    -1,
+    0
+   ],
+   "leaves": [
+    {
+     "leaf": "keep-door-hall-n",
+     "pivot": "Keep_DoorPivot_keep-door-hall-n",
+     "mesh": "Keep_Door_keep-door-hall-n",
+     "hinge": [
+      -3.19,
+      0.0,
+      -1.9
+     ],
+     "closedYaw": -1.570796,
+     "openYaw": -3.141593,
+     "width": 0.885
+    },
+    {
+     "leaf": "keep-door-hall-s",
+     "pivot": "Keep_DoorPivot_keep-door-hall-s",
+     "mesh": "Keep_Door_keep-door-hall-s",
+     "hinge": [
+      -3.19,
+      0.0,
+      -0.1
+     ],
+     "closedYaw": 1.570796,
+     "openYaw": -3.141593,
+     "width": 0.885
+    }
+   ],
+   "section": "court <-> great hall",
+   "startOpen": true,
+   "lessonRoute": true
+  },
+  {
+   "id": "keep-door-barracks",
+   "storey": 0,
+   "floorY": 0.0,
+   "height": 2.45,
+   "opensInto": [
+    0,
+    -1
+   ],
+   "leaves": [
+    {
+     "leaf": "keep-door-barracks-w",
+     "pivot": "Keep_DoorPivot_keep-door-barracks-w",
+     "mesh": "Keep_Door_keep-door-barracks-w",
+     "hinge": [
+      0.1,
+      0.0,
+      -5.19
+     ],
+     "closedYaw": -0.0,
+     "openYaw": 1.570796,
+     "width": 0.885
+    },
+    {
+     "leaf": "keep-door-barracks-e",
+     "pivot": "Keep_DoorPivot_keep-door-barracks-e",
+     "mesh": "Keep_Door_keep-door-barracks-e",
+     "hinge": [
+      1.9,
+      0.0,
+      -5.19
+     ],
+     "closedYaw": -3.141593,
+     "openYaw": 1.570796,
+     "width": 0.885
+    }
+   ],
+   "section": "court <-> barracks"
+  },
+  {
+   "id": "keep-door-turret",
+   "storey": 0,
+   "floorY": 0.0,
+   "height": 2.35,
+   "opensInto": [
+    1,
+    0
+   ],
+   "leaves": [
+    {
+     "leaf": "keep-door-turret-n",
+     "pivot": "Keep_DoorPivot_keep-door-turret-n",
+     "mesh": "Keep_Door_keep-door-turret-n",
+     "hinge": [
+      7.19,
+      0.0,
+      -7.9
+     ],
+     "closedYaw": -1.570796,
+     "openYaw": -0.0,
+     "width": 0.885
+    },
+    {
+     "leaf": "keep-door-turret-s",
+     "pivot": "Keep_DoorPivot_keep-door-turret-s",
+     "mesh": "Keep_Door_keep-door-turret-s",
+     "hinge": [
+      7.19,
+      0.0,
+      -6.1
+     ],
+     "closedYaw": 1.570796,
+     "openYaw": -0.0,
+     "width": 0.885
+    }
+   ],
+   "section": "barracks <-> east turret base"
+  },
+  {
+   "id": "keep-door-watch",
+   "storey": 1,
+   "floorY": 3.2,
+   "height": 2.25,
+   "opensInto": [
+    0,
+    1
+   ],
+   "leaves": [
+    {
+     "leaf": "keep-door-watch-w",
+     "pivot": "Keep_Upper_DoorPivot_keep-door-watch-w",
+     "mesh": "Keep_Upper_Door_keep-door-watch-w",
+     "hinge": [
+      -7.1,
+      3.2,
+      -8.81
+     ],
+     "closedYaw": -0.0,
+     "openYaw": -1.570796,
+     "width": 1.185
+    }
+   ],
+   "section": "Warden's chamber <-> high watch (level two)"
+  },
+  {
+   "id": "keep-door-dormitory",
+   "storey": 1,
+   "floorY": 3.2,
+   "height": 2.25,
+   "opensInto": [
+    1,
+    0
+   ],
+   "leaves": [
+    {
+     "leaf": "keep-door-dormitory-n",
+     "pivot": "Keep_Upper_DoorPivot_keep-door-dormitory-n",
+     "mesh": "Keep_Upper_Door_keep-door-dormitory-n",
+     "hinge": [
+      -2.81,
+      3.2,
+      -7.9
+     ],
+     "closedYaw": -1.570796,
+     "openYaw": -0.0,
+     "width": 0.885
+    },
+    {
+     "leaf": "keep-door-dormitory-s",
+     "pivot": "Keep_Upper_DoorPivot_keep-door-dormitory-s",
+     "mesh": "Keep_Upper_Door_keep-door-dormitory-s",
+     "hinge": [
+      -2.81,
+      3.2,
+      -6.1
+     ],
+     "closedYaw": 1.570796,
+     "openYaw": -0.0,
+     "width": 0.885
+    }
+   ],
+   "section": "Warden's chamber <-> dormitory (level two ring)"
+  },
+  {
+   "id": "keep-door-turret-l1",
+   "storey": 1,
+   "floorY": 3.2,
+   "height": 2.25,
+   "opensInto": [
+    1,
+    0
+   ],
+   "leaves": [
+    {
+     "leaf": "keep-door-turret-l1-n",
+     "pivot": "Keep_Upper_DoorPivot_keep-door-turret-l1-n",
+     "mesh": "Keep_Upper_Door_keep-door-turret-l1-n",
+     "hinge": [
+      7.19,
+      3.2,
+      -7.9
+     ],
+     "closedYaw": -1.570796,
+     "openYaw": -0.0,
+     "width": 0.885
+    },
+    {
+     "leaf": "keep-door-turret-l1-s",
+     "pivot": "Keep_Upper_DoorPivot_keep-door-turret-l1-s",
+     "mesh": "Keep_Upper_Door_keep-door-turret-l1-s",
+     "hinge": [
+      7.19,
+      3.2,
+      -6.1
+     ],
+     "closedYaw": 1.570796,
+     "openYaw": -0.0,
+     "width": 0.885
+    }
+   ],
+   "section": "dormitory <-> east turret (level two ring)"
+  },
+  {
+   "id": "keep-door-eastwalk",
+   "storey": 1,
+   "floorY": 3.2,
+   "height": 2.25,
+   "opensInto": [
+    0,
+    -1
+   ],
+   "leaves": [
+    {
+     "leaf": "keep-door-eastwalk-w",
+     "pivot": "Keep_Upper_DoorPivot_keep-door-eastwalk-w",
+     "mesh": "Keep_Upper_Door_keep-door-eastwalk-w",
+     "hinge": [
+      9.1,
+      3.2,
+      -4.15
+     ],
+     "closedYaw": -0.0,
+     "openYaw": 1.570796,
+     "width": 0.885
+    },
+    {
+     "leaf": "keep-door-eastwalk-e",
+     "pivot": "Keep_Upper_DoorPivot_keep-door-eastwalk-e",
+     "mesh": "Keep_Upper_Door_keep-door-eastwalk-e",
+     "hinge": [
+      10.9,
+      3.2,
+      -4.15
+     ],
+     "closedYaw": -3.141593,
+     "openYaw": 1.570796,
+     "width": 0.885
+    }
+   ],
+   "section": "east turret <-> east wall walk (level two ring)"
+  },
+  {
+   "id": "keep-door-gatehouse-e",
+   "storey": 1,
+   "floorY": 3.2,
+   "height": 2.25,
+   "opensInto": [
+    -1,
+    0
+   ],
+   "leaves": [
+    {
+     "leaf": "keep-door-gatehouse-e-n",
+     "pivot": "Keep_Upper_DoorPivot_keep-door-gatehouse-e-n",
+     "mesh": "Keep_Upper_Door_keep-door-gatehouse-e-n",
+     "hinge": [
+      4.81,
+      3.2,
+      4.2
+     ],
+     "closedYaw": -1.570796,
+     "openYaw": -3.141593,
+     "width": 0.785
+    },
+    {
+     "leaf": "keep-door-gatehouse-e-s",
+     "pivot": "Keep_Upper_DoorPivot_keep-door-gatehouse-e-s",
+     "mesh": "Keep_Upper_Door_keep-door-gatehouse-e-s",
+     "hinge": [
+      4.81,
+      3.2,
+      5.8
+     ],
+     "closedYaw": 1.570796,
+     "openYaw": -3.141593,
+     "width": 0.785
+    }
+   ],
+   "section": "south-east walk <-> gatehouse guardroom (level two ring)"
+  },
+  {
+   "id": "keep-door-gatehouse-w",
+   "storey": 1,
+   "floorY": 3.2,
+   "height": 2.25,
+   "opensInto": [
+    1,
+    0
+   ],
+   "leaves": [
+    {
+     "leaf": "keep-door-gatehouse-w-n",
+     "pivot": "Keep_Upper_DoorPivot_keep-door-gatehouse-w-n",
+     "mesh": "Keep_Upper_Door_keep-door-gatehouse-w-n",
+     "hinge": [
+      -0.81,
+      3.2,
+      4.2
+     ],
+     "closedYaw": -1.570796,
+     "openYaw": -0.0,
+     "width": 0.785
+    },
+    {
+     "leaf": "keep-door-gatehouse-w-s",
+     "pivot": "Keep_Upper_DoorPivot_keep-door-gatehouse-w-s",
+     "mesh": "Keep_Upper_Door_keep-door-gatehouse-w-s",
+     "hinge": [
+      -0.81,
+      3.2,
+      5.8
+     ],
+     "closedYaw": 1.570796,
+     "openYaw": -0.0,
+     "width": 0.785
+    }
+   ],
+   "section": "gatehouse guardroom <-> south-west walk (level two ring)"
+  },
+  {
+   "id": "keep-door-solar",
+   "storey": 1,
+   "floorY": 3.2,
+   "height": 2.25,
+   "opensInto": [
+    -1,
+    0
+   ],
+   "leaves": [
+    {
+     "leaf": "keep-door-solar-n",
+     "pivot": "Keep_Upper_DoorPivot_keep-door-solar-n",
+     "mesh": "Keep_Upper_Door_keep-door-solar-n",
+     "hinge": [
+      -3.19,
+      3.2,
+      4.2
+     ],
+     "closedYaw": -1.570796,
+     "openYaw": -3.141593,
+     "width": 0.785
+    },
+    {
+     "leaf": "keep-door-solar-s",
+     "pivot": "Keep_Upper_DoorPivot_keep-door-solar-s",
+     "mesh": "Keep_Upper_Door_keep-door-solar-s",
+     "hinge": [
+      -3.19,
+      3.2,
+      5.8
+     ],
+     "closedYaw": 1.570796,
+     "openYaw": -3.141593,
+     "width": 0.785
+    }
+   ],
+   "section": "south-west walk <-> solar (level two ring)"
+  },
+  {
+   "id": "keep-door-chamber",
+   "storey": 1,
+   "floorY": 3.2,
+   "height": 2.25,
+   "opensInto": [
+    0,
+    -1
+   ],
+   "leaves": [
+    {
+     "leaf": "keep-door-chamber-w",
+     "pivot": "Keep_Upper_DoorPivot_keep-door-chamber-w",
+     "mesh": "Keep_Upper_Door_keep-door-chamber-w",
+     "hinge": [
+      -5.9,
+      3.2,
+      -3.15
+     ],
+     "closedYaw": -0.0,
+     "openYaw": 1.570796,
+     "width": 0.885
+    },
+    {
+     "leaf": "keep-door-chamber-e",
+     "pivot": "Keep_Upper_DoorPivot_keep-door-chamber-e",
+     "mesh": "Keep_Upper_Door_keep-door-chamber-e",
+     "hinge": [
+      -4.1,
+      3.2,
+      -3.15
+     ],
+     "closedYaw": -3.141593,
+     "openYaw": 1.570796,
+     "width": 0.885
+    }
+   ],
+   "section": "solar <-> Warden's chamber (level two ring)"
+  }
+ ],
+ "anchors": [
+  {
+   "anchor": "stair-hall-foot",
+   "node": "Keep_Anchor_stair-hall-foot",
+   "at": [
+    -8.5,
+    0.0,
+    4.5
+   ],
+   "climb": "stair-hall",
+   "end": "foot"
+  },
+  {
+   "anchor": "stair-hall-head",
+   "node": "Keep_Anchor_stair-hall-head",
+   "at": [
+    -8.5,
+    3.2,
+    -1.5
+   ],
+   "climb": "stair-hall",
+   "end": "head"
+  },
+  {
+   "anchor": "stair-watch-1-foot",
+   "node": "Keep_Anchor_stair-watch-1-foot",
+   "at": [
+    -7.5,
+    0.0,
+    -10.5
+   ],
+   "climb": "stair-watch-1",
+   "end": "foot"
+  },
+  {
+   "anchor": "stair-watch-1-head",
+   "node": "Keep_Anchor_stair-watch-1-head",
+   "at": [
+    -6.5,
+    3.2,
+    -10.5
+   ],
+   "climb": "stair-watch-1",
+   "end": "head"
+  },
+  {
+   "anchor": "stair-watch-2-foot",
+   "node": "Keep_Anchor_stair-watch-2-foot",
+   "at": [
+    -7.5,
+    3.2,
+    -10.5
+   ],
+   "climb": "stair-watch-2",
+   "end": "foot"
+  },
+  {
+   "anchor": "stair-watch-2-head",
+   "node": "Keep_Anchor_stair-watch-2-head",
+   "at": [
+    -6.5,
+    6.4,
+    -10.5
+   ],
+   "climb": "stair-watch-2",
+   "end": "head"
+  },
+  {
+   "anchor": "stair-watch-3-foot",
+   "node": "Keep_Anchor_stair-watch-3-foot",
+   "at": [
+    -7.5,
+    6.4,
+    -10.5
+   ],
+   "climb": "stair-watch-3",
+   "end": "foot"
+  },
+  {
+   "anchor": "stair-watch-3-head",
+   "node": "Keep_Anchor_stair-watch-3-head",
+   "at": [
+    -6.5,
+    9.6,
+    -10.5
+   ],
+   "climb": "stair-watch-3",
+   "end": "head"
+  },
+  {
+   "anchor": "stair-turret-1-foot",
+   "node": "Keep_Anchor_stair-turret-1-foot",
+   "at": [
+    9.5,
+    0.0,
+    -5.5
+   ],
+   "climb": "stair-turret-1",
+   "end": "foot"
+  },
+  {
+   "anchor": "stair-turret-1-head",
+   "node": "Keep_Anchor_stair-turret-1-head",
+   "at": [
+    11.5,
+    3.2,
+    -5.5
+   ],
+   "climb": "stair-turret-1",
+   "end": "head"
+  },
+  {
+   "anchor": "stair-turret-2-foot",
+   "node": "Keep_Anchor_stair-turret-2-foot",
+   "at": [
+    9.5,
+    3.2,
+    -5.5
+   ],
+   "climb": "stair-turret-2",
+   "end": "foot"
+  },
+  {
+   "anchor": "stair-turret-2-head",
+   "node": "Keep_Anchor_stair-turret-2-head",
+   "at": [
+    11.5,
+    6.4,
+    -5.5
+   ],
+   "climb": "stair-turret-2",
+   "end": "head"
+  },
+  {
+   "anchor": "keep-beer",
+   "node": "Keep_Anchor_keep-beer",
+   "at": [
+    -3.83,
+    0.9,
+    3.62
+   ],
+   "service": "keep-beer"
+  }
+ ],
+ "stairs": [
+  {
+   "climb": "stair-hall",
+   "mesh": "Keep_Stair_Hall",
+   "foot": [
+    -8.5,
+    0.0,
+    4.5
+   ],
+   "head": [
+    -8.5,
+    3.2,
+    -1.5
+   ],
+   "label": "great hall <-> the solar landing"
+  },
+  {
+   "climb": "stair-watch-1",
+   "mesh": "Keep_Tower_Watch_Stair1",
+   "foot": [
+    -7.5,
+    0.0,
+    -10.5
+   ],
+   "head": [
+    -6.5,
+    3.2,
+    -10.5
+   ],
+   "label": "high watch: base <-> level two"
+  },
+  {
+   "climb": "stair-watch-2",
+   "mesh": "Keep_Tower_Watch_Stair2",
+   "foot": [
+    -7.5,
+    3.2,
+    -10.5
+   ],
+   "head": [
+    -6.5,
+    6.4,
+    -10.5
+   ],
+   "label": "high watch: level two <-> watch room"
+  },
+  {
+   "climb": "stair-watch-3",
+   "mesh": "Keep_Tower_Watch_Stair3",
+   "foot": [
+    -7.5,
+    6.4,
+    -10.5
+   ],
+   "head": [
+    -6.5,
+    9.6,
+    -10.5
+   ],
+   "label": "high watch: watch room <-> lookout"
+  },
+  {
+   "climb": "stair-turret-1",
+   "mesh": "Keep_Tower_Turret_Stair1",
+   "foot": [
+    9.5,
+    0.0,
+    -5.5
+   ],
+   "head": [
+    11.5,
+    3.2,
+    -5.5
+   ],
+   "label": "east turret: base <-> level two"
+  },
+  {
+   "climb": "stair-turret-2",
+   "mesh": "Keep_Tower_Turret_Stair2",
+   "foot": [
+    9.5,
+    3.2,
+    -5.5
+   ],
+   "head": [
+    11.5,
+    6.4,
+    -5.5
+   ],
+   "label": "east turret: level two <-> lookout"
+  }
+ ],
+ "services": [
+  {
+   "service": "keep-beer",
+   "mesh": "Keep_ServiceBeer_Tankard",
+   "at": [
+    -3.83,
+    0.9,
+    3.62
+   ],
+   "stanceTarget": "keep-beer",
+   "stance": [
+    -4.5,
+    0,
+    3.5
+   ]
+  }
+ ],
+ "fx": [
+  "Keep_Furnishing_HearthFire (hall hearth, fx=hearth-flame)",
+  "Keep_Upper_Furnishing_HearthFire (chamber hearth, fx=hearth-flame)",
+  "torch at -0.55 2.35 10.20",
+  "torch at 4.55 2.35 10.20",
+  "torch at -2.00 2.40 6.20",
+  "torch at 7.60 2.40 6.20",
+  "torch at 10.20 2.40 6.20",
+  "torch at -8.00 2.40 6.20",
+  "torch at 11.20 2.40 -2.20",
+  "torch at 11.20 2.40 2.60",
+  "torch at -10.20 2.40 -6.80",
+  "torch at -10.20 2.40 1.90",
+  "torch at -1.80 2.40 -9.20",
+  "torch at 5.80 2.40 -9.20",
+  "torch at -2.80 2.30 3.20",
+  "torch at -2.80 2.30 -3.30",
+  "torch at -1.60 2.30 -4.80",
+  "torch at 5.40 2.30 -4.80",
+  "torch at 8.80 2.30 -1.00",
+  "torch at -1.00 2.30 3.80",
+  "torch at 5.00 2.30 3.80",
+  "torch at 0.00 2.10 5.50",
+  "torch at 4.00 2.10 5.50",
+  "torch at 0.00 2.10 8.40",
+  "torch at 4.00 2.10 8.40",
+  "torch at -9.81 2.10 0.00",
+  "torch at -3.19 2.10 -5.60",
+  "torch at -3.19 2.10 1.20",
+  "torch at -8.30 2.10 5.81",
+  "torch at -2.81 2.10 -7.00",
+  "torch at 6.81 2.10 -8.40",
+  "torch at 3.00 2.10 -8.81",
+  "torch at -4.15 2.10 -12.00",
+  "torch at 12.85 2.10 -7.00",
+  "torch at -3.19 5.20 3.30",
+  "torch at -9.81 5.20 3.20",
+  "torch at -3.19 5.20 -5.30",
+  "torch at -1.20 5.20 -8.81",
+  "torch at 4.50 5.20 -8.81",
+  "torch at -0.81 5.20 7.40",
+  "torch at 4.81 5.20 7.40",
+  "torch at -4.15 5.20 -11.60",
+  "torch at 12.85 5.20 -6.40"
+ ],
+ "notes": [],
+ "triangles": 59003,
+ "meshes": 92
+}

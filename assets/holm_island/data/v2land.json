@@ -97,19 +97,19 @@
    "props": "props pass (2026-09-28): every prop designed again in Blender (tools/blender/build_holm_haven_props_pass.py, docs/rebuild/holm-overhaul/props-pass/haven.json); graph identical to holm-haven-review4-navigation-v1 apart from the model hash"
   },
   "keep": {
-   "graph": "holm-keep-props-navigation-v1",
-   "model": ".studio-workspaces/holm-keep-props-v1/candidates/keep.glb",
+   "graph": "holm-keep-overhaul-navigation-v1",
+   "model": ".studio-workspaces/holm-keep-overhaul-v1/candidates/keep.glb",
    "placement": {
     "x": 87,
     "y": 11,
     "z": 35
    },
-   "nodes": 868,
-   "modelSha256": "e2b9073c7840b7c87eb308c5829fc53ed82723fe375af6dda547d4660fbd9b19",
+   "nodes": 784,
+   "modelSha256": "9363e9ad2abd9d55517fab94dfbc37faf055823153094157e5743229fc4b4c06",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-28T09:36:15.026Z",
-   "props": "props pass (2026-09-28): every prop designed again in Blender (tools/blender/build_holm_keep_props_pass.py, docs/rebuild/holm-overhaul/props-pass/keep.json); graph identical to holm-keep-v2land-navigation-v1 apart from the model hash"
+   "measuredAt": "2026-09-30T03:18:10.267Z",
+   "overhaul": "owner review 2026-09-29: the Warden's Keep rebuilt in Blender (tools/blender/build_holm_keep_overhaul.py, docs/rebuild/holm-overhaul/keep-overhaul/keep.json): a closed front with one gatehouse, stone floors, stained glass, a level-two ring through the towers with hinged doors, supported stairs with foot/head anchors and climbs, cannons, torches, a richly furnished hall, chamber, solar and dormitory, the beer (keep-beer). Graph measured with tools/blender/extract_holm_keep_navigation_v7.py (was holm-keep-props-navigation-v1 / .studio-workspaces/holm-keep-props-v1/candidates/keep.glb)."
   },
   "bakehouse": {
    "graph": "holm-kitchen-props-navigation-v1",

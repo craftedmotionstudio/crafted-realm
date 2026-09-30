@@ -1,0 +1,17 @@
+{"glb":".studio-workspaces/holm-keep-overhaul-v1/candidates/keep.glb","out":"scratchpad/keep_overhaul/blender_after_detail","size":[1000,700],
+ "views":[
+  {"name":"gate_close","target":[2,2.8,10.5],"yaw":18,"pitch":10,"dist":11,"lens":35},
+  {"name":"hall_ground","target":[-6.5,0.8,-2],"yaw":62,"pitch":42,"dist":15,"lens":35,"hide":"Keep_(Roof|Upper|Shell|GroundFront|Tower_.*[23]$)"},
+  {"name":"hall_dais","target":[-6.5,1.0,-7.4],"yaw":15,"pitch":30,"dist":7.5,"lens":35,"hide":"Keep_(Roof|Upper|Shell|GroundFront|Tower_.*[23]$)"},
+  {"name":"hall_stair","target":[-8.7,1.4,1.4],"yaw":78,"pitch":18,"dist":7,"lens":35,"hide":"Keep_(Roof|Upper|Shell|GroundFront|Tower_.*[23]$)"},
+  {"name":"chamber","target":[-6.5,4.0,-6.0],"yaw":35,"pitch":45,"dist":9,"lens":35,"hide":"Keep_(Roof|Upper_Shell|Upper_Tower_Watch(Top|_L[23])|Upper_Tower_Turret(Top|_L2)|Tower_.*[23]$|Upper_Tower_.*Gun)"},
+  {"name":"solar","target":[-6.0,4.0,2.0],"yaw":45,"pitch":45,"dist":9,"lens":35,"hide":"Keep_(Roof|Upper_Shell|Upper_Tower_Watch(Top|_L[23])|Upper_Tower_Turret(Top|_L2)|Tower_.*[23]$|Upper_Tower_.*Gun)"},
+  {"name":"dormitory","target":[2.0,4.0,-7.0],"yaw":10,"pitch":45,"dist":9,"lens":35,"hide":"Keep_(Roof|Upper_Shell|Upper_Tower_Watch(Top|_L[23])|Upper_Tower_Turret(Top|_L2)|Tower_.*[23]$|Upper_Tower_.*Gun)"},
+  {"name":"guardroom","target":[2.0,4.0,7.0],"yaw":200,"pitch":45,"dist":8,"lens":35,"hide":"Keep_(Roof|Upper_Shell|Upper_Tower_Watch(Top|_L[23])|Upper_Tower_Turret(Top|_L2)|Tower_.*[23]$|Upper_Tower_.*Gun)"},
+  {"name":"walks","target":[9.0,3.8,2.5],"yaw":35,"pitch":32,"dist":12,"lens":35,"hide":"Keep_Roof"},
+  {"name":"tower_stair","target":[-7.0,1.8,-12.0],"yaw":95,"pitch":15,"dist":7,"lens":35,"hide":"Keep_(Roof|Shell|Upper)"},
+  {"name":"turret_stair","target":[10.5,1.8,-7.0],"yaw":-80,"pitch":15,"dist":7,"lens":35,"hide":"Keep_(Roof|Shell|Upper)"},
+  {"name":"glass_in","target":[-3.25,1.9,2.5],"yaw":-90,"pitch":6,"dist":3.2,"lens":35,"hide":"Keep_(Roof|Upper)"},
+  {"name":"cannon","target":[10.3,3.7,5.2],"yaw":-150,"pitch":28,"dist":4,"lens":35,"hide":"Keep_Roof"},
+  {"name":"doors_ring","target":[7.0,4.2,-7.0],"yaw":-30,"pitch":40,"dist":7,"lens":35,"hide":"Keep_(Roof|Upper_Shell|Upper_Tower_Turret(Top|_L2)|Tower_.*[23]$|Upper_Tower_.*Gun)"}
+ ]}

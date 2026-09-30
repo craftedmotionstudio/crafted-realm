@@ -1,0 +1,139 @@
+{
+  "base": "http://127.0.0.1:8271/?holmIsland=1&qaProfile=keep-after-munjii20",
+  "tag": "after",
+  "views": {
+    "out_front": {
+      "node": "b:keep:2:11:0",
+      "off": 0,
+      "surface": "b:keep:0:StagedTerrain",
+      "file": "after_out_front.jpg"
+    },
+    "out_se": {
+      "node": "b:keep:2:11:0",
+      "off": 0,
+      "surface": "b:keep:0:StagedTerrain",
+      "file": "after_out_se.jpg"
+    },
+    "out_sw": {
+      "node": "b:keep:2:11:0",
+      "off": 0,
+      "surface": "b:keep:0:StagedTerrain",
+      "file": "after_out_sw.jpg"
+    },
+    "out_ne": {
+      "node": "b:keep:2:11:0",
+      "off": 0,
+      "surface": "b:keep:0:StagedTerrain",
+      "file": "after_out_ne.jpg"
+    },
+    "out_nw": {
+      "node": "b:keep:2:11:0",
+      "off": 0,
+      "surface": "b:keep:0:StagedTerrain",
+      "file": "after_out_nw.jpg"
+    },
+    "out_gate": {
+      "node": "b:keep:2:11:0",
+      "off": 0,
+      "surface": "b:keep:0:StagedTerrain",
+      "file": "after_out_gate.jpg"
+    },
+    "court": {
+      "node": "b:keep:1:1:0",
+      "off": 0,
+      "surface": "b:keep:0:StagedTerrain",
+      "file": "after_court.jpg"
+    },
+    "gate_passage": {
+      "node": "b:keep:2:7:1",
+      "off": 0,
+      "surface": "b:keep:1:Keep_Floor_Flags",
+      "file": "after_gate_passage.jpg"
+    },
+    "hall_south": {
+      "node": "b:keep:-6:0:1",
+      "off": 0,
+      "surface": "b:keep:1:Keep_Floor_Flags",
+      "file": "after_hall_south.jpg"
+    },
+    "hall_north": {
+      "node": "b:keep:-5:-4:1",
+      "off": 1,
+      "surface": "b:keep:1:Keep_Floor_Flags",
+      "file": "after_hall_north.jpg"
+    },
+    "hall_stair": {
+      "node": "b:keep:-7:2:0",
+      "off": 0,
+      "surface": "b:keep:0:Keep_Floor_Flags",
+      "file": "after_hall_stair.jpg"
+    },
+    "barracks": {
+      "node": "b:keep:1:-7:1",
+      "off": 0,
+      "surface": "b:keep:1:Keep_Floor_Flags",
+      "file": "after_barracks.jpg"
+    },
+    "upper_chamber": {
+      "node": "b:keep:-6:-5:0",
+      "off": 0,
+      "surface": "b:keep:0:Keep_Upper_Floor_Rugs",
+      "file": "after_upper_chamber.jpg"
+    },
+    "upper_solar": {
+      "node": "b:keep:-6:2:0",
+      "off": 0,
+      "surface": "b:keep:0:Keep_Upper_Floor_Boards",
+      "file": "after_upper_solar.jpg"
+    },
+    "upper_barracks": {
+      "node": "b:keep:1:-7:0",
+      "off": 0,
+      "surface": "b:keep:0:Keep_Upper_Floor_Rugs",
+      "file": "after_upper_barracks.jpg"
+    },
+    "walk_east": {
+      "node": "b:keep:9:0:0",
+      "off": 0,
+      "surface": "b:keep:0:Keep_Upper_Floor_Walks",
+      "file": "after_walk_east.jpg"
+    },
+    "walk_south": {
+      "node": "b:keep:6:5:0",
+      "off": 1,
+      "surface": "b:keep:0:Keep_Upper_Floor_Walks",
+      "file": "after_walk_south.jpg"
+    },
+    "gatehouse_upper": {
+      "node": "b:keep:2:7:0",
+      "off": 0,
+      "surface": "b:keep:0:Keep_Upper_Floor_Boards",
+      "file": "after_gatehouse_upper.jpg"
+    },
+    "watch_l1": {
+      "node": "b:keep:-8:-11:2",
+      "off": 0,
+      "surface": "b:keep:2:Keep_Upper_Tower_Watch_L1_Floor",
+      "file": "after_watch_l1.jpg"
+    },
+    "turret_l1": {
+      "node": "b:keep:9:-6:1",
+      "off": 0,
+      "surface": "b:keep:1:Keep_Upper_Tower_Turret_L1_Floor",
+      "file": "after_turret_l1.jpg"
+    },
+    "watch_top": {
+      "node": "b:keep:-7:-11:0",
+      "off": 0,
+      "surface": "b:keep:0:Keep_Upper_Tower_Watch_L3_Floor",
+      "file": "after_watch_top.jpg"
+    },
+    "turret_top": {
+      "node": "b:keep:10:-6:0",
+      "off": 0,
+      "surface": "b:keep:0:Keep_Upper_Tower_Turret_L2_Floor",
+      "file": "after_turret_top.jpg"
+    }
+  },
+  "errors": []
+}

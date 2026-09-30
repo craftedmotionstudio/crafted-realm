@@ -1,0 +1,20 @@
+{
+ "model": ".studio-workspaces/holm-keep-overhaul-v1/candidates/keep.glb",
+ "building": "keep",
+ "lift": 1.25,
+ "levels": [
+  0,
+  0.15,
+  0.4,
+  1.6,
+  3,
+  3.2,
+  4.8,
+  6.4,
+  9.6
+ ],
+ "pieces": 321,
+ "keep": 318,
+ "cut": 3,
+ "clipped": []
+}
